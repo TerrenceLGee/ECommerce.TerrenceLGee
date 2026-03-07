@@ -1,0 +1,62 @@
+﻿using ECommerce.Contracts.TerrenceLGee.Mappings.ProductMappings;
+using ECommerce.Entities.TerrenceLGee.Models;
+using ECommerce.Shared.TerrenceLGee.DTOs.CategoryDTOs;
+using System.Xml.Linq;
+
+namespace ECommerce.Contracts.TerrenceLGee.Mappings.CategoryMappings;
+
+public static class ToDto
+{
+    extension(Category category)
+    {
+        public RetrievedCategoryDto ToRetrievedCategoryDto()
+        {
+            return new RetrievedCategoryDto
+            {
+                Id = category.Id,
+                Name = category.Name,
+                Description = category.Description,
+                Products = category.Products
+                .Select(p => p.ToRetrievedProductDto()).ToList()
+            };
+        }
+
+        public RetrievedCategorySummaryDto ToRetrievedCategorySummaryDto()
+        {
+            return new RetrievedCategorySummaryDto
+            {
+                Id = category.Id,
+                Name = category.Name,
+                Description = category.Description,
+                ProductsInCategory = category.Products.Count
+            };
+        }
+
+        public RetrievedCategoryDtoForAdmin ToRetrievedCategoryDtoForAdmin()
+        {
+            return new RetrievedCategoryDtoForAdmin
+            {
+                Id = category.Id,
+                Name = category.Name,
+                Description = category.Description,
+                Products = category.Products
+                .Select(p => p.ToRetrievedProductDto()).ToList(),
+                CreatedAt = category.CreatedAt,
+                UpdatedAt = category.UpdatedAt
+            };
+        }
+
+        public RetrievedCategorySummaryForAdminDto ToRetrievedCategorySummaryDtoForAdmin()
+        {
+            return new RetrievedCategorySummaryForAdminDto
+            {
+                Id = category.Id,
+                Name = category.Name,
+                Description = category.Description,
+                ProductsInCategory = category.Products.Count,
+                CreatedAt = category.CreatedAt,
+                UpdatedAt = category.UpdatedAt
+            };
+        }
+    }
+}

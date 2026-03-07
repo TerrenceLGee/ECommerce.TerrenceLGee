@@ -1,0 +1,13 @@
+﻿using ECommerce.Shared.TerrenceLGee.Enums;
+
+namespace ECommerce.Shared.TerrenceLGee.DTOs.SaleDTOs;
+
+public class RetrievedSaleSummaryForCustomerProfileDto
+{
+    public int Id { get; set; }
+    public int SaleProductCount { get; set; }
+    public decimal TotalBaseAmount { get; set; }
+    public decimal TotalDiscountAmount { get; set; }
+    public decimal TotalAmount { get; set; }
+    public SaleStatus SaleStatus { get; set; }
+}
