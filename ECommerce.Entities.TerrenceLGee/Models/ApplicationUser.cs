@@ -8,8 +8,7 @@ public class ApplicationUser : IdentityUser
     public string LastName { get; set; } = string.Empty;
     public DateOnly DateOfBirth { get; set; }
     public DateOnly RegistrationDate { get; set; }
-    public Address? BillingAddress { get; set; }
-    public Address? ShippingAddress { get; set; }
     public ICollection<Sale> Sales { get; set; } = [];
     public ICollection<RefreshToken> RefreshTokens { get; set; } = [];
+    public ICollection<Address> Addresses { get; set; } = [];
 }

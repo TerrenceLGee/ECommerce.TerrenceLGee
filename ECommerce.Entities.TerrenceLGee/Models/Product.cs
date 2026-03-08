@@ -26,6 +26,7 @@ public class Product
 
     [Required(ErrorMessage = "Product unit price is required.")]
     [Range(0.01, double.MaxValue, ErrorMessage = "Product unit price must be greater than $0.00")]
+    [Column(TypeName = "decimal(18,2)")]
     public decimal UnitPrice { get; set; }
 
     [Required(ErrorMessage = "Discount percentage is required.")]

@@ -37,7 +37,9 @@ public static class FromDto
                 City = addressDto.City,
                 State = addressDto.State,
                 PostalCode = addressDto.PostalCode,
-                Country = addressDto.Country
+                Country = addressDto.Country,
+                IsBillingAddress = addressDto.IsBillingAddress,
+                IsShippingAddress = addressDto.IsShippingAddress
             };
         }
     }

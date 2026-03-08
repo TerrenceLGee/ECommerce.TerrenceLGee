@@ -40,7 +40,7 @@ public static class ToDto
                 Name = category.Name,
                 Description = category.Description,
                 Products = category.Products
-                .Select(p => p.ToRetrievedProductDto()).ToList(),
+                .Select(p => p.ToRetrievedProductDtoForAdmin()).ToList(),
                 CreatedAt = category.CreatedAt,
                 UpdatedAt = category.UpdatedAt
             };

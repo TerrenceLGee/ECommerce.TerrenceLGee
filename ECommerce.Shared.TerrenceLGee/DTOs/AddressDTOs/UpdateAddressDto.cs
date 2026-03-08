@@ -30,4 +30,10 @@ public class UpdateAddressDto
     [Required(ErrorMessage = "Country is required.")]
     [StringLength(50, ErrorMessage = "Country cannot excceed 50 characters.")]
     public string Country { get; set; } = string.Empty;
+
+    [Required(ErrorMessage = "It is required to specify if this address is the Billing Address.")]
+    public bool IsBillingAddress { get; set; }
+
+    [Required(ErrorMessage = "It is required to specify if this address is the Shipping Address.")]
+    public bool IsShippingAddress { get; set; }
 }

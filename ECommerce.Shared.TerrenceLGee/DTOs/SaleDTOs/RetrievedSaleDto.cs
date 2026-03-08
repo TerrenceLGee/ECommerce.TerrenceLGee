@@ -6,10 +6,8 @@ namespace ECommerce.Shared.TerrenceLGee.DTOs.SaleDTOs;
 
 public class RetrievedSaleDto
 {
-    public int SaleId { get; set; }
+    public int Id { get; set; }
     public string? CustomerId { get; set; }
-    public RetrievedAddressForCustomerProfileDto? BillingAddress { get; set; }
-    public RetrievedAddressForCustomerProfileDto? ShippingAddress { get; set; }
     public decimal TotalBaseAmount { get; set; }
     public decimal TotalDiscountAmount { get; set; }
     public decimal TotalAmount { get; set; }
