@@ -80,6 +80,7 @@ builder.Services.Configure<AuthConfiguration>(builder.Configuration.GetSection(a
 
 builder.Services.AddScoped<IAddressRepository, AddressRepository>();
 builder.Services.AddScoped<IAddressService, AddressService>();
+builder.Services.AddScoped<IAuthService, AuthService>();
 
 var app = builder.Build();
 

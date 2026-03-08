@@ -3,6 +3,7 @@ using ECommerce.Api.TerrenceLGee.Responses;
 using ECommerce.Contracts.TerrenceLGee.Interfaces.ServiceInterfaces;
 using ECommerce.Entities.TerrenceLGee.Models;
 using ECommerce.Shared.TerrenceLGee.DTOs.AddressDTOs;
+using ECommerce.Shared.TerrenceLGee.Parameters.AddressParameters;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -150,6 +151,160 @@ public class AddressesController : ControllerBase
     [Authorize(Roles = "admin,customer")]
     public async Task<ActionResult<RetrievedAddressDto?>> GetAddress([FromRoute] int id)
     {
-        throw new NotImplementedException();
+        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+        var (isValidUser, errorResponse) = await AuthHelper.IsValidUserAsync<RetrievedAddressDto?>(_userManager, userId);
+
+        if (!isValidUser)
+        {
+            return StatusCode(errorResponse.StatusCode, errorResponse);
+        }
+
+        var addressIdDto = new AddressIdDto
+        {
+            Id = id,
+            CustomerId = userId
+        };
+
+        var result = await _addressService.GetAddressAsync(addressIdDto);
+
+        ApiResponse<RetrievedAddressDto?> response;
+
+        if (result.IsFailure)
+        {
+            if (result.ErrorMessage!.Contains("Unable to retrieve address"))
+            {
+                response = new ApiResponse<RetrievedAddressDto?>(400, [result.ErrorMessage]);
+            }
+            else
+            {
+                response = new ApiResponse<RetrievedAddressDto?>(500, [result.ErrorMessage]);
+            }
+
+            return StatusCode(response.StatusCode, response);
+        }
+
+        response = new ApiResponse<RetrievedAddressDto?>(200, result.Value);
+
+        return StatusCode(response.StatusCode, response);
+    }
+
+    [HttpGet]
+    [Authorize(Roles = "admin,customer")]
+    public async Task<ActionResult<ApiResponsePaged<RetrievedAddressDto>>> GetAddressesForCustomer([FromQuery] AddressQueryParams queryParams)
+    {
+        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+        var (isValidUser, errorResponse) = await AuthHelper.IsValidUserPagedAsync<RetrievedAddressDto>(_userManager, userId);
+
+        if (!isValidUser)
+        {
+            return StatusCode(errorResponse.StatusCode, errorResponse);
+        }
+
+        queryParams.CustomerId = userId;
+
+        var result = await _addressService.GetCustomerAddressesAsync(queryParams);
+
+        ApiResponsePaged<RetrievedAddressDto> response = new(200, result.Value!);
+
+        return StatusCode(response.StatusCode, response);
+    }
+
+    [HttpGet("admin")]
+    [Authorize(Roles = "admin")]
+    public async Task<ActionResult<ApiResponsePaged<RetrievedAddressDto>>> GetAllCustomerAddressesForAdmin([FromQuery] AddressQueryParams queryParams)
+    {
+        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+        var (isValidUser, errorResponse) = await AuthHelper.IsValidUserPagedAsync<RetrievedAddressDto>(_userManager, userId);
+
+        if (!isValidUser)
+        {
+            return StatusCode(errorResponse.StatusCode, errorResponse);
+        }
+
+        var result = await _addressService.GetAllCustomerAddressesForAdminAsync(queryParams);
+
+        ApiResponsePaged<RetrievedAddressDto> response = new(200, result.Value!);
+
+        return StatusCode(response.StatusCode, response);
+    }
+
+    [HttpGet("count")]
+    [Authorize(Roles = "admin,customer")]
+    public async Task<ActionResult<ApiResponse<int>>> GetCustomerAddressCount()
+    {
+        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+        var (isValidUser, errorResponse) = await AuthHelper.IsValidUserAsync<int>(_userManager, userId);
+
+        if (!isValidUser)
+        {
+            return StatusCode(errorResponse.StatusCode, errorResponse);
+        }
+
+        var addressIdDto = new AddressIdDto
+        {
+            CustomerId = userId
+        };
+
+        var result = await _addressService.GetCustomerAddressCountAsync(addressIdDto);
+
+        ApiResponse<int> response;
+
+        if (result.IsFailure)
+        {
+            if (result.ErrorMessage!.Contains("Unable to retrieve"))
+            {
+                response = new ApiResponse<int>(400, [result.ErrorMessage]);
+            }
+            else
+            {
+                response = new ApiResponse<int>(500, [result.ErrorMessage]);
+            }
+
+            return StatusCode(response.StatusCode, response);
+        }
+
+        response = new ApiResponse<int>(200, result.Value);
+
+        return StatusCode(response.StatusCode, response);
+    }
+
+    [HttpGet("admin/count")]
+    [Authorize(Roles = "admin")]
+    public async Task<ActionResult<ApiResponse<int>>> GetAllCustomerAddressCountForAdmin()
+    {
+        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+        var (isValidUser, errorResponse) = await AuthHelper.IsValidUserAsync<int>(_userManager, userId);
+
+        if (!isValidUser)
+        {
+            return StatusCode(errorResponse.StatusCode, errorResponse);
+        }
+
+        var result = await _addressService.GetAllAddressCountForAdminAsync();
+
+        ApiResponse<int> response;
+
+        if (result.IsFailure)
+        {
+            if (result.ErrorMessage!.Contains("Unable to retrieve"))
+            {
+                response = new ApiResponse<int>(400, [result.ErrorMessage]);
+            }
+            else
+            {
+                response = new ApiResponse<int>(500, [result.ErrorMessage]);
+            }
+
+            return StatusCode(response.StatusCode, response);
+        }
+
+        response = new ApiResponse<int>(200, result.Value);
+
+        return StatusCode(response.StatusCode, response);
     }
 }
