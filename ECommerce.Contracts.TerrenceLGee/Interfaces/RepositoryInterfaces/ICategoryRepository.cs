@@ -6,7 +6,7 @@ namespace ECommerce.Contracts.TerrenceLGee.Interfaces.RepositoryInterfaces;
 
 public interface ICategoryRepository
 {
-    Task<Category?> AddCategoryAsync(Category? category);
+    Task<Category?> AddCategoryAsync(Category category);
     Task<Category?> UpdateCategoryAsync(Category category);
     Task<Category?> GetCategoryAsync(CategoryParams categoryParams);
     Task<PagedList<Category>> GetCategoriesAsync(CategoryQueryParams categoryQueryParams);

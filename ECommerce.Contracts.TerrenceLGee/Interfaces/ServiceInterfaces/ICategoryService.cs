@@ -10,7 +10,8 @@ public interface ICategoryService
     Task<Result<RetrievedCategoryDto?>> AddCategoryAsync(CreateCategoryDto category);
     Task<Result<RetrievedCategoryDto?>> UpdateCategoryAsync(UpdateCategoryDto category);
     Task<Result<RetrievedCategoryDto?>> GetCategoryAsync(CategoryParams categoryParams);
-    Task<Result<RetrievedCategoryDtoForAdmin>> GetCategoryForAdminAsync(CategoryParams categoryParams);
+    Task<Result<RetrievedCategoryDtoForAdmin?>> GetCategoryForAdminAsync(CategoryParams categoryParams);
     Task<Result<PagedList<RetrievedCategorySummaryDto>>> GetCategoriesAsync(CategoryQueryParams categoryQueryParams);
+    Task<Result<PagedList<RetrievedCategorySummaryForAdminDto>>> GetCategoriesForAdminAsync(CategoryQueryParams categoryQueryParams);
     Task<Result<int>> GetCategoriesCountAsync();
 }

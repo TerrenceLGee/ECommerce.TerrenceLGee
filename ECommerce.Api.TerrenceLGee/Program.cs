@@ -79,6 +79,7 @@ builder.Services.AddAuthentication(options =>
 builder.Services.Configure<AuthConfiguration>(builder.Configuration.GetSection(authConfiguration.Section));
 
 builder.Services.AddScoped<IAddressRepository, AddressRepository>();
+builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<IAddressService, AddressService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 

@@ -53,7 +53,7 @@ public class AuthService : IAuthService
 
             if (existingUser is not null)
             {
-                return Result.Fail("User already exists. Unable to register a previously registered user.");
+                return Result.Fail("User already exists. Unable to register a previously registered user.", ErrorType.Conflict);
             }
 
             var newUser = new ApplicationUser
@@ -62,6 +62,8 @@ public class AuthService : IAuthService
                 LastName = user.LastName,
                 DateOfBirth = user.DateOfBirth,
                 RegistrationDate = new DateOnly(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day),
+                Email = user.Email,
+                UserName = user.Email,
                 Addresses = new List<Address>
                 {
                     (user.BillingAddress is not null) ? user.BillingAddress.FromCreateAddressDto() : new Address(),
@@ -73,7 +75,14 @@ public class AuthService : IAuthService
 
             if (!result.Succeeded)
             {
-                return Result.Fail($"Unable to register new user at this time. Please check your input and try again later.");
+                return Result.Fail($"Unable to register new user at this time. Please check your input and try again later.", ErrorType.BadRequest);
+            }
+
+            result = await _userManager.AddToRoleAsync(newUser, "customer");
+
+            if (!result.Succeeded)
+            {
+                return Result.Fail("Unable to add user as a customer. Please try again later", ErrorType.BadRequest);
             }
 
             return Result.Ok();
@@ -84,7 +93,7 @@ public class AuthService : IAuthService
                 $"Method: {RegisterUserAsync}\n" +
                 $"An unexpected error occurred while registering the new user: {ex.Message}";
             _logger.LogError(ex, "{msg}\n\n", _errorMessage);
-            return Result.Fail($"An unexpected error occurred while registering the new user");
+            return Result.Fail($"An unexpected error occurred while registering the new user", ErrorType.InternalServerError);
         }
     }
 
@@ -96,14 +105,14 @@ public class AuthService : IAuthService
 
             if (user is null)
             {
-                return Result<AuthenticationResponseDto?>.Fail("User not found");
+                return Result<AuthenticationResponseDto?>.Fail("User not found", ErrorType.NotFound);
             }
 
             var result = await _signInManager.CheckPasswordSignInAsync(user, userDto.Password, false);
 
             if (!result.Succeeded)
             {
-                return Result<AuthenticationResponseDto?>.Fail("Login failed");
+                return Result<AuthenticationResponseDto?>.Fail("Login failed", ErrorType.BadRequest);
             }
 
             var roles = await _userManager.GetRolesAsync(user);
@@ -137,7 +146,7 @@ public class AuthService : IAuthService
                 $"Method: {LoginUserAsync}\n" +
                 $"An unexpected error occurred during user login: {ex.Message}";
             _logger.LogError(ex, "{msg}\n\n", _errorMessage);
-            return Result<AuthenticationResponseDto?>.Fail("An unexpected error occurred during user login");
+            return Result<AuthenticationResponseDto?>.Fail("An unexpected error occurred during user login", ErrorType.InternalServerError);
         }
     }
 
@@ -150,7 +159,7 @@ public class AuthService : IAuthService
 
             if (refreshToken is null)
             {
-                return Result.Fail("Unable to proceed with logout. Invalid authorization");
+                return Result.Fail("Unable to proceed with logout. Invalid authorization", ErrorType.Unauthorized);
             }
 
             refreshToken.IsRevoked = true;
@@ -165,7 +174,7 @@ public class AuthService : IAuthService
                 $"Method: {LogoutUserAsync}\n" +
                 $"An unexpected error occurred during user logout: {ex.Message}";
             _logger.LogError(ex, "{msg}\n\n", _errorMessage);
-            return Result.Fail("Unexpected error occurred during user logout.");
+            return Result.Fail("Unexpected error occurred during user logout.", ErrorType.InternalServerError);
         }
 
     }

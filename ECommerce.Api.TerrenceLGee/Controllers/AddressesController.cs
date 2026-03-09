@@ -32,29 +32,22 @@ public class AddressesController : ControllerBase
     {
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-        var (isValidUser, errorResponse) = await AuthHelper.IsValidUserAsync<RetrievedAddressDto?>(_userManager, userId);
+        var (isValidUser, errorResponse) = await UserValidationAsync<RetrievedAddressDto?>(userId);
 
         if (!isValidUser)
         {
-            return StatusCode(errorResponse.StatusCode, errorResponse);
+            return errorResponse;
         }
 
         address.CustomerId = userId;
 
         var result = await _addressService.AddAddressAsync(address);
 
-        ApiResponse<RetrievedAddressDto?> response;
+        var response = ApiResponse<RetrievedAddressDto?>.GetEmptyResponse;
 
         if (result.IsFailure)
         {
-            if (result.ErrorMessage!.Contains("Unable to add address"))
-            {
-                response = new ApiResponse<RetrievedAddressDto?>(400, [result.ErrorMessage]);
-            }
-            else
-            {
-                response = new ApiResponse<RetrievedAddressDto?>(500, [result.ErrorMessage]);
-            }
+            response = FailureHelper.HandleFailureResult<RetrievedAddressDto?>(result);
 
             return StatusCode(response.StatusCode, response);
         }
@@ -72,11 +65,11 @@ public class AddressesController : ControllerBase
     {
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-        var (isValidUser, errorResponse) = await AuthHelper.IsValidUserAsync<RetrievedAddressDto?>(_userManager, userId);
+        var (isValidUser, errorResponse) = await UserValidationAsync<RetrievedAddressDto?>(userId);
 
         if (!isValidUser)
         {
-            return StatusCode(errorResponse.StatusCode, errorResponse);
+            return errorResponse;
         }
 
         address.Id = id;
@@ -84,19 +77,11 @@ public class AddressesController : ControllerBase
 
         var result = await _addressService.UpdateAddressAsync(address);
 
-        ApiResponse<RetrievedAddressDto?> response;
+        var response = ApiResponse<RetrievedAddressDto?>.GetEmptyResponse;
 
         if (result.IsFailure)
         {
-            if (result.ErrorMessage!.Contains("Unable to update address"))
-            {
-                response = new ApiResponse<RetrievedAddressDto?>(400, [result.ErrorMessage]);
-            }
-            else
-            {
-                response = new ApiResponse<RetrievedAddressDto?>(500, [result.ErrorMessage]);
-            }
-
+            response = FailureHelper.HandleFailureResult<RetrievedAddressDto?>(result);
             return StatusCode(response.StatusCode, response);
         }
 
@@ -111,11 +96,11 @@ public class AddressesController : ControllerBase
     {
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-        var (isValidUser, errorResponse) = await AuthHelper.IsValidUserAsync<string?>(_userManager, userId);
+        var (isValidUser, errorResponse) = await UserValidationAsync<string?>(userId);
 
         if (!isValidUser)
         {
-            return StatusCode(errorResponse.StatusCode, errorResponse);
+            return errorResponse;
         }
 
         var addressIdDto = new AddressIdDto
@@ -126,19 +111,11 @@ public class AddressesController : ControllerBase
 
         var result = await _addressService.DeleteAddressAsync(addressIdDto);
 
-        ApiResponse<string?> response;
+        var response = ApiResponse<string?>.GetEmptyResponse;
 
         if (result.IsFailure)
         {
-            if (result.ErrorMessage!.Contains("Unable to delete address"))
-            {
-                response = new ApiResponse<string?>(400, [result.ErrorMessage]);
-            }
-            else
-            {
-                response = new ApiResponse<string?>(500, [result.ErrorMessage]);
-            }
-
+            response = FailureHelper.HandleFailureResult<string?>(result);
             return StatusCode(response.StatusCode, response);
         }
 
@@ -149,15 +126,15 @@ public class AddressesController : ControllerBase
 
     [HttpGet("{id:int}")]
     [Authorize(Roles = "admin,customer")]
-    public async Task<ActionResult<RetrievedAddressDto?>> GetAddress([FromRoute] int id)
+    public async Task<ActionResult<ApiResponse<RetrievedAddressDto?>>> GetAddress([FromRoute] int id)
     {
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-        var (isValidUser, errorResponse) = await AuthHelper.IsValidUserAsync<RetrievedAddressDto?>(_userManager, userId);
+        var (isValidUser, errorResponse) = await UserValidationAsync<RetrievedAddressDto?>(userId);
 
         if (!isValidUser)
         {
-            return StatusCode(errorResponse.StatusCode, errorResponse);
+            return errorResponse;
         }
 
         var addressIdDto = new AddressIdDto
@@ -168,19 +145,11 @@ public class AddressesController : ControllerBase
 
         var result = await _addressService.GetAddressAsync(addressIdDto);
 
-        ApiResponse<RetrievedAddressDto?> response;
+        var response = ApiResponse<RetrievedAddressDto?>.GetEmptyResponse;
 
         if (result.IsFailure)
         {
-            if (result.ErrorMessage!.Contains("Unable to retrieve address"))
-            {
-                response = new ApiResponse<RetrievedAddressDto?>(400, [result.ErrorMessage]);
-            }
-            else
-            {
-                response = new ApiResponse<RetrievedAddressDto?>(500, [result.ErrorMessage]);
-            }
-
+            response = FailureHelper.HandleFailureResult<RetrievedAddressDto?>(result);
             return StatusCode(response.StatusCode, response);
         }
 
@@ -195,18 +164,18 @@ public class AddressesController : ControllerBase
     {
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-        var (isValidUser, errorResponse) = await AuthHelper.IsValidUserPagedAsync<RetrievedAddressDto>(_userManager, userId);
+        var (isValidUser, errorResponse) = await UserValidationPagedAsync<RetrievedAddressDto>(userId);
 
         if (!isValidUser)
         {
-            return StatusCode(errorResponse.StatusCode, errorResponse);
+            return errorResponse;
         }
 
         queryParams.CustomerId = userId;
 
         var result = await _addressService.GetCustomerAddressesAsync(queryParams);
 
-        ApiResponsePaged<RetrievedAddressDto> response = new(200, result.Value!);
+        var response = new ApiResponsePaged<RetrievedAddressDto>(200, result.Value!);
 
         return StatusCode(response.StatusCode, response);
     }
@@ -217,16 +186,16 @@ public class AddressesController : ControllerBase
     {
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-        var (isValidUser, errorResponse) = await AuthHelper.IsValidUserPagedAsync<RetrievedAddressDto>(_userManager, userId);
+        var (isValidUser, errorResponse) = await UserValidationPagedAsync<RetrievedAddressDto>(userId);
 
         if (!isValidUser)
         {
-            return StatusCode(errorResponse.StatusCode, errorResponse);
+            return errorResponse;
         }
 
         var result = await _addressService.GetAllCustomerAddressesForAdminAsync(queryParams);
 
-        ApiResponsePaged<RetrievedAddressDto> response = new(200, result.Value!);
+        var response = new ApiResponsePaged<RetrievedAddressDto>(200, result.Value!);
 
         return StatusCode(response.StatusCode, response);
     }
@@ -237,11 +206,11 @@ public class AddressesController : ControllerBase
     {
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-        var (isValidUser, errorResponse) = await AuthHelper.IsValidUserAsync<int>(_userManager, userId);
+        var (isValidUser, errorResponse) = await UserValidationAsync<int>(userId);
 
         if (!isValidUser)
         {
-            return StatusCode(errorResponse.StatusCode, errorResponse);
+            return errorResponse;
         }
 
         var addressIdDto = new AddressIdDto
@@ -251,19 +220,11 @@ public class AddressesController : ControllerBase
 
         var result = await _addressService.GetCustomerAddressCountAsync(addressIdDto);
 
-        ApiResponse<int> response;
+        var response = ApiResponse<int>.GetEmptyResponse;
 
         if (result.IsFailure)
         {
-            if (result.ErrorMessage!.Contains("Unable to retrieve"))
-            {
-                response = new ApiResponse<int>(400, [result.ErrorMessage]);
-            }
-            else
-            {
-                response = new ApiResponse<int>(500, [result.ErrorMessage]);
-            }
-
+            response = FailureHelper.HandleFailureResult<int>(result);
             return StatusCode(response.StatusCode, response);
         }
 
@@ -278,33 +239,46 @@ public class AddressesController : ControllerBase
     {
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-        var (isValidUser, errorResponse) = await AuthHelper.IsValidUserAsync<int>(_userManager, userId);
+        var (isValidUser, errorResponse) = await UserValidationAsync<int>(userId);
 
-        if (!isValidUser)
-        {
-            return StatusCode(errorResponse.StatusCode, errorResponse);
-        }
+        if (!isValidUser) return errorResponse;
 
         var result = await _addressService.GetAllAddressCountForAdminAsync();
 
-        ApiResponse<int> response;
+        var response = ApiResponse<int>.GetEmptyResponse;
 
         if (result.IsFailure)
         {
-            if (result.ErrorMessage!.Contains("Unable to retrieve"))
-            {
-                response = new ApiResponse<int>(400, [result.ErrorMessage]);
-            }
-            else
-            {
-                response = new ApiResponse<int>(500, [result.ErrorMessage]);
-            }
-
+            response = FailureHelper.HandleFailureResult<int>(result);
             return StatusCode(response.StatusCode, response);
         }
 
         response = new ApiResponse<int>(200, result.Value);
 
         return StatusCode(response.StatusCode, response);
+    }
+
+    private async Task<(bool isUserValid, ActionResult<ApiResponse<T?>> response)> UserValidationAsync<T>(string? userId)
+    {
+        var (isValidUser, errorResponse) = await AuthHelper.IsValidUserAsync<T?>(_userManager, userId);
+
+        if (!isValidUser)
+        {
+            return (false, StatusCode(errorResponse.StatusCode, errorResponse));
+        }
+
+        return (true, null!);
+    }
+
+    private async Task<(bool isUserValid, ActionResult<ApiResponsePaged<T>> response)> UserValidationPagedAsync<T>(string? userId)
+    {
+        var (isValidUser, errorResponse) = await AuthHelper.IsValidUserPagedAsync<T?>(_userManager, userId);
+
+        if (!isValidUser)
+        {
+            return (false, StatusCode(errorResponse.StatusCode, errorResponse));
+        }
+
+        return (true, null!);
     }
 }

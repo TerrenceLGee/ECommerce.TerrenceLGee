@@ -23,4 +23,6 @@ public class ApiResponse<T>
         IsSuccess = false;
         Errors = errors;
     }
+
+    public static ApiResponse<T> GetEmptyResponse => new();
 }

@@ -138,9 +138,7 @@ public class AddressRepository : IAddressRepository
                 a.CustomerId.Equals(addressQueryParams.CustomerId))
                 .AsNoTracking();
 
-            SetFiltering(ref addresses, addressQueryParams);
-
-            addresses = SortHelper<Address>.ApplySorting(addresses, addressQueryParams.OrderBy);
+            SetFilteringAndSorting(ref addresses, addressQueryParams);
 
             return await addresses.ToPagedListAsync(count, addressQueryParams.Page, addressQueryParams.PageSize);
         }
@@ -166,9 +164,7 @@ public class AddressRepository : IAddressRepository
             var addresses = _context.Addresses
                 .AsNoTracking();
 
-            SetFiltering(ref addresses, addressQueryParams);
-
-            addresses = SortHelper<Address>.ApplySorting(addresses, addressQueryParams.OrderBy);
+            SetFilteringAndSorting(ref addresses, addressQueryParams);
 
             return await addresses.ToPagedListAsync(count, addressQueryParams.Page, addressQueryParams.PageSize);
         }
@@ -223,7 +219,7 @@ public class AddressRepository : IAddressRepository
         }
     }
 
-    private void SetFiltering(ref IQueryable<Address> addresses, AddressQueryParams addressQueryParams)
+    private static void SetFilteringAndSorting(ref IQueryable<Address> addresses, AddressQueryParams addressQueryParams)
     {
         if (!string.IsNullOrEmpty(addressQueryParams.CustomerFirstName))
         {
@@ -258,5 +254,7 @@ public class AddressRepository : IAddressRepository
             addresses = addresses
                 .Where(a => a.Country.ToLower().Equals(addressQueryParams.Country.ToLower()));
         }
+
+        addresses = SortHelper<Address>.ApplySorting(addresses, addressQueryParams.OrderBy);
     }
 }

@@ -23,7 +23,7 @@ public class AddressService : IAddressService
 
         if (addedAddress is null)
         {
-            return Result<RetrievedAddressDto?>.Fail("Unable to add address at this time.");
+            return Result<RetrievedAddressDto?>.Fail("Unable to add address at this time.", ErrorType.BadRequest);
         }
 
         return Result<RetrievedAddressDto?>.Ok(addedAddress.ToRetrievedAddressDto());
@@ -35,7 +35,7 @@ public class AddressService : IAddressService
 
         if (updatedAddress is null)
         {
-            return Result<RetrievedAddressDto?>.Fail($"Unable to update address {address.Id}");
+            return Result<RetrievedAddressDto?>.Fail($"Unable to update address {address.Id}", ErrorType.BadRequest);
         }
 
         return Result<RetrievedAddressDto?>.Ok(updatedAddress.ToRetrievedAddressDto());
@@ -47,7 +47,7 @@ public class AddressService : IAddressService
 
         if (!deletion)
         {
-            return Result.Fail($"Unable to delete address {addressIdDto.Id}");
+            return Result.Fail($"Unable to delete address {addressIdDto.Id}", ErrorType.BadRequest);
         }
 
         return Result.Ok();
@@ -59,7 +59,7 @@ public class AddressService : IAddressService
 
         if (address is null)
         {
-            return Result<RetrievedAddressDto?>.Fail($"Unable to retrieve address {addressIdDto.Id}");
+            return Result<RetrievedAddressDto?>.Fail($"Unable to retrieve address {addressIdDto.Id}", ErrorType.NotFound);
         }
 
         return Result<RetrievedAddressDto?>.Ok(address.ToRetrievedAddressDto());
@@ -93,7 +93,7 @@ public class AddressService : IAddressService
 
         if (count == -1)
         {
-            return Result<int>.Fail("Unable to retrieved address count");
+            return Result<int>.Fail("Unable to retrieve address count", ErrorType.NotFound);
         }
 
         return Result<int>.Ok(count);
@@ -105,7 +105,7 @@ public class AddressService : IAddressService
 
         if (count == -1)
         {
-            return Result<int>.Fail("Unable to retrieve address count");
+            return Result<int>.Fail("Unable to retrieve address count", ErrorType.BadRequest);
         }
 
         return Result<int>.Ok(count);
