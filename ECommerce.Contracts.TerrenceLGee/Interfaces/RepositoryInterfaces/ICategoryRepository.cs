@@ -9,6 +9,7 @@ public interface ICategoryRepository
     Task<Category?> AddCategoryAsync(Category category);
     Task<Category?> UpdateCategoryAsync(Category category);
     Task<Category?> GetCategoryAsync(CategoryParams categoryParams);
+    Task<Category?> GetCategoryByNameAsync(CategoryParams categoryParams);
     Task<PagedList<Category>> GetCategoriesAsync(CategoryQueryParams categoryQueryParams);
     Task<int> GetCategoriesCountAsync();
 }

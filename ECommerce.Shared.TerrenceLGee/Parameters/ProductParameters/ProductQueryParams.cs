@@ -8,6 +8,7 @@ public class ProductQueryParams : QueryStringParams
     public int? MaxStockQuantity { get; set; }
     public int? MinDiscountPercentage { get; set; }
     public int? MaxDiscountPercentage { get; set; }
+    public int? CategoryId { get; set; }
     public string? CategoryName { get; set; }
     public string? Description { get; set; }
     public bool? InStock { get; set; }

@@ -483,7 +483,310 @@
     },
     {
       "name": "Category Requests",
-      "item": []
+      "item": [
+        {
+          "name": "Admin Add New Category",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"name\": \"Automotive\",\r\n    \"description\": \"Everything from anti-freeze to zerk-fitting everything you could ever need for your automobile.\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://localhost:7001/api/categories/admin/add",
+              "protocol": "https",
+              "host": [
+                "localhost"
+              ],
+              "port": "7001",
+              "path": [
+                "api",
+                "categories",
+                "admin",
+                "add"
+              ]
+            },
+            "description": "Allows the admin to add a new category (if the category does not already exist) must be authorized by using the JWT token from the admin login in"
+          },
+          "response": []
+        },
+        {
+          "name": "Admin Update Existing Category",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"name\": \"Clothing\",\r\n    \"description\": \"A wide assortment of clothing in all sizes for the entire family.\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://localhost:7001/api/categories/admin/update/1",
+              "protocol": "https",
+              "host": [
+                "localhost"
+              ],
+              "port": "7001",
+              "path": [
+                "api",
+                "categories",
+                "admin",
+                "update",
+                "1"
+              ]
+            },
+            "description": "Allows the admin to update an existing category must be authorized by using the JWT token from the admin login in"
+          },
+          "response": []
+        },
+        {
+          "name": "Admin Get Category By Id",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://localhost:7001/api/categories/admin/2",
+              "protocol": "https",
+              "host": [
+                "localhost"
+              ],
+              "port": "7001",
+              "path": [
+                "api",
+                "categories",
+                "admin",
+                "2"
+              ]
+            },
+            "description": "Allows the admin to view an existing category by id must be authorized by using the JWT token from the admin login in"
+          },
+          "response": []
+        },
+        {
+          "name": "Admin Get Category By Name",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://localhost:7001/api/categories/admin/music",
+              "protocol": "https",
+              "host": [
+                "localhost"
+              ],
+              "port": "7001",
+              "path": [
+                "api",
+                "categories",
+                "admin",
+                "music"
+              ]
+            },
+            "description": "Allows the admin to view an existing category by name must be authorized by using the JWT token from the admin login in"
+          },
+          "response": []
+        },
+        {
+          "name": "Admin Get All Categories With Pagination, Filtering and Sorting",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://localhost:7001/api/categories/admin?page=1&pageSize=3&orderBy=name asc&description=almost",
+              "protocol": "https",
+              "host": [
+                "localhost"
+              ],
+              "port": "7001",
+              "path": [
+                "api",
+                "categories",
+                "admin"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "pageSize",
+                  "value": "3"
+                },
+                {
+                  "key": "orderBy",
+                  "value": "name asc"
+                },
+                {
+                  "key": "description",
+                  "value": "almost"
+                }
+              ]
+            },
+            "description": "Allows the admin to view categories that include information that would be relevant to the admin like creation time etc. must be authorized by using the JWT token from the admin login in"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Category By Id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://localhost:7001/api/categories/1",
+              "protocol": "https",
+              "host": [
+                "localhost"
+              ],
+              "port": "7001",
+              "path": [
+                "api",
+                "categories",
+                "1"
+              ]
+            },
+            "description": "Get a category by id, no authorization needed"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Category By Name",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://localhost:7001/api/categories/books",
+              "protocol": "https",
+              "host": [
+                "localhost"
+              ],
+              "port": "7001",
+              "path": [
+                "api",
+                "categories",
+                "books"
+              ]
+            },
+            "description": "Get a category by name, no authorization needed"
+          },
+          "response": []
+        },
+        {
+          "name": "Get All Categories with Pagination and Sorting",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://localhost:7001/api/categories?page=2&pageSize=3&orderBy=name desc",
+              "protocol": "https",
+              "host": [
+                "localhost"
+              ],
+              "port": "7001",
+              "path": [
+                "api",
+                "categories"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "2"
+                },
+                {
+                  "key": "pageSize",
+                  "value": "3"
+                },
+                {
+                  "key": "orderBy",
+                  "value": "name desc"
+                }
+              ]
+            },
+            "description": "Get All Categories with Pagination and Sorting no authorization needed"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Count Of All Categories",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://localhost:7001/api/categories/count",
+              "protocol": "https",
+              "host": [
+                "localhost"
+              ],
+              "port": "7001",
+              "path": [
+                "api",
+                "categories",
+                "count"
+              ]
+            },
+            "description": "Get count of all categories no authorization needed"
+          },
+          "response": []
+        }
+      ]
     },
     {
       "name": "Customer Requests",
@@ -496,6 +799,33 @@
     {
       "name": "Sale Requests",
       "item": []
+    }
+  ],
+  "auth": {
+    "type": "bearer"
+  },
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
     }
   ]
 }

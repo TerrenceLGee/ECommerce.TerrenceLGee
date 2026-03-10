@@ -7,10 +7,12 @@ namespace ECommerce.Contracts.TerrenceLGee.Interfaces.ServiceInterfaces;
 
 public interface ICategoryService
 {
-    Task<Result<RetrievedCategoryDto?>> AddCategoryAsync(CreateCategoryDto category);
-    Task<Result<RetrievedCategoryDto?>> UpdateCategoryAsync(UpdateCategoryDto category);
+    Task<Result<RetrievedCategoryForAdminDto?>> AddCategoryAsync(CreateCategoryDto category);
+    Task<Result<RetrievedCategoryForAdminDto?>> UpdateCategoryAsync(UpdateCategoryDto category);
     Task<Result<RetrievedCategoryDto?>> GetCategoryAsync(CategoryParams categoryParams);
-    Task<Result<RetrievedCategoryDtoForAdmin?>> GetCategoryForAdminAsync(CategoryParams categoryParams);
+    Task<Result<RetrievedCategoryForAdminDto?>> GetCategoryForAdminAsync(CategoryParams categoryParams);
+    Task<Result<RetrievedCategoryDto?>> GetCategoryByNameAsync(CategoryParams categoryParams);
+    Task<Result<RetrievedCategoryForAdminDto?>> GetCategoryByNameForAdminAsync(CategoryParams categoryParams);
     Task<Result<PagedList<RetrievedCategorySummaryDto>>> GetCategoriesAsync(CategoryQueryParams categoryQueryParams);
     Task<Result<PagedList<RetrievedCategorySummaryForAdminDto>>> GetCategoriesForAdminAsync(CategoryQueryParams categoryQueryParams);
     Task<Result<int>> GetCategoriesCountAsync();

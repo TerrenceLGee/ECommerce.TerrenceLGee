@@ -184,15 +184,6 @@ public class AddressesController : ControllerBase
     [Authorize(Roles = "admin")]
     public async Task<ActionResult<ApiResponsePaged<RetrievedAddressDto>>> GetAllCustomerAddressesForAdmin([FromQuery] AddressQueryParams queryParams)
     {
-        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-
-        var (isValidUser, errorResponse) = await UserValidationPagedAsync<RetrievedAddressDto>(userId);
-
-        if (!isValidUser)
-        {
-            return errorResponse;
-        }
-
         var result = await _addressService.GetAllCustomerAddressesForAdminAsync(queryParams);
 
         var response = new ApiResponsePaged<RetrievedAddressDto>(200, result.Value!);
@@ -237,12 +228,6 @@ public class AddressesController : ControllerBase
     [Authorize(Roles = "admin")]
     public async Task<ActionResult<ApiResponse<int>>> GetAllCustomerAddressCountForAdmin()
     {
-        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-
-        var (isValidUser, errorResponse) = await UserValidationAsync<int>(userId);
-
-        if (!isValidUser) return errorResponse;
-
         var result = await _addressService.GetAllAddressCountForAdminAsync();
 
         var response = ApiResponse<int>.GetEmptyResponse;

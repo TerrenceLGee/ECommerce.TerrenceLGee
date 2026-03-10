@@ -17,28 +17,28 @@ public class CategoryService : ICategoryService
         _categoryRepository = categoryRepository;
     }
 
-    public async Task<Result<RetrievedCategoryDto?>> AddCategoryAsync(CreateCategoryDto category)
+    public async Task<Result<RetrievedCategoryForAdminDto?>> AddCategoryAsync(CreateCategoryDto category)
     {
         var addedCategory = await _categoryRepository.AddCategoryAsync(category.FromCreateCategoryDto());
 
         if (addedCategory is null)
         {
-            return Result<RetrievedCategoryDto?>.Fail("Unable to add new category", ErrorType.BadRequest);
+            return Result<RetrievedCategoryForAdminDto?>.Fail("Unable to add new category", ErrorType.BadRequest);
         }
 
-        return Result<RetrievedCategoryDto?>.Ok(addedCategory.ToRetrievedCategoryDto());
+        return Result<RetrievedCategoryForAdminDto?>.Ok(addedCategory.ToRetrievedCategoryForAdminDto());
     }
 
-    public async Task<Result<RetrievedCategoryDto?>> UpdateCategoryAsync(UpdateCategoryDto category)
+    public async Task<Result<RetrievedCategoryForAdminDto?>> UpdateCategoryAsync(UpdateCategoryDto category)
     {
         var updatedCategory = await _categoryRepository.UpdateCategoryAsync(category.FromUpdateCategoryDto());
 
         if (updatedCategory is null)
         {
-            return Result<RetrievedCategoryDto?>.Fail($"Unable to update category {category.Id}", ErrorType.BadRequest);
+            return Result<RetrievedCategoryForAdminDto?>.Fail($"Unable to update category {category.Id}", ErrorType.BadRequest);
         }
 
-        return Result<RetrievedCategoryDto?>.Ok(updatedCategory.ToRetrievedCategoryDto());
+        return Result<RetrievedCategoryForAdminDto?>.Ok(updatedCategory.ToRetrievedCategoryForAdminDto());
     }
 
     public async Task<Result<RetrievedCategoryDto?>> GetCategoryAsync(CategoryParams categoryParams)
@@ -53,16 +53,40 @@ public class CategoryService : ICategoryService
         return Result<RetrievedCategoryDto?>.Ok(category.ToRetrievedCategoryDto());
     }
 
-    public async Task<Result<RetrievedCategoryDtoForAdmin?>> GetCategoryForAdminAsync(CategoryParams categoryParams)
+    public async Task<Result<RetrievedCategoryForAdminDto?>> GetCategoryForAdminAsync(CategoryParams categoryParams)
     {
         var category = await _categoryRepository.GetCategoryAsync(categoryParams);
 
         if (category is null)
         {
-            return Result<RetrievedCategoryDtoForAdmin?>.Fail($"Unable to retrieve category {categoryParams.CategoryId}", ErrorType.NotFound);
+            return Result<RetrievedCategoryForAdminDto?>.Fail($"Unable to retrieve category {categoryParams.CategoryId}", ErrorType.NotFound);
         }
 
-        return Result<RetrievedCategoryDtoForAdmin?>.Ok(category.ToRetrievedCategoryDtoForAdmin());
+        return Result<RetrievedCategoryForAdminDto?>.Ok(category.ToRetrievedCategoryForAdminDto());
+    }
+
+    public async Task<Result<RetrievedCategoryDto?>> GetCategoryByNameAsync(CategoryParams categoryParams)
+    {
+        var category = await _categoryRepository.GetCategoryByNameAsync(categoryParams);
+
+        if (category is null)
+        {
+            return Result<RetrievedCategoryDto?>.Fail($"Unable to retrieve category {categoryParams.CategoryName}", ErrorType.NotFound);
+        }
+
+        return Result<RetrievedCategoryDto?>.Ok(category.ToRetrievedCategoryDto());
+    }
+
+    public async Task<Result<RetrievedCategoryForAdminDto?>> GetCategoryByNameForAdminAsync(CategoryParams categoryParams)
+    {
+        var category = await _categoryRepository.GetCategoryByNameAsync(categoryParams);
+
+        if (category is null)
+        {
+            return Result<RetrievedCategoryForAdminDto?>.Fail($"Unable to retrieve category {categoryParams.CategoryName}", ErrorType.NotFound);
+        }
+
+        return Result<RetrievedCategoryForAdminDto?>.Ok(category.ToRetrievedCategoryForAdminDto());
     }
 
     public async Task<Result<PagedList<RetrievedCategorySummaryDto>>> GetCategoriesAsync(CategoryQueryParams categoryQueryParams)
@@ -83,7 +107,7 @@ public class CategoryService : ICategoryService
         var categories = await _categoryRepository.GetCategoriesAsync(categoryQueryParams);
 
         var pagedCategories = new PagedList<RetrievedCategorySummaryForAdminDto>(
-            categories.Select(c => c.ToRetrievedCategorySummaryDtoForAdmin()),
+            categories.Select(c => c.ToRetrievedCategorySummaryForAdminDto()),
             categories.TotalEntities,
             categoryQueryParams.Page,
             categoryQueryParams.PageSize);
@@ -102,6 +126,4 @@ public class CategoryService : ICategoryService
 
         return Result<int>.Ok(count);
     }
-
-
 }

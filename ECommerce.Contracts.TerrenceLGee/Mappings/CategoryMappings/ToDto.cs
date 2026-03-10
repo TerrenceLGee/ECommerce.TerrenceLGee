@@ -32,21 +32,21 @@ public static class ToDto
             };
         }
 
-        public RetrievedCategoryDtoForAdmin ToRetrievedCategoryDtoForAdmin()
+        public RetrievedCategoryForAdminDto ToRetrievedCategoryForAdminDto()
         {
-            return new RetrievedCategoryDtoForAdmin
+            return new RetrievedCategoryForAdminDto
             {
                 Id = category.Id,
                 Name = category.Name,
                 Description = category.Description,
                 Products = category.Products
-                .Select(p => p.ToRetrievedProductDtoForAdmin()).ToList(),
+                .Select(p => p.ToRetrievedProductForAdminDto()).ToList(),
                 CreatedAt = category.CreatedAt,
                 UpdatedAt = category.UpdatedAt
             };
         }
 
-        public RetrievedCategorySummaryForAdminDto ToRetrievedCategorySummaryDtoForAdmin()
+        public RetrievedCategorySummaryForAdminDto ToRetrievedCategorySummaryForAdminDto()
         {
             return new RetrievedCategorySummaryForAdminDto
             {

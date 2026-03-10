@@ -1,6 +1,6 @@
 ﻿namespace ECommerce.Shared.TerrenceLGee.DTOs.ProductDTOs;
 
-public class RetrievedProductDtoForAdmin
+public class RetrievedProductForAdminDto
 {
     public int Id { get; set; }
     public int CategoryId { get; set; }

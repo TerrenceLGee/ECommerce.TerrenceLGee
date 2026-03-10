@@ -22,13 +22,14 @@ public static class ToDto
             };
         }
 
-        public RetrievedProductDtoForAdmin ToRetrievedProductDtoForAdmin()
+        public RetrievedProductForAdminDto ToRetrievedProductForAdminDto()
         {
-            return new RetrievedProductDtoForAdmin
+            return new RetrievedProductForAdminDto
             {
                 Id = product.Id,
                 CategoryId = product.CategoryId,
                 CategoryName = product.Category?.Name ?? "N/A",
+                Name = product.Name,
                 Description = product.Description,
                 StockQuantity = product.StockQuantity,
                 UnitPrice = product.UnitPrice,

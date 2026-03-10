@@ -7,13 +7,16 @@ namespace ECommerce.Contracts.TerrenceLGee.Interfaces.ServiceInterfaces;
 
 public interface IProductService
 {
-    Task<Result<RetrievedProductDto?>> AddProductAsync(CreateProductDto product);
-    Task<Result<RetrievedProductDto?>> UpdateProductAsync(UpdateProductDto product);
+    Task<Result<RetrievedProductForAdminDto?>> AddProductAsync(CreateProductDto product);
+    Task<Result<RetrievedProductForAdminDto?>> UpdateProductAsync(UpdateProductDto product);
     Task<Result> DeleteProductAsync(ProductParams productParams);
     Task<Result> RestoreProductAsync(ProductParams productParams);
     Task<Result<RetrievedProductDto?>> GetProductAsync(ProductParams productParams);
-    Task<Result<RetrievedProductDtoForAdmin>> GetProductForAdminAsync(ProductParams productParams);
+    Task<Result<RetrievedProductDto?>> GetProductByNameAsync(ProductParams productParams);
+    Task<Result<RetrievedProductForAdminDto?>> GetProductForAdminAsync(ProductParams productParams);
+    Task<Result<RetrievedProductForAdminDto?>> GetProductByNameForAdminAsync(ProductParams productParams);
     Task<Result<PagedList<RetrievedProductDto>>> GetProductsAsync(ProductQueryParams productQueryParams);
+    Task<Result<PagedList<RetrievedProductForAdminDto>>> GetProductsForAdminAsync(ProductQueryParams productQueryParams);
     Task<Result<int>> GetProductCountInCategoryAsync(ProductParams productParams);
     Task<Result<int>> GetProductCountAsync();
 }

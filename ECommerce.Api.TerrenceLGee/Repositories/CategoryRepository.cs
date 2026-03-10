@@ -56,6 +56,7 @@ public class CategoryRepository : ICategoryRepository
         try
         {
             var categoryToUpdate = await _context.Categories
+                .Include(c => c.Products)
                 .FirstOrDefaultAsync(c => c.Id == category.Id);
 
             if (categoryToUpdate is null) return null;
@@ -96,7 +97,29 @@ public class CategoryRepository : ICategoryRepository
             _logger.LogError(ex, "{msg}\n\n", _errorMessage);
             return null;
         }
+    }
 
+    public async Task<Category?> GetCategoryByNameAsync(CategoryParams categoryParams)
+    {
+        try
+        {
+            if (string.IsNullOrEmpty(categoryParams.CategoryName)) return null;
+
+            var category = await _context.Categories
+                .AsNoTracking()
+                .Include(c => c.Products)
+                .FirstOrDefaultAsync(c => c.Name.ToLower().Equals(categoryParams.CategoryName.ToLower()));
+
+            return category;
+        }
+        catch (Exception ex)
+        {
+            _errorMessage = $"\nClass: {nameof(CategoryRepository)}\n" +
+                $"Method: {nameof(GetCategoryByNameAsync)}\n" +
+                $"There was an unexpected error retrieving category {categoryParams.CategoryName}";
+            _logger.LogError(ex, "{msg}\n\n", _errorMessage);
+            return null;
+        }
     }
 
     public async Task<PagedList<Category>> GetCategoriesAsync(CategoryQueryParams categoryQueryParams)
@@ -108,6 +131,7 @@ public class CategoryRepository : ICategoryRepository
             if (count == 0) return [];
 
             var categories = _context.Categories
+                .Include(c => c.Products)
                 .AsNoTracking();
 
             SetFilteringAndSorting(ref categories, categoryQueryParams);
