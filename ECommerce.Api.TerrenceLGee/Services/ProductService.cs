@@ -47,7 +47,7 @@ public class ProductService : IProductService
 
         if (!deleted)
         {
-            return Result.Fail($"Deletion of product {productParams.ProductId} failed.", ErrorType.BadRequest);
+            return Result.Fail($"Deletion of product {productParams.ProductId} failed.", ErrorType.NotFound);
         }
 
         return Result.Ok();
@@ -59,7 +59,7 @@ public class ProductService : IProductService
 
         if (!restored)
         {
-            return Result.Fail($"Restoration of product {productParams.ProductId} failed", ErrorType.BadRequest);
+            return Result.Fail($"Restoration of product {productParams.ProductId} failed", ErrorType.NotFound);
         }
 
         return Result.Ok();

@@ -53,6 +53,7 @@ public class ProductRepository : IProductRepository
         try
         {
             var productToUpdate = await _context.Products
+                .Include(p => p.Category)
                 .FirstOrDefaultAsync(p => p.Id == product.Id);
 
             if (productToUpdate is null) return null;
@@ -90,7 +91,7 @@ public class ProductRepository : IProductRepository
             var productToDelete = await _context.Products
                 .FirstOrDefaultAsync(p => p.Id == productParams.ProductId);
 
-            if (productToDelete is null) return false;
+            if (productToDelete is null || productToDelete.IsDeleted) return false;
 
             productToDelete.IsDeleted = true;
             productToDelete.IsInStock = false;
@@ -117,7 +118,7 @@ public class ProductRepository : IProductRepository
             var productToRestore = await _context.Products
                  .FirstOrDefaultAsync(p => p.Id == productParams.ProductId && p.IsDeleted);
 
-            if (productToRestore is null) return false;
+            if (productToRestore is null || !productToRestore.IsDeleted) return false;
 
             productToRestore.IsDeleted = false;
             if (productToRestore.StockQuantity > 0) productToRestore.IsInStock = true;
@@ -142,6 +143,7 @@ public class ProductRepository : IProductRepository
         try
         {
             var product = await _context.Products
+                .Include(p => p.Category)
                 .AsNoTracking()
                 .FirstOrDefaultAsync(p => p.Id == productParams.ProductId);
 
@@ -165,6 +167,7 @@ public class ProductRepository : IProductRepository
             if (string.IsNullOrEmpty(productParams.ProductName)) return null;
 
             var product = await _context.Products
+                .Include(p => p.Category)
                 .AsNoTracking()
                 .FirstOrDefaultAsync(p => p.Name.ToLower().Equals(productParams.ProductName.ToLower()));
 
@@ -190,6 +193,7 @@ public class ProductRepository : IProductRepository
             if (count == 0) return [];
 
             var products = _context.Products
+                .Include(p => p.Category)
                 .AsNoTracking();
 
             SetFilteringAndSorting(ref products, productQueryParams);
@@ -279,8 +283,7 @@ public class ProductRepository : IProductRepository
                 p.UnitPrice <= productQueryParams.MaxUnitPrice);
             }
         }
-
-        if (productQueryParams.MinUnitPrice.HasValue && !productQueryParams.MaxUnitPrice.HasValue)
+        else if (productQueryParams.MinUnitPrice.HasValue && !productQueryParams.MaxUnitPrice.HasValue)
         {
             products = products.Where(p => p.UnitPrice >= productQueryParams.MinUnitPrice);
         }
@@ -297,8 +300,7 @@ public class ProductRepository : IProductRepository
                 p.StockQuantity <= productQueryParams.MaxStockQuantity);
             }
         }
-
-        if (productQueryParams.MinStockQuantity.HasValue && !productQueryParams.MaxStockQuantity.HasValue)
+        else if (productQueryParams.MinStockQuantity.HasValue && !productQueryParams.MaxStockQuantity.HasValue)
         {
             products = products.Where(p => p.StockQuantity >= productQueryParams.MinStockQuantity);
         }
@@ -315,8 +317,7 @@ public class ProductRepository : IProductRepository
                 p.DiscountPercentage <= productQueryParams.MaxDiscountPercentage);
             }
         }
-
-        if (productQueryParams.MinDiscountPercentage.HasValue && !productQueryParams.MaxDiscountPercentage.HasValue)
+        else if (productQueryParams.MinDiscountPercentage.HasValue && !productQueryParams.MaxDiscountPercentage.HasValue)
         {
             products = products.Where(p => p.DiscountPercentage >= productQueryParams.MinDiscountPercentage);
         }

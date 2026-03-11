@@ -794,7 +794,428 @@
     },
     {
       "name": "Product Requests",
-      "item": []
+      "item": [
+        {
+          "name": "Admin Add A New Product",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"categoryId\": 4,\r\n    \"name\": \"Head First C#: A Learner's Guide to Real-World Programming with C# and .NET\",\r\n    \"description\": \"Dive right in and build a cross-platform game in chapter one using C# and .NET MAUI--running on Windows, macOS, Android, and iOS. Our readers have become professional developers, team leads, and coding streamers.\",\r\n    \"stockQuantity\": 50,\r\n    \"unitPrice\": 69.99,\r\n    \"discountPercentage\": 33,\r\n    \"isDeleted\" : false,\r\n    \"isInStock\": true\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://localhost:7001/api/products/admin/add",
+              "protocol": "https",
+              "host": [
+                "localhost"
+              ],
+              "port": "7001",
+              "path": [
+                "api",
+                "products",
+                "admin",
+                "add"
+              ]
+            },
+            "description": "Allows admin to add a new product to an existing category. Must use the JWT Token from the admin login for authorization"
+          },
+          "response": []
+        },
+        {
+          "name": "Admin Update Product",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"categoryId\": 4,\r\n    \"name\": \"The C# Player's Guide (5th Edition)\",\r\n    \"description\": \"One of the best books for beginners looking to begin their exiting and rewarding journey into C# Programming. By RB Whitaker.\",\r\n    \"stockQuantity\": 75,\r\n    \"discountPercentage\": 15,\r\n    \"isDeleted\": false,\r\n    \"isInStock\": true\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://localhost:7001/api/products/admin/update/14",
+              "protocol": "https",
+              "host": [
+                "localhost"
+              ],
+              "port": "7001",
+              "path": [
+                "api",
+                "products",
+                "admin",
+                "update",
+                "14"
+              ]
+            },
+            "description": "Allows admin to update an existing product product in a category. Must use the JWT Token from the admin login for authorization"
+          },
+          "response": []
+        },
+        {
+          "name": "Admin Mark An Existing Product As Deleted",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "https://localhost:7001/api/products/admin/delete/5",
+              "protocol": "https",
+              "host": [
+                "localhost"
+              ],
+              "port": "7001",
+              "path": [
+                "api",
+                "products",
+                "admin",
+                "delete",
+                "5"
+              ]
+            },
+            "description": "Allows admin to mark a product as deleted. Must use the JWT Token from the admin login for authorization"
+          },
+          "response": []
+        },
+        {
+          "name": "Admin Restore A Product Previously Marked As Deleted",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "https://localhost:7001/api/products/admin/restore/5",
+              "protocol": "https",
+              "host": [
+                "localhost"
+              ],
+              "port": "7001",
+              "path": [
+                "api",
+                "products",
+                "admin",
+                "restore",
+                "5"
+              ]
+            },
+            "description": "Allows admin to restore a product previously marked as deleted. Must use the JWT Token from the admin login for authorization"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Product By Id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://localhost:7001/api/products/6",
+              "protocol": "https",
+              "host": [
+                "localhost"
+              ],
+              "port": "7001",
+              "path": [
+                "api",
+                "products",
+                "6"
+              ]
+            },
+            "description": "Get a product by Id. No authorization needed"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Product By Name",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://localhost:7001/api/products/Apple iMac",
+              "protocol": "https",
+              "host": [
+                "localhost"
+              ],
+              "port": "7001",
+              "path": [
+                "api",
+                "products",
+                "Apple iMac"
+              ]
+            },
+            "description": "Get a product by name. No authorization needed"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Products",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://localhost:7001/api/products?page=3&pageSize=6&minStockQuantity=30&orderBy=name desc",
+              "protocol": "https",
+              "host": [
+                "localhost"
+              ],
+              "port": "7001",
+              "path": [
+                "api",
+                "products"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "3"
+                },
+                {
+                  "key": "pageSize",
+                  "value": "6"
+                },
+                {
+                  "key": "minStockQuantity",
+                  "value": "30"
+                },
+                {
+                  "key": "orderBy",
+                  "value": "name desc"
+                }
+              ]
+            },
+            "description": "Get All Products (has pagination, sorting etc)"
+          },
+          "response": []
+        },
+        {
+          "name": "Admin Get Product By Id",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://localhost:7001/api/products/admin/1",
+              "protocol": "https",
+              "host": [
+                "localhost"
+              ],
+              "port": "7001",
+              "path": [
+                "api",
+                "products",
+                "admin",
+                "1"
+              ]
+            },
+            "description": "Admin gets a product by Id. Must use the JWT token from the admin login for authorization"
+          },
+          "response": []
+        },
+        {
+          "name": "Admin Get Product By Name",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://localhost:7001/api/products/admin/rope",
+              "protocol": "https",
+              "host": [
+                "localhost"
+              ],
+              "port": "7001",
+              "path": [
+                "api",
+                "products",
+                "admin",
+                "rope"
+              ]
+            },
+            "description": "Admin gets a product by name. Must use the JWT token from the admin login for authorization"
+          },
+          "response": []
+        },
+        {
+          "name": "Admin Get Products",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://localhost:7001/api/products/admin?page=1&pageSize=4&categoryName=movies&orderBy=name asc",
+              "protocol": "https",
+              "host": [
+                "localhost"
+              ],
+              "port": "7001",
+              "path": [
+                "api",
+                "products",
+                "admin"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "pageSize",
+                  "value": "4"
+                },
+                {
+                  "key": "categoryName",
+                  "value": "movies"
+                },
+                {
+                  "key": "orderBy",
+                  "value": "name asc"
+                }
+              ]
+            },
+            "description": "Admin can retrieve all products can use with pagination, filtering etc. Must use the JWT token from the admin login for authorization"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Count Of All Products",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://localhost:7001/api/products/count",
+              "protocol": "https",
+              "host": [
+                "localhost"
+              ],
+              "port": "7001",
+              "path": [
+                "api",
+                "products",
+                "count"
+              ]
+            },
+            "description": "Count of all products. No authorization needed"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Count Of All Products By Category Id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://localhost:7001/api/products/count/2",
+              "protocol": "https",
+              "host": [
+                "localhost"
+              ],
+              "port": "7001",
+              "path": [
+                "api",
+                "products",
+                "count",
+                "2"
+              ]
+            },
+            "description": "Count of all products in a particular category by category id. No authorization needed"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Count Of All Products By Category Name",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://localhost:7001/api/products/count/Fitness",
+              "protocol": "https",
+              "host": [
+                "localhost"
+              ],
+              "port": "7001",
+              "path": [
+                "api",
+                "products",
+                "count",
+                "Fitness"
+              ]
+            },
+            "description": "Count of all products in a particular category by category name. No authorization needed"
+          },
+          "response": []
+        }
+      ]
     },
     {
       "name": "Sale Requests",

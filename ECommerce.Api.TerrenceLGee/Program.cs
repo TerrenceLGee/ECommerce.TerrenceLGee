@@ -80,10 +80,13 @@ builder.Services.Configure<AuthConfiguration>(builder.Configuration.GetSection(a
 
 builder.Services.AddScoped<IAddressRepository, AddressRepository>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
+
 builder.Services.AddScoped<IAddressService, AddressService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
+builder.Services.AddScoped<ICustomerService, CustomerService>();
 builder.Services.AddScoped<IProductService, ProductService>();
 
 var app = builder.Build();
