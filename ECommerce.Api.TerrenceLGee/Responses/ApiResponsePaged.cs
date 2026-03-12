@@ -9,6 +9,7 @@ public class ApiResponsePaged<T>
     public PagedList<T> Data { get; set; } = [];
     public int PageNumber { get; set; }
     public int TotalPages { get; set; }
+    public int TotalItemsRetrieved { get; set; }
     public int TotalItems { get; set; }
     public List<string> Errors { get; set; } = [];
 
@@ -19,6 +20,7 @@ public class ApiResponsePaged<T>
         Data = data;
         PageNumber = data.PageNumber;
         TotalPages = data.TotalPages;
+        TotalItemsRetrieved = data.Count;
         TotalItems = data.TotalEntities;
         Errors = [];
     }

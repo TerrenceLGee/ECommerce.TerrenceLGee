@@ -43,7 +43,7 @@ public class CategoryService : ICategoryService
 
     public async Task<Result<RetrievedCategoryDto?>> GetCategoryAsync(CategoryParams categoryParams)
     {
-        var category = await _categoryRepository.GetCategoryAsync(categoryParams);
+        var category = await _categoryRepository.GetCategoryAsync(categoryParams.CategoryId);
 
         if (category is null)
         {
@@ -55,7 +55,7 @@ public class CategoryService : ICategoryService
 
     public async Task<Result<RetrievedCategoryForAdminDto?>> GetCategoryForAdminAsync(CategoryParams categoryParams)
     {
-        var category = await _categoryRepository.GetCategoryAsync(categoryParams);
+        var category = await _categoryRepository.GetCategoryAsync(categoryParams.CategoryId);
 
         if (category is null)
         {
@@ -67,7 +67,7 @@ public class CategoryService : ICategoryService
 
     public async Task<Result<RetrievedCategoryDto?>> GetCategoryByNameAsync(CategoryParams categoryParams)
     {
-        var category = await _categoryRepository.GetCategoryByNameAsync(categoryParams);
+        var category = await _categoryRepository.GetCategoryByNameAsync(categoryParams.CategoryName);
 
         if (category is null)
         {
@@ -79,7 +79,7 @@ public class CategoryService : ICategoryService
 
     public async Task<Result<RetrievedCategoryForAdminDto?>> GetCategoryByNameForAdminAsync(CategoryParams categoryParams)
     {
-        var category = await _categoryRepository.GetCategoryByNameAsync(categoryParams);
+        var category = await _categoryRepository.GetCategoryByNameAsync(categoryParams.CategoryName);
 
         if (category is null)
         {

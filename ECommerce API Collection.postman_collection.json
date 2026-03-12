@@ -790,7 +790,119 @@
     },
     {
       "name": "Customer Requests",
-      "item": []
+      "item": [
+        {
+          "name": "Get Customer1 Profile",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://localhost:7001/api/customers/profile",
+              "protocol": "https",
+              "host": [
+                "localhost"
+              ],
+              "port": "7001",
+              "path": [
+                "api",
+                "customers",
+                "profile"
+              ]
+            },
+            "description": "Login as Customer1 and copy the JWT token from the login response and use it for authorization"
+          },
+          "response": []
+        },
+        {
+          "name": "Admin Get All Customers",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://localhost:7001/api/customers/admin?page=1&pageSize=2&orderBy=firstName desc",
+              "protocol": "https",
+              "host": [
+                "localhost"
+              ],
+              "port": "7001",
+              "path": [
+                "api",
+                "customers",
+                "admin"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "pageSize",
+                  "value": "2"
+                },
+                {
+                  "key": "orderBy",
+                  "value": "firstName desc"
+                }
+              ]
+            },
+            "description": "Login as Admin and then use the JWT token for authorization. Retrieves all customers in the database, can be used with pagination, filtering, sorting etc."
+          },
+          "response": []
+        },
+        {
+          "name": "Admin Get Count Of All Customers",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://localhost:7001/api/customers/admin/count",
+              "protocol": "https",
+              "host": [
+                "localhost"
+              ],
+              "port": "7001",
+              "path": [
+                "api",
+                "customers",
+                "admin",
+                "count"
+              ]
+            },
+            "description": "Login as Admin and then use the JWT token for authorization. Retrieves count of all customers in the database"
+          },
+          "response": []
+        }
+      ]
     },
     {
       "name": "Product Requests",
@@ -1219,7 +1331,278 @@
     },
     {
       "name": "Sale Requests",
-      "item": []
+      "item": [
+        {
+          "name": "Customer1 Create New Sale (Checkout)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"ShoppingCart\": [\r\n        {\r\n            \"ProductId\": 4,\r\n            \"Quantity\": 2\r\n        },\r\n        {\r\n            \"ProductId\": 6,\r\n            \"Quantity\": 1\r\n        }\r\n    ]\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://localhost:7001/api/sales/checkout",
+              "protocol": "https",
+              "host": [
+                "localhost"
+              ],
+              "port": "7001",
+              "path": [
+                "api",
+                "sales",
+                "checkout"
+              ]
+            },
+            "description": "Login as Customer1. Use the JWT Token for authorization that is returned from the Customer1 login response"
+          },
+          "response": []
+        },
+        {
+          "name": "Customer 1 Get Sale",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://localhost:7001/api/sales/1",
+              "protocol": "https",
+              "host": [
+                "localhost"
+              ],
+              "port": "7001",
+              "path": [
+                "api",
+                "sales",
+                "1"
+              ]
+            },
+            "description": "Login as Customer1. Use the JWT Token for authorization that is returned from the Customer1 login response"
+          },
+          "response": []
+        },
+        {
+          "name": "Customer1 Get All Sales with Pagination, Filtering and Sorting",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://localhost:7001/api/sales?page=1&pageSize=6&status=pending&orderBy=createdAt asc",
+              "protocol": "https",
+              "host": [
+                "localhost"
+              ],
+              "port": "7001",
+              "path": [
+                "api",
+                "sales"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "pageSize",
+                  "value": "6"
+                },
+                {
+                  "key": "status",
+                  "value": "pending"
+                },
+                {
+                  "key": "orderBy",
+                  "value": "createdAt asc"
+                }
+              ]
+            },
+            "description": "Login as Customer1. Use the JWT Token for authorization that is returned from the Customer1 login response"
+          },
+          "response": []
+        },
+        {
+          "name": "Customer1 Get Count Of All Their Sales",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://localhost:7001/api/sales/count",
+              "protocol": "https",
+              "host": [
+                "localhost"
+              ],
+              "port": "7001",
+              "path": [
+                "api",
+                "sales",
+                "count"
+              ]
+            },
+            "description": "Login as Customer1. Use the JWT Token for authorization that is returned from the Customer1 login response"
+          },
+          "response": []
+        },
+        {
+          "name": "Customer1 Cancel Sale",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "https://localhost:7001/api/sales/cancel/1003",
+              "protocol": "https",
+              "host": [
+                "localhost"
+              ],
+              "port": "7001",
+              "path": [
+                "api",
+                "sales",
+                "cancel",
+                "1003"
+              ]
+            },
+            "description": "Login as Customer1. Use the JWT Token for authorization that is returned from the Customer1 login response"
+          },
+          "response": []
+        },
+        {
+          "name": "Admin Get A Sale",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://localhost:7001/api/sales/admin/2",
+              "protocol": "https",
+              "host": [
+                "localhost"
+              ],
+              "port": "7001",
+              "path": [
+                "api",
+                "sales",
+                "admin",
+                "2"
+              ]
+            },
+            "description": "Login as admin. Use the JWT Token for authorization that is returned from the admin login response"
+          },
+          "response": []
+        },
+        {
+          "name": "Admin Get All Customer Sales",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://localhost:7001/api/sales/admin?page=2&pageSize=6&minTotalAmount=500&orderBy=totalAmount desc",
+              "protocol": "https",
+              "host": [
+                "localhost"
+              ],
+              "port": "7001",
+              "path": [
+                "api",
+                "sales",
+                "admin"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "2"
+                },
+                {
+                  "key": "pageSize",
+                  "value": "6"
+                },
+                {
+                  "key": "minTotalAmount",
+                  "value": "500"
+                },
+                {
+                  "key": "orderBy",
+                  "value": "totalAmount desc"
+                }
+              ]
+            },
+            "description": "Login as admin. Use the JWT Token for authorization that is returned from the admin login response"
+          },
+          "response": []
+        }
+      ]
     }
   ],
   "auth": {

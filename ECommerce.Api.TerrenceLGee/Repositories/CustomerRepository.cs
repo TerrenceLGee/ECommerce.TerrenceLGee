@@ -52,6 +52,7 @@ public class CustomerRepository : ICustomerRepository
             if (count == 0) return [];
 
             var customers = _context.Users
+                .Where(c => !string.IsNullOrEmpty(c.UserName) && !c.UserName.ToLower().Equals("admin@example.com"))
                 .Include(c => c.Addresses)
                 .Include(c => c.Sales)
                 .ThenInclude(s => s.SaleProducts)
@@ -77,6 +78,7 @@ public class CustomerRepository : ICustomerRepository
         {
             return await _context.Users
                 .AsNoTracking()
+                .Where(c => !string.IsNullOrEmpty(c.UserName) && !c.UserName.ToLower().Equals("admin@example.com"))
                 .CountAsync();
         }
         catch (Exception ex)

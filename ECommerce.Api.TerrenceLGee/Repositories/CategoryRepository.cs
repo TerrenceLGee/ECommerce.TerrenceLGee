@@ -78,14 +78,14 @@ public class CategoryRepository : ICategoryRepository
         }
     }
 
-    public async Task<Category?> GetCategoryAsync(CategoryParams categoryParams)
+    public async Task<Category?> GetCategoryAsync(int categoryId)
     {
         try
         {
             var category = await _context.Categories
                 .AsNoTracking()
                 .Include(c => c.Products)
-                .FirstOrDefaultAsync(c => c.Id == categoryParams.CategoryId);
+                .FirstOrDefaultAsync(c => c.Id == categoryId);
 
             return category;
         }
@@ -93,22 +93,22 @@ public class CategoryRepository : ICategoryRepository
         {
             _errorMessage = $"\nClass: {nameof(CategoryRepository)}\n" +
                 $"Method: {nameof(GetCategoryAsync)}\n" +
-                $"There was an unexpected error retrieving category {categoryParams.CategoryId}";
+                $"There was an unexpected error retrieving category {categoryId}";
             _logger.LogError(ex, "{msg}\n\n", _errorMessage);
             return null;
         }
     }
 
-    public async Task<Category?> GetCategoryByNameAsync(CategoryParams categoryParams)
+    public async Task<Category?> GetCategoryByNameAsync(string? categoryName)
     {
         try
         {
-            if (string.IsNullOrEmpty(categoryParams.CategoryName)) return null;
+            if (string.IsNullOrEmpty(categoryName)) return null;
 
             var category = await _context.Categories
                 .AsNoTracking()
                 .Include(c => c.Products)
-                .FirstOrDefaultAsync(c => c.Name.ToLower().Equals(categoryParams.CategoryName.ToLower()));
+                .FirstOrDefaultAsync(c => c.Name.ToLower().Equals(categoryName.ToLower()));
 
             return category;
         }
@@ -116,7 +116,7 @@ public class CategoryRepository : ICategoryRepository
         {
             _errorMessage = $"\nClass: {nameof(CategoryRepository)}\n" +
                 $"Method: {nameof(GetCategoryByNameAsync)}\n" +
-                $"There was an unexpected error retrieving category {categoryParams.CategoryName}";
+                $"There was an unexpected error retrieving category {categoryName}";
             _logger.LogError(ex, "{msg}\n\n", _errorMessage);
             return null;
         }

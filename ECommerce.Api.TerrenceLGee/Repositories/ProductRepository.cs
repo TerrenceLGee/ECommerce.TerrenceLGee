@@ -35,7 +35,9 @@ public class ProductRepository : IProductRepository
             await _context.Products.AddAsync(product);
             await _context.SaveChangesAsync();
 
-            return product;
+            return await _context.Products
+                .Include(p => p.Category)
+                .FirstOrDefaultAsync(p => p.Id == product.Id);
         }
         catch (Exception ex)
         {
@@ -84,12 +86,12 @@ public class ProductRepository : IProductRepository
         }
     }
 
-    public async Task<bool> DeleteProductAsync(ProductParams productParams)
+    public async Task<bool> DeleteProductAsync(int productId)
     {
         try
         {
             var productToDelete = await _context.Products
-                .FirstOrDefaultAsync(p => p.Id == productParams.ProductId);
+                .FirstOrDefaultAsync(p => p.Id == productId);
 
             if (productToDelete is null || productToDelete.IsDeleted) return false;
 
@@ -104,19 +106,19 @@ public class ProductRepository : IProductRepository
         {
             _errorMessage = $"\nClass: {nameof(ProductRepository)}\n" +
                 $"Method: {nameof(DeleteProductAsync)}\n" +
-                $"There was an unexpected error 'deleting' product: {productParams.ProductId} from category " +
-                $"{productParams.CategoryId}: {ex.Message}";
+                $"There was an unexpected error 'deleting' product: {productId}:" +
+                $"{ex.Message}";
             _logger.LogError(ex, "{msg}\n\n", _errorMessage);
             return false;
         }
     }
 
-    public async Task<bool> RestoreProductAsync(ProductParams productParams)
+    public async Task<bool> RestoreProductAsync(int productId)
     {
         try
         {
             var productToRestore = await _context.Products
-                 .FirstOrDefaultAsync(p => p.Id == productParams.ProductId && p.IsDeleted);
+                 .FirstOrDefaultAsync(p => p.Id == productId && p.IsDeleted);
 
             if (productToRestore is null || !productToRestore.IsDeleted) return false;
 
@@ -131,21 +133,21 @@ public class ProductRepository : IProductRepository
         {
             _errorMessage = $"\nClass: {nameof(ProductRepository)}\n" +
             $"Method: {nameof(RestoreProductAsync)}\n" +
-            $"There was an unexpected error 'restoring' product: {productParams.ProductId} into category " +
-            $"{productParams.CategoryId}: {ex.Message}";
+            $"There was an unexpected error 'restoring' product {productId}: " +
+            $"{ex.Message}";
             _logger.LogError(ex, "{msg}\n\n", _errorMessage);
             return false;
         }
     }
 
-    public async Task<Product?> GetProductAsync(ProductParams productParams)
+    public async Task<Product?> GetProductAsync(int productId)
     {
         try
         {
             var product = await _context.Products
                 .Include(p => p.Category)
                 .AsNoTracking()
-                .FirstOrDefaultAsync(p => p.Id == productParams.ProductId);
+                .FirstOrDefaultAsync(p => p.Id == productId);
 
             return product;
         }
@@ -153,23 +155,23 @@ public class ProductRepository : IProductRepository
         {
             _errorMessage = $"\nClass: {nameof(ProductRepository)}\n" +
                 $"Method: {nameof(GetProductAsync)}\n" +
-                $"There was an unexpected error retrieving product {productParams.ProductId} from category " +
-                $"{productParams.CategoryId}: {ex.Message}";
+                $"There was an unexpected error retrieving product {productId}: " +
+                $"{ex.Message}";
             _logger.LogError(ex, "{msg}\n\n", _errorMessage);
             return null;
         }
     }
 
-    public async Task<Product?> GetProductByNameAsync(ProductParams productParams)
+    public async Task<Product?> GetProductByNameAsync(string? productName)
     {
         try
         {
-            if (string.IsNullOrEmpty(productParams.ProductName)) return null;
+            if (string.IsNullOrEmpty(productName)) return null;
 
             var product = await _context.Products
                 .Include(p => p.Category)
                 .AsNoTracking()
-                .FirstOrDefaultAsync(p => p.Name.ToLower().Equals(productParams.ProductName.ToLower()));
+                .FirstOrDefaultAsync(p => p.Name.ToLower().Equals(productName.ToLower()));
 
             return product;
         }
@@ -177,8 +179,8 @@ public class ProductRepository : IProductRepository
         {
             _errorMessage = $"\nClass: {nameof(ProductRepository)}\n" +
                 $"Method: {nameof(GetProductByNameAsync)}\n" +
-                $"There was an unexpected error retrieving product {productParams.ProductName} in category " +
-                $"{productParams.CategoryId}: {ex.Message}";
+                $"There was an unexpected error retrieving product {productName}: " +
+                $"{ex.Message}";
             _logger.LogError(ex, "{msg}\n\n", _errorMessage);
             return null;
         }

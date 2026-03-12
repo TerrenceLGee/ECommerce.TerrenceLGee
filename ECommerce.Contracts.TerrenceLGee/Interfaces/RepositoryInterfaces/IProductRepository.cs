@@ -8,10 +8,10 @@ public interface IProductRepository
 {
     Task<Product?> AddProductAsync(Product product);
     Task<Product?> UpdateProductAsync(Product product);
-    Task<bool> DeleteProductAsync(ProductParams productParams);
-    Task<bool> RestoreProductAsync(ProductParams productParams);
-    Task<Product?> GetProductAsync(ProductParams productParams);
-    Task<Product?> GetProductByNameAsync(ProductParams productParams);
+    Task<bool> DeleteProductAsync(int productId);
+    Task<bool> RestoreProductAsync(int productId);
+    Task<Product?> GetProductAsync(int productId);
+    Task<Product?> GetProductByNameAsync(string? productName);
     Task<PagedList<Product>> GetProductsAsync(ProductQueryParams productQueryParams);
     Task<int> GetProductCountInCategoryAsync(ProductParams productParams);
     Task<int> GetProductCountAsync();

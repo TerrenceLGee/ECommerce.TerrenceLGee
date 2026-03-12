@@ -8,6 +8,7 @@ public class RetrievedSaleDto
 {
     public int Id { get; set; }
     public string? CustomerId { get; set; }
+    public string? CustomerName { get; set; }
     public decimal TotalBaseAmount { get; set; }
     public decimal TotalDiscountAmount { get; set; }
     public decimal TotalAmount { get; set; }

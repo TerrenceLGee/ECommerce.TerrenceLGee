@@ -43,7 +43,7 @@ public class ProductService : IProductService
 
     public async Task<Result> DeleteProductAsync(ProductParams productParams)
     {
-        var deleted = await _productRepository.DeleteProductAsync(productParams);
+        var deleted = await _productRepository.DeleteProductAsync(productParams.ProductId);
 
         if (!deleted)
         {
@@ -55,7 +55,7 @@ public class ProductService : IProductService
 
     public async Task<Result> RestoreProductAsync(ProductParams productParams)
     {
-        var restored = await _productRepository.RestoreProductAsync(productParams);
+        var restored = await _productRepository.RestoreProductAsync(productParams.ProductId);
 
         if (!restored)
         {
@@ -67,7 +67,7 @@ public class ProductService : IProductService
 
     public async Task<Result<RetrievedProductDto?>> GetProductAsync(ProductParams productParams)
     {
-        var product = await _productRepository.GetProductAsync(productParams);
+        var product = await _productRepository.GetProductAsync(productParams.ProductId);
 
         if (product is null)
         {
@@ -79,7 +79,7 @@ public class ProductService : IProductService
 
     public async Task<Result<RetrievedProductDto?>> GetProductByNameAsync(ProductParams productParams)
     {
-        var product = await _productRepository.GetProductByNameAsync(productParams);
+        var product = await _productRepository.GetProductByNameAsync(productParams.ProductName);
 
         if (product is null)
         {
@@ -91,7 +91,7 @@ public class ProductService : IProductService
 
     public async Task<Result<RetrievedProductForAdminDto?>> GetProductForAdminAsync(ProductParams productParams)
     {
-        var product = await _productRepository.GetProductAsync(productParams);
+        var product = await _productRepository.GetProductAsync(productParams.ProductId);
 
         if (product is null)
         {
@@ -103,7 +103,7 @@ public class ProductService : IProductService
 
     public async Task<Result<RetrievedProductForAdminDto?>> GetProductByNameForAdminAsync(ProductParams productParams)
     {
-        var product = await _productRepository.GetProductByNameAsync(productParams);
+        var product = await _productRepository.GetProductByNameAsync(productParams.ProductName);
 
         if (product is null)
         {

@@ -16,6 +16,7 @@ public static class ToDto
                 ProductName = saleProduct?.Product?.Name,
                 Quantity = saleProduct!.Quantity,
                 Price = saleProduct.Price,
+                Discount = saleProduct.Discount,
                 TotalPrice = saleProduct.TotalPrice
             };
         }

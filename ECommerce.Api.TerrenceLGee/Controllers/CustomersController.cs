@@ -3,6 +3,7 @@ using ECommerce.Api.TerrenceLGee.Responses;
 using ECommerce.Contracts.TerrenceLGee.Interfaces.ServiceInterfaces;
 using ECommerce.Entities.TerrenceLGee.Models;
 using ECommerce.Shared.TerrenceLGee.DTOs.CustomerDTOs;
+using ECommerce.Shared.TerrenceLGee.Parameters.CustomerParameters;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -29,7 +30,71 @@ public class CustomersController : ControllerBase
     {
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-        throw new NotImplementedException();
+        var (isValidUser, errorResponse) = await UserValidationAsync<RetrievedCustomerDto?>(userId);
+
+        if (!isValidUser)
+        {
+            return errorResponse;
+        }
+
+        var customerRetrieval = new CustomerRetrievalDto
+        {
+            CustomerId = userId
+        };
+
+        var response = ApiResponse<RetrievedCustomerDto?>.GetEmptyResponse;
+
+        var result = await _customerService.GetCustomerProfileAsync(customerRetrieval);
+
+        if (result.IsFailure)
+        {
+            response = FailureHelper.HandleFailureResult<RetrievedCustomerDto?>(result);
+            return StatusCode(response.StatusCode, response);
+        }
+
+        response = new ApiResponse<RetrievedCustomerDto?>(200, result.Value);
+
+        return StatusCode(response.StatusCode, response);
+    }
+
+    [HttpGet("admin")]
+    [Authorize(Roles = "admin")]
+    public async Task<ActionResult<ApiResponsePaged<RetrievedCustomerDto>>> GetCustomersForAdmin([FromQuery] CustomerQueryParams customerQueryParams)
+    {
+        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+        var (isUserValid, errorResponse) = await UserValidationPagedAsync<RetrievedCustomerDto>(userId);
+
+        if (!isUserValid)
+        {
+            return errorResponse;
+        }
+
+        var result = await _customerService.GetAllCustomersForAdminAsync(customerQueryParams);
+
+        var response = new ApiResponsePaged<RetrievedCustomerDto>(200, result.Value!);
+
+        return StatusCode(response.StatusCode, response);
+    }
+
+    [HttpGet("admin/count")]
+    [Authorize(Roles = "admin")]
+    public async Task<ActionResult<ApiResponse<int>>> GetCountOfCustomersForAdmin()
+    {
+        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+        var (isValidUser, errorResponse) = await AuthHelper.IsValidUserAsync<int>(_userManager, userId);
+
+        if (!isValidUser)
+        {
+            return errorResponse;
+        }
+
+        var result = await _customerService.GetCountOfAllCustomersForAdminAsync();
+
+        var response = new ApiResponse<int>(200, result.Value);
+
+        return StatusCode(response.StatusCode, response);
     }
 
     private async Task<(bool isUserValid, ActionResult<ApiResponse<T?>>)> UserValidationAsync<T>(string? userId)

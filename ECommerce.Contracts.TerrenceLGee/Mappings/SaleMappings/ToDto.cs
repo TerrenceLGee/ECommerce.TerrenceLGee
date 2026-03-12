@@ -14,6 +14,9 @@ public static class ToDto
             {
                 Id = sale.Id,
                 CustomerId = sale.CustomerId,
+                CustomerName = (sale.Customer is not null) 
+                ? $"{sale.Customer.FirstName} {sale.Customer.LastName}"
+                : "N/A",
                 TotalBaseAmount = sale.TotalBaseAmount,
                 TotalDiscountAmount = sale.TotalDiscountAmount,
                 TotalAmount = sale.TotalAmount,
@@ -30,7 +33,9 @@ public static class ToDto
             return new RetrievedSaleSummaryDto
             {
                 Id = sale.Id,
-                CustomerId = sale.CustomerId,
+                CustomerName = (sale.Customer is not null)
+                ? $"{sale.Customer.FirstName} {sale.Customer.LastName}"
+                : "N/A",
                 SaleProductCount = sale.SaleProducts.Count,
                 TotalBaseAmount = sale.TotalBaseAmount,
                 TotalDiscountAmount = sale.TotalDiscountAmount,
