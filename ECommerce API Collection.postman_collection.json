@@ -317,6 +317,28 @@
             "description": "Allows Customer1 to retrieve the count of all of their addresses in the database when providing the JWT token from login"
           },
           "response": []
+        },
+        {
+          "name": "Customer1 Get Address By Id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://localhost:7001/api/addresses/1",
+              "protocol": "https",
+              "host": [
+                "localhost"
+              ],
+              "port": "7001",
+              "path": [
+                "api",
+                "addresses",
+                "1"
+              ]
+            },
+            "description": "Allows Customer1 to retrieve an address by id (one of their own addresses) when providing the JWT token from login"
+          },
+          "response": []
         }
       ]
     },
@@ -1568,7 +1590,7 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "https://localhost:7001/api/sales/admin?page=2&pageSize=6&minTotalAmount=500&orderBy=totalAmount desc",
+              "raw": "https://localhost:7001/api/sales/admin?page=1&pageSize=3&minTotalAmount=1000&orderBy=totalAmount desc",
               "protocol": "https",
               "host": [
                 "localhost"
@@ -1582,20 +1604,96 @@
               "query": [
                 {
                   "key": "page",
-                  "value": "2"
+                  "value": "1"
                 },
                 {
                   "key": "pageSize",
-                  "value": "6"
+                  "value": "3"
                 },
                 {
                   "key": "minTotalAmount",
-                  "value": "500"
+                  "value": "1000"
                 },
                 {
                   "key": "orderBy",
                   "value": "totalAmount desc"
                 }
+              ]
+            },
+            "description": "Login as admin. Use the JWT Token for authorization that is returned from the admin login response"
+          },
+          "response": []
+        },
+        {
+          "name": "Admin Get Count Of All Sales",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://localhost:7001/api/sales/admin/count",
+              "protocol": "https",
+              "host": [
+                "localhost"
+              ],
+              "port": "7001",
+              "path": [
+                "api",
+                "sales",
+                "admin",
+                "count"
+              ]
+            },
+            "description": "Login as admin. Use the JWT Token for authorization that is returned from the admin login response"
+          },
+          "response": []
+        },
+        {
+          "name": "Admin Update A Sale's Status",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"status\": 2\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://localhost:7001/api/sales/admin/update/4",
+              "protocol": "https",
+              "host": [
+                "localhost"
+              ],
+              "port": "7001",
+              "path": [
+                "api",
+                "sales",
+                "admin",
+                "update",
+                "4"
               ]
             },
             "description": "Login as admin. Use the JWT Token for authorization that is returned from the admin login response"

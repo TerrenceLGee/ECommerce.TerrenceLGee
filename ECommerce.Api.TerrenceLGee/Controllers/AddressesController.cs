@@ -27,7 +27,7 @@ public class AddressesController : ControllerBase
     }
 
     [HttpPost("add")]
-    [Authorize(Roles = "admin,customer")]
+    [Authorize(Roles = "customer")]
     public async Task<ActionResult<ApiResponse<RetrievedAddressDto?>>> AddAddress([FromBody] CreateAddressDto address)
     {
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -58,7 +58,7 @@ public class AddressesController : ControllerBase
     }
 
     [HttpPut("update/{id:int}")]
-    [Authorize(Roles = "admin,customer")]
+    [Authorize(Roles = "customer")]
     public async Task<ActionResult<ApiResponse<RetrievedAddressDto?>>> UpdateAddress(
         [FromBody] UpdateAddressDto address, 
         [FromRoute] int id)
@@ -91,7 +91,7 @@ public class AddressesController : ControllerBase
     }
 
     [HttpDelete("{id:int}")]
-    [Authorize(Roles = "admin,customer")]
+    [Authorize(Roles = "customer")]
     public async Task<ActionResult<ApiResponse<string?>>> DeleteAddress([FromRoute] int id)
     {
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -125,7 +125,7 @@ public class AddressesController : ControllerBase
     }
 
     [HttpGet("{id:int}")]
-    [Authorize(Roles = "admin,customer")]
+    [Authorize(Roles = "customer")]
     public async Task<ActionResult<ApiResponse<RetrievedAddressDto?>>> GetAddress([FromRoute] int id)
     {
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
