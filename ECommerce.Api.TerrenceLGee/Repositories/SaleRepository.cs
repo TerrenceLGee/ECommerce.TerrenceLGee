@@ -35,6 +35,7 @@ public class SaleRepository : ISaleRepository
             return await _context.Sales
                 .Include(s => s.Customer)
                 .Include(s => s.SaleProducts)
+                .ThenInclude(sp => sp.Product)
                 .FirstOrDefaultAsync(s => s.Id == sale.Id);
         }
         catch (Exception ex)
@@ -55,6 +56,7 @@ public class SaleRepository : ISaleRepository
                 .AsNoTracking()
                 .Include(s => s.Customer)
                 .Include(s => s.SaleProducts)
+                .ThenInclude(sp => sp.Product)
                 .FirstOrDefaultAsync(s => s.Id == saleId && s.Customer != null && s.Customer.Id.Equals(customerId));
 
             return sale;
@@ -78,6 +80,7 @@ public class SaleRepository : ISaleRepository
                 .AsNoTracking()
                 .Include(s => s.Customer)
                 .Include(s => s.SaleProducts)
+                .ThenInclude(sp => sp.Product)
                 .FirstOrDefaultAsync(s => s.Id == saleId);
 
             return sale;
@@ -172,6 +175,7 @@ public class SaleRepository : ISaleRepository
 
             var sales = _context.Sales
                 .Where(s => s.CustomerId.Equals(saleQueryParams.CustomerId))
+                .Include(s => s.Customer)
                 .Include(s => s.SaleProducts)
                 .AsNoTracking();
 

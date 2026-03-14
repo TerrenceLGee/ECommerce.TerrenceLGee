@@ -4,6 +4,8 @@ using Avalonia.Data.Core;
 using Avalonia.Data.Core.Plugins;
 using Avalonia.Markup.Xaml;
 using ECommerce.AvaloniaClient.TerrenceLGee.Data;
+using ECommerce.AvaloniaClient.TerrenceLGee.Services;
+using ECommerce.AvaloniaClient.TerrenceLGee.Services.Interfaces.Auth;
 using ECommerce.AvaloniaClient.TerrenceLGee.ViewModels;
 using ECommerce.AvaloniaClient.TerrenceLGee.Views;
 using Microsoft.Extensions.DependencyInjection;
@@ -33,6 +35,11 @@ public partial class App : Application
         {
             c.BaseAddress = new Uri(Urls.BaseUrl);
         });
+
+        services.AddSingleton<IAuthService, AuthService>();
+
+        services.AddSingleton<MainWindowViewModel>();
+        services.AddTransient<AuthViewModel>();
 
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
