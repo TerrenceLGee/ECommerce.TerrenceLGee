@@ -2,7 +2,136 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:ECommerce.AvaloniaClient.TerrenceLGee.ViewModels"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="ECommerce.AvaloniaClient.TerrenceLGee.AuthView">
-  Welcome to Avalonia!
+             x:Class="ECommerce.AvaloniaClient.TerrenceLGee.AuthView"
+             x:DataType="vm:AuthViewModel">
+  <UserControl.Styles>
+	  <Style Selector="TextBlock.Error">
+		  <Setter Property="Foreground" Value="Red"/>
+          <Setter Property="FontSize" Value="12"/>
+          <Setter Property="Margin" Value="0,0,0,5"/>
+      </Style>
+  </UserControl.Styles>
+
+    <Border Padding="20" CornerRadius="5" Background="#2d2d2d">
+		<TabControl>
+			<TabItem Header="Login">
+				<StackPanel Spacing="10" Margin="10">
+					<TextBlock Text="Email Address" FontWeight="ExtraBold"/>
+                    <TextBox Text="{Binding LoginEmail}"/>
+                    <TextBlock Classes="Error" Text="{Binding LoginEmailErrors}"/>
+
+                    <TextBlock Text="Password" FontWeight="ExtraBold"/>
+                    <TextBox Text="{Binding LoginPassword}" PasswordChar="*"/>
+                    <TextBlock Classes="Error" Text="{Binding LoginPasswordErrors}"/>
+
+                    <StackPanel Orientation="Horizontal"
+                                HorizontalAlignment="Center"
+                                Spacing="10"
+                                Margin="0,10,0,0">
+                        <Button Content="Login" Command="{Binding LoginCommand}"/>
+                        <Button Content="Exit" Command="{Binding ExitCommand}"/>
+                    </StackPanel>
+                    <TextBlock Text="{Binding SuccessMessage}" Foreground="Gold" IsVisible="{Binding !!SuccessMessage}"
+                               HorizontalAlignment="Center"/>
+                    <TextBlock Classes="Error" Text="{Binding ErrorMessage}" IsVisible="{Binding !!ErrorMessage}"
+                               HorizontalAlignment="Center"/>
+                </StackPanel>
+            </TabItem>
+
+            <TabItem Header="Register">
+				<ScrollViewer>
+					<StackPanel Spacing="5" Margin="10">
+						<TextBlock Text="First Name" FontWeight="ExtraBold"/>
+                        <TextBox Text="{Binding FirstName}"/>
+                        <TextBlock Classes="Error" Text="{Binding FirstNameErrors}"/>
+
+                        <TextBlock Text="LastName" FontWeight="ExtraBold"/>
+                        <TextBox Text="{Binding LastName}"/>
+                        <TextBlock Classes="Error" Text="{Binding LastNameErrors}"/>
+
+                        <TextBlock Text="Email Address" FontWeight="ExtraBold"/>
+                        <TextBox Text="{Binding Email}"/>
+                        <TextBlock Classes="Error" Text="{Binding EmailErrors}"/>
+
+                        <TextBlock Text="Date Of Birth" FontWeight="ExtraBold"/>
+                        <DatePicker SelectedDate="{Binding SelectedBirthDate}"/>
+                        <TextBlock Classes="Error" Text="{Binding SelectedBirthDateErrors}"/>
+
+                        <TextBlock Text="Password" FontWeight="ExtraBold"/>
+                        <TextBox Text="{Binding Password}" PasswordChar="*"/>
+                        <TextBlock Classes="Error" Text="{Binding PasswordErrors}"/>
+
+                        <TextBlock Text="Confirm Password"/>
+                        <TextBox Text="{Binding ConfirmPassword}" PasswordChar="*"/>
+                        <TextBlock Classes="Error" Text="{Binding ConfirmPasswordErrors}"/>
+
+                        <TextBlock Text="Address Line 1" FontWeight="ExtraBold"/>
+                        <TextBox Text="{Binding AddressLine1}"/>
+                        <TextBlock Classes="Error" Text="{Binding AddressLine1Errors}"/>
+
+                        <TextBlock Text="Address Line 2 (optional)" FontWeight="ExtraBold"/>
+                        <TextBox Text="{Binding AddressLine2}"/>
+                        <TextBlock Classes="Error" Text="{Binding AddressLine2Errors}"/>
+
+                        <TextBlock Text="City" FontWeight="ExtraBold"/>
+                        <TextBox Text="{Binding City}"/>
+                        <TextBlock Classes="Error" Text="{Binding CityErrors}"/>
+
+                        <TextBlock Text="State" FontWeight="ExtraBold"/>
+                        <TextBox Text="{Binding State}"/>
+                        <TextBlock Classes="Error" Text="{Binding StateErrors}"/>
+
+                        <TextBlock Text="Postal Code" FontWeight="ExtraBold"/>
+                        <TextBox Text="{Binding PostalCode}"/>
+                        <TextBlock Classes="Error" Text="{Binding PostalCodeErrors}"/>
+
+                        <TextBlock Text="Country" FontWeight="ExtraBold"/>
+                        <TextBox Text="{Binding Country}"/>
+                        <TextBlock Classes="Error" Text="{Binding CountryErrors}"/>
+
+                        <CheckBox IsChecked="{Binding IsBillingAddress}" Content="Billing Address?"/>
+                        <CheckBox IsChecked="{Binding IsShippingAddress}" Content="Shipping Address?"/>
+
+                        <Button Content="Register Account" Command="{Binding RegisterCommand}" 
+                                HorizontalAlignment="Center" Margin="0,10,0,0"/>
+
+                        <TextBlock Text="{Binding SuccessMessage}" Foreground="Gold" IsVisible="{Binding !!SuccessMessage}"
+                                   HorizontalAlignment="Center"/>
+                        <TextBlock Classes="Error" Text="{Binding ErrorMessage}" IsVisible="{Binding !!ErrorMessage}"
+                                   HorizontalAlignment="Center"/>
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+
+            <TabItem Header="Reset Password">
+				<StackPanel Spacing="10" Margin="10">
+					<TextBlock Text="Email Address" FontWeight="ExtraBold"/>
+                    <TextBox Text="{Binding ResetPasswordEmail}"/>
+                    <TextBlock Classes="Error" Text="{Binding ResetPasswordEmailErrors}"/>
+
+                    <TextBlock Text="Previous Password" FontWeight="ExtraBold"/>
+                    <TextBox Text="{Binding OldPassword}" PasswordChar="*"/>
+                    <TextBlock Classes="Error" Text="{Binding OldPasswordErrors}"/>
+
+                    <TextBlock Text="New Password" FontWeight="ExtraBold"/>
+                    <TextBox Text="{Binding NewPassword}" PasswordChar="*"/>
+                    <TextBlock Classes="Error" Text="{Binding NewPasswordErrors}"/>
+
+                    <TextBlock Text="Confirm New Password" FontWeight="ExtraBold"/>
+                    <TextBox Text="{Binding ResetConfirmPassword}" PasswordChar="*"/>
+                    <TextBlock Classes="Error" Text="{Binding ResetConfirmPasswordErrors}"/>
+
+                    <Button Content="Reset Password" Command="{Binding ResetPasswordCommand}"
+                            HorizontalAlignment="Center" Margin="0,10,0,0"/>
+
+                    <TextBlock Text="{Binding SuccessMessage}" Foreground="Gold" IsVisible="{Binding !!SuccessMessage}"
+                               HorizontalAlignment="Center"/>
+                    <TextBlock Classes="Error" Text="{Binding ErrorMessage}" IsVisible="{Binding !!ErrorMessage}"
+                               HorizontalAlignment="Center"/>
+                </StackPanel>
+            </TabItem>
+        </TabControl>
+    </Border>
 </UserControl>

@@ -150,6 +150,38 @@ public class AuthService : IAuthService
         }
     }
 
+    public async Task<Result> ResetPasswordAsync(UserResetPasswordDto userDto)
+    {
+        try
+        {
+            var user = await _context.Users
+                .FirstOrDefaultAsync(u => !string.IsNullOrEmpty(u.Email) && u.Email.ToLower().Equals(userDto.Email.ToLower()));
+
+            if (user is null)
+            {
+                return Result.Fail("User not found", ErrorType.NotFound);
+            }
+
+            var result = await _userManager.ChangePasswordAsync(user, userDto.OldPassword, userDto.NewPassword);
+
+            if (!result.Succeeded)
+            {
+                return Result.Fail($"Unable to change password for {user.FirstName} {user.LastName}", ErrorType.BadRequest);
+            }
+
+            return Result.Ok();
+        }
+        catch (Exception ex)
+        {
+            _errorMessage = $"\nClass: {nameof(AuthService)}\n" +
+                $"Method: {nameof(ResetPasswordAsync)}\n" +
+                $"There was an unexpected error attempting to change the password for user {userDto.Email}: " +
+                $"{ex.Message}";
+            _logger.LogError(ex, "{msg}\n\n", _errorMessage);
+            return Result.Fail("Unexpected error occurred while changing your password", ErrorType.InternalServerError);
+        }
+    }
+
     public async Task<Result> LogoutUserAsync(UserLogoutDto userDto)
     {
         try
@@ -234,4 +266,6 @@ public class AuthService : IAuthService
             RevokedAt = null
         };
     }
+
+    
 }

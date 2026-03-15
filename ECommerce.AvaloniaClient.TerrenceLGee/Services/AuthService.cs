@@ -4,8 +4,11 @@ using ECommerce.AvaloniaClient.TerrenceLGee.Services.Interfaces.Auth;
 using ECommerce.Shared.TerrenceLGee.DTOs.AuthDTOs;
 using Microsoft.Extensions.Logging;
 using System;
+using System.IdentityModel.Tokens.Jwt;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Runtime.CompilerServices;
+using System.Security.Claims;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -16,6 +19,8 @@ public class AuthService : IAuthService
 {
     private readonly IHttpClientFactory _clientFactory;
     private readonly ILogger<AuthService> _logger;
+    private readonly IAuthTokenHolder _tokenHolder;
+    public string? JwtToken { get; set; }
     private readonly JsonSerializerOptions options = new() { PropertyNameCaseInsensitive = true };
     private string _errorMessage = string.Empty;
     private const string ClientName = "client";
@@ -23,13 +28,14 @@ public class AuthService : IAuthService
     private const string Scheme = "Bearer";
     private const string LogErrorString = "{msg}\n\n";
 
-    public AuthService(IHttpClientFactory clientFactory, ILogger<AuthService> logger)
+    public AuthService(IHttpClientFactory clientFactory, ILogger<AuthService> logger, IAuthTokenHolder tokenHolder)
     {
         _clientFactory = clientFactory;
         _logger = logger;
+        _tokenHolder = tokenHolder;
     } 
 
-    public async Task<string?> RegisterUserAsync(UserRegistrationDto userDto)
+    public async Task<(bool, string?)> RegisterUserAsync(UserRegistrationDto userDto)
     {
         try
         {
@@ -42,21 +48,24 @@ public class AuthService : IAuthService
 
             if (!response.IsSuccessStatusCode)
             {
-                return $"Unable to register new user:\nReason: {response.ReasonPhrase}.";
+                return (false, $"Unable to register new user:\nReason: {response.ReasonPhrase}.");
             }
 
             var responseContent = await response.Content.ReadAsStringAsync();
             var registrationResponse = JsonSerializer.Deserialize<RegistrationRoot>(responseContent, options);
 
-            if (registrationResponse is null) return "Unable to register user at this time.";
+            if (registrationResponse is null) 
+            {
+                return (false, "Unable to register user at this time."); 
+            }
 
             if (!registrationResponse.IsSuccess || registrationResponse.StatusCode != 200)
             {
                 var errors = string.Join('\n', registrationResponse.Errors);
-                return errors;
+                return (false, errors);
             }
 
-            return registrationResponse.Data;
+            return (true, registrationResponse.Data);
         }
         catch (HttpRequestException ex)
         {
@@ -64,7 +73,7 @@ public class AuthService : IAuthService
                 $"Method: {nameof(RegisterUserAsync)}\n" +
                 $"There was an API error attempting to register a new user: {ex.Message}\n";
             _logger.LogError(ex, LogErrorString, _errorMessage);
-            return "Registration request failed.";
+            return (false, "Registration request failed.");
         }
         catch (Exception ex)
         {
@@ -72,11 +81,11 @@ public class AuthService : IAuthService
                 $"Method: {nameof(RegisterUserAsync)}\n" +
                 $"There was an unexpected error attempting to register a new user: {ex.Message}\n";
             _logger.LogError(ex, LogErrorString, _errorMessage);
-            return "Unexpected error during user registration\nRegistration failed";
+            return (false, "Unexpected error during user registration\nRegistration failed");
         }
     }
 
-    public async Task<AuthData?> LoginUserAsync(UserLoginDto userDto)
+    public async Task<(bool, string?)> LoginUserAsync(UserLoginDto userDto)
     {
         try
         {
@@ -89,10 +98,8 @@ public class AuthService : IAuthService
 
             if (!response.IsSuccessStatusCode)
             {
-                return new AuthData
-                {
-                    ErrorMessage = $"Login failed\nReason: {response.ReasonPhrase}."
-                };
+                _tokenHolder.SetToken(null);
+                return (false, $"Login failed\nReason: {response.ReasonPhrase}.");
             }
 
             var responseContent = await response.Content.ReadAsStringAsync();
@@ -100,21 +107,19 @@ public class AuthService : IAuthService
 
             if (loginResponse is null)
             {
-                return new AuthData
-                {
-                    ErrorMessage = "Unable to login at this time."
-                };
+                _tokenHolder.SetToken(null);
+                return (false, "Unable to login at this time.");
             }
 
-            if (loginResponse.Data is null)
+            if (loginResponse.Data?.AccessToken is null)
             {
-                return new AuthData
-                {
-                    ErrorMessage = $"Unable to retrieve valid authorization credientals."
-                };
+                _tokenHolder.SetToken(null);
+                return (false, $"Unable to retrieve valid authorization credientals.");
             }
 
-            return loginResponse.Data;
+            _tokenHolder.SetToken(loginResponse.Data.AccessToken);
+            JwtToken = loginResponse.Data.AccessToken;
+            return (true, "Login successful");
         }
         catch (HttpRequestException ex)
         {
@@ -122,10 +127,7 @@ public class AuthService : IAuthService
                 $"Method: {nameof(LoginUserAsync)}\n" +
                 $"There was an API error during the user's login attempt: {ex.Message}";
             _logger.LogError(ex, LogErrorString, _errorMessage);
-            return new AuthData
-            {
-                ErrorMessage = $"Error occurred during connection to the endpoint\nLogin failed."
-            };
+            return (false, "Error occurred during connection to the endpoint\nLogin failed.");
         }
         catch (Exception ex)
         {
@@ -133,57 +135,121 @@ public class AuthService : IAuthService
                 $"Method: {nameof(LoginUserAsync)}\n" +
                 $"There was an unexpected error during the user's login attempt: {ex.Message}";
             _logger.LogError(ex, LogErrorString, _errorMessage);
-            return new AuthData
-            {
-                ErrorMessage = $"Unable to connect\nLogin failed."
-            };
+            return (false, "Unable to connect\nLogin failed.");
         }
     }
 
-    public async Task<string?> LogoutAsync(AuthData data)
+    public async Task<(bool, string?)> ResetUserPasswordAsync(UserResetPasswordDto userDto)
+    {
+        try
+        {
+            var httpClient = _clientFactory.CreateClient();
+            var url = $"{Urls.BaseUrl}{Urls.PasswordResetUrl}";
+
+            var content = new StringContent(JsonSerializer.Serialize(userDto), Encoding.UTF8, MediaType);
+
+            var response = await httpClient.PostAsync(url, content);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                return (false, $"Unable to reset password for {userDto.Email}\nReason: {response.ReasonPhrase}");
+            }
+
+            var responseContent = await response.Content.ReadAsStringAsync();
+            var resetResponse = JsonSerializer.Deserialize<PasswordResetRoot>(responseContent, options);
+
+            if (resetResponse is null)
+            {
+                return (false, $"Unable to reset password, please try again later");
+            }
+
+            if (!resetResponse.IsSuccess || resetResponse.StatusCode != 200)
+            {
+                return (false, $"{string.Join('\n', resetResponse.Errors)}");
+            }
+
+            return (true, resetResponse.Data);
+        }
+        catch (HttpRequestException ex)
+        {
+            _errorMessage = $"\nClass: {nameof(AuthService)}\n" +
+                $"Method: {nameof(ResetUserPasswordAsync)}\n" +
+                $"There was an API error during the user's password reset attempt: {ex.Message}";
+            _logger.LogError(ex, LogErrorString, _errorMessage);
+            return (false, "Error occurred during connection to the endpoint\nPassword reset failed.");
+        }
+        catch (Exception ex)
+        {
+            _errorMessage = $"\nClass: {nameof(AuthService)}\n" +
+                $"Method: {nameof(ResetUserPasswordAsync)}\n" +
+                $"There was an unexpected error during the user's password reset attempt: {ex.Message}";
+            _logger.LogError(ex, LogErrorString, _errorMessage);
+            return (false, "Unable to connect\nPassword reset failed.");
+        }
+    }
+
+    public async Task<bool> LogoutUserAsync()
     {
         try
         {
             var httpClient = _clientFactory.CreateClient(ClientName);
             var url = $"{Urls.BaseUrl}{Urls.LogoutUrl}";
 
-            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(Scheme, data.AccessToken);
-
             var request = new HttpRequestMessage(HttpMethod.Post, url);
             var response = await httpClient.SendAsync(request);
 
-            if (!response.IsSuccessStatusCode)
-            {
-                return $"Error logging out\nReason: {response.ReasonPhrase}.";
-            }
+            if (!response.IsSuccessStatusCode) return false;
 
             var responseContent = await response.Content.ReadAsStringAsync();
             var logoutResponse = JsonSerializer.Deserialize<LogoutRoot>(responseContent, options);
 
-            if (logoutResponse is null) return "Logout not possible.";
+            if (logoutResponse is null || string.IsNullOrEmpty(logoutResponse.Data)) return false;
 
-            if (!logoutResponse.IsSuccess || logoutResponse.StatusCode != 200)
-            {
-                return string.Join('\n', logoutResponse.Errors);
-            }
+            if (!logoutResponse.IsSuccess || logoutResponse.StatusCode != 200) return false;
 
-            return logoutResponse.Data;
+            return true;
         }
         catch (HttpRequestException ex)
         {
             _errorMessage = $"\nClass: {nameof(AuthService)}\n" +
-                $"Method: {nameof(LogoutAsync)}\n" +
-                $"There was an API error logging the user out of the system: {ex.Message}";
+                $"Method: {nameof(LogoutUserAsync)}\n" +
+                $"There was an API error logging the user out of the system: {ex.Message}\n";
             _logger.LogError(ex, LogErrorString, _errorMessage);
-            return "Error during logout attempt";
+            return false;
         }
         catch (Exception ex)
         {
             _errorMessage = $"\nClass: {nameof(AuthService)}\n" +
-                $"Method: {nameof(LogoutAsync)}\n" +
-                $"There was an unexpected error logging the user out of the system: {ex.Message}";
+                $"Method: {nameof(LogoutUserAsync)}\n" +
+                $"There was an unexpected error logging the user out of the system: {ex.Message}\n";
             _logger.LogError(ex, LogErrorString, _errorMessage);
-            return "Unable to connect\nLogout failed";
+            return false;
         }
     }
+
+    public ClaimsPrincipal? GetPrincipalFromToken(string? token)
+    {
+        try
+        {
+            if (string.IsNullOrEmpty(JwtToken))
+            {
+                return new ClaimsPrincipal();
+            }
+
+            var handler = new JwtSecurityTokenHandler();
+            var jwtToken = handler.ReadJwtToken(token);
+            var identity = new ClaimsIdentity(jwtToken.Claims, "jwt");
+            return new ClaimsPrincipal(identity);
+        }
+        catch (Exception ex)
+        {
+            _errorMessage = $"\nClass: {nameof(AuthService)}\n" +
+                $"Method: {nameof(GetPrincipalFromToken)}\n" +
+                $"There wasn an unexpected error retrieving claims from the token: {ex.Message}";
+            _logger.LogError(ex, LogErrorString, _errorMessage);
+            return null;
+        }
+    }
+
+    
 }

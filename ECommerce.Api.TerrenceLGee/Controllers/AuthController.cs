@@ -57,6 +57,23 @@ public class AuthController : ControllerBase
         return StatusCode(response.StatusCode, response);
     }
 
+    [HttpPost("reset")]
+    public async Task<ActionResult<ApiResponse<string?>>> ResetPassword([FromBody] UserResetPasswordDto resetDto)
+    {
+        var response = ApiResponse<string?>.GetEmptyResponse;
+
+        var result = await _authService.ResetPasswordAsync(resetDto);
+
+        if (result.IsFailure)
+        {
+            response = FailureHelper.HandleFailureResult<string?>(result);
+            return StatusCode(response.StatusCode, response);
+        }
+
+        response = new ApiResponse<string?>(200, $"Password reset successful");
+        return StatusCode(response.StatusCode, response);
+    }
+
     [HttpPost("logout")]
     [Authorize]
     public async Task<ActionResult<ApiResponse<string?>>> Logout()

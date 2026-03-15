@@ -321,6 +321,16 @@
         {
           "name": "Customer1 Get Address By Id",
           "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "",
+                  "type": "string"
+                }
+              ]
+            },
             "method": "GET",
             "header": [],
             "url": {
@@ -337,6 +347,37 @@
               ]
             },
             "description": "Allows Customer1 to retrieve an address by id (one of their own addresses) when providing the JWT token from login"
+          },
+          "response": []
+        },
+        {
+          "name": "Customer1 Gets All Addresses",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://localhost:7001/api/addresses",
+              "protocol": "https",
+              "host": [
+                "localhost"
+              ],
+              "port": "7001",
+              "path": [
+                "api",
+                "addresses"
+              ]
+            },
+            "description": "Allows Customer1 to retrieve all of their addresses on record when providing the JWT token from login"
           },
           "response": []
         }
@@ -498,6 +539,68 @@
               ]
             },
             "description": "Login for Customer1 which will also allow the testing of any endpoints that need a JWT token and that are authroized for the 'customer' role"
+          },
+          "response": []
+        },
+        {
+          "name": "New Customer Reset Password",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"email\": \"hsimpson@example.com\",\r\n    \"oldPassword\": \"Pa$$w0rd\",\r\n    \"newPassword\": \"Pa$$w0rd123\",\r\n    \"confirmPassword\": \"Pa$$w0rd123\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://localhost:7001/api/auth/reset",
+              "protocol": "https",
+              "host": [
+                "localhost"
+              ],
+              "port": "7001",
+              "path": [
+                "api",
+                "auth",
+                "reset"
+              ]
+            },
+            "description": "Allows the new customer (hsimpson@example.com) to reset his previous password to a new password, make sure the user is created first"
+          },
+          "response": []
+        },
+        {
+          "name": "New Customer Login With Reset Password",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"email\": \"hsimpson@example.com\",\r\n    \"password\": \"Pa$$w0rd123\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://localhost:7001/api/auth/login",
+              "protocol": "https",
+              "host": [
+                "localhost"
+              ],
+              "port": "7001",
+              "path": [
+                "api",
+                "auth",
+                "login"
+              ]
+            },
+            "description": "After the new customer's (hsimpson@example.com) password has been changed, login with the new password to make sure that this password reset was successful."
           },
           "response": []
         }

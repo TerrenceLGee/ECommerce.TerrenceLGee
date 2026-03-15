@@ -27,6 +27,18 @@ public class SaleRepository : ISaleRepository
     {
         try
         {
+            var customer = await _context.Users.FirstOrDefaultAsync(c => c.Id.Equals(sale.CustomerId));
+
+            if (customer is null) return null;
+
+            var hasBillingAddress = customer.Addresses.Any(a => a.IsBillingAddress);
+
+            if (!hasBillingAddress) return null;
+
+            var hasShippingAddress = customer.Addresses.Any(a => a.IsShippingAddress);
+
+            if (!hasShippingAddress) return null;
+
             sale.CreatedAt = DateTime.UtcNow;
 
             await _context.Sales.AddAsync(sale);

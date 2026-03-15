@@ -5,6 +5,7 @@ public static class Urls
     public static string BaseUrl => "https://localhost:7001/api/";
     public static string RegisterUrl => "auth/register";
     public static string LoginUrl => "auth/login";
+    public static string PasswordResetUrl => "auth/reset";
     public static string LogoutUrl => "auth/logout";
     public static string AddAddressUrl => "addresses/add";
     public static string UpdateAddressUrl => "addresses/update/";

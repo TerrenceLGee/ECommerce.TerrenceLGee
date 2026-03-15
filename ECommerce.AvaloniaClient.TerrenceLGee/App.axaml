@@ -1,12 +1,18 @@
 <Application xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              x:Class="ECommerce.AvaloniaClient.TerrenceLGee.App"
+             xmlns:vm="using:ECommerce.AvaloniaClient.TerrenceLGee.ViewModels"
              xmlns:local="using:ECommerce.AvaloniaClient.TerrenceLGee"
              RequestedThemeVariant="Default">
              <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
 
     <Application.DataTemplates>
-        <local:ViewLocator/>
+        <DataTemplate DataType="{x:Type vm:AuthViewModel}">
+			<local:AuthView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:MainUserViewModel}">
+			<local:MainUserView/>
+        </DataTemplate>
     </Application.DataTemplates>
   
     <Application.Styles>

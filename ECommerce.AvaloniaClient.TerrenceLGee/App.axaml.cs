@@ -5,6 +5,8 @@ using Avalonia.Data.Core.Plugins;
 using Avalonia.Markup.Xaml;
 using ECommerce.AvaloniaClient.TerrenceLGee.Data;
 using ECommerce.AvaloniaClient.TerrenceLGee.Services;
+using ECommerce.AvaloniaClient.TerrenceLGee.Services.Handlers;
+using ECommerce.AvaloniaClient.TerrenceLGee.Services.Interfaces;
 using ECommerce.AvaloniaClient.TerrenceLGee.Services.Interfaces.Auth;
 using ECommerce.AvaloniaClient.TerrenceLGee.ViewModels;
 using ECommerce.AvaloniaClient.TerrenceLGee.Views;
@@ -30,25 +32,57 @@ public partial class App : Application
         LoggingSetup();
 
         services.AddLogging(loggingBuilder => loggingBuilder.AddSerilog(dispose: true));
+        services.AddSingleton<IAuthTokenHolder, AuthTokenHolder>();
+        services.AddTransient<AuthHeaderHandler>();
 
         services.AddHttpClient("client", c =>
         {
             c.BaseAddress = new Uri(Urls.BaseUrl);
-        });
+            c.DefaultRequestHeaders.Accept.Add(new("application/json"));
+        })
+            .AddHttpMessageHandler<AuthHeaderHandler>();
 
         services.AddSingleton<IAuthService, AuthService>();
 
         services.AddSingleton<MainWindowViewModel>();
         services.AddTransient<AuthViewModel>();
+        services.AddTransient<MainUserViewModel>();
+
+        var serviceProvider = services.BuildServiceProvider();
 
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
-            // Avoid duplicate validations from both Avalonia and the CommunityToolkit. 
-            // More info: https://docs.avaloniaui.net/docs/guides/development-guides/data-validation#manage-validationplugins
             DisableAvaloniaDataAnnotationValidation();
+
+            var mainWindowViewModel = serviceProvider
+                .GetRequiredService<MainWindowViewModel>();
+
+            ShowAuthView();
+
+            void ShowAuthView()
+            {
+                var authViewModel = serviceProvider.GetRequiredService<AuthViewModel>();
+                authViewModel.LoginSuccessful += OnLoginSuccessful;
+                mainWindowViewModel.CurrentView = authViewModel;
+            }
+
+            void OnLoginSuccessful(bool isAdmin)
+            {
+                var authService = serviceProvider.GetRequiredService<IAuthService>();
+                var mainUserViewModel = new MainUserViewModel(isAdmin, serviceProvider, authService);
+                mainUserViewModel.LogoutRequested += OnLogoutRequested;
+
+                mainWindowViewModel.CurrentView = mainUserViewModel;
+            }
+
+            void OnLogoutRequested()
+            {
+                ShowAuthView();
+            }
+
             desktop.MainWindow = new MainWindow
             {
-                DataContext = new MainWindowViewModel(),
+                DataContext = mainWindowViewModel
             };
         }
 
