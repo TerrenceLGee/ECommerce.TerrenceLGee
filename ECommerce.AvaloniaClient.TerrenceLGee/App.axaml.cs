@@ -3,11 +3,13 @@ using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Data.Core;
 using Avalonia.Data.Core.Plugins;
 using Avalonia.Markup.Xaml;
+using CommunityToolkit.Mvvm.Messaging;
 using ECommerce.AvaloniaClient.TerrenceLGee.Data;
 using ECommerce.AvaloniaClient.TerrenceLGee.Services;
 using ECommerce.AvaloniaClient.TerrenceLGee.Services.Handlers;
 using ECommerce.AvaloniaClient.TerrenceLGee.Services.Interfaces;
 using ECommerce.AvaloniaClient.TerrenceLGee.Services.Interfaces.Auth;
+using ECommerce.AvaloniaClient.TerrenceLGee.Services.Interfaces.Category;
 using ECommerce.AvaloniaClient.TerrenceLGee.ViewModels;
 using ECommerce.AvaloniaClient.TerrenceLGee.Views;
 using Microsoft.Extensions.DependencyInjection;
@@ -42,11 +44,18 @@ public partial class App : Application
         })
             .AddHttpMessageHandler<AuthHeaderHandler>();
 
+        services.AddSingleton<IMessenger>(WeakReferenceMessenger.Default);
+
         services.AddSingleton<IAuthService, AuthService>();
+        services.AddSingleton<ICategoryService, CategoryService>();
 
         services.AddSingleton<MainWindowViewModel>();
         services.AddTransient<AuthViewModel>();
         services.AddTransient<MainUserViewModel>();
+        services.AddTransient<AddCategoryViewModel>();
+        services.AddTransient<DisplayAddedCategoryViewModel>();
+        services.AddTransient<DisplayUpdatedCategoryViewModel>();
+        services.AddTransient<ViewCategoriesForAdminViewModel>();
 
         var serviceProvider = services.BuildServiceProvider();
 
@@ -69,7 +78,8 @@ public partial class App : Application
             void OnLoginSuccessful(bool isAdmin)
             {
                 var authService = serviceProvider.GetRequiredService<IAuthService>();
-                var mainUserViewModel = new MainUserViewModel(isAdmin, serviceProvider, authService);
+                var messenger = serviceProvider.GetRequiredService<IMessenger>();
+                var mainUserViewModel = new MainUserViewModel(isAdmin, serviceProvider, authService, messenger);
                 mainUserViewModel.LogoutRequested += OnLogoutRequested;
 
                 mainWindowViewModel.CurrentView = mainUserViewModel;

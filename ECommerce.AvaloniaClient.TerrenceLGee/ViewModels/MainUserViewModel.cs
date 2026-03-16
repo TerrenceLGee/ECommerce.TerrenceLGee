@@ -1,7 +1,10 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Messaging;
 using ECommerce.AvaloniaClient.TerrenceLGee.Enums;
+using ECommerce.AvaloniaClient.TerrenceLGee.Messages.CategoryMessages;
 using ECommerce.AvaloniaClient.TerrenceLGee.Services.Interfaces.Auth;
 using ECommerce.Shared.TerrenceLGee.Enums.Extensions;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -11,6 +14,8 @@ namespace ECommerce.AvaloniaClient.TerrenceLGee.ViewModels;
 public partial class MainUserViewModel : ObservableObject
 {
     private readonly IServiceProvider _serviceProvider;
+    private ViewCategoriesForAdminViewModel _viewCategoriesForAdminViewModelCache;
+    private readonly IMessenger _messenger;
     private readonly IAuthService _authService;
     public ObservableCollection<MenuItemViewModel> MenuItems { get; } = [];
 
@@ -22,10 +27,11 @@ public partial class MainUserViewModel : ObservableObject
 
     public event Action? LogoutRequested;
 
-    public MainUserViewModel(bool IsAdmin, IServiceProvider serviceProvider, IAuthService authService)
+    public MainUserViewModel(bool IsAdmin, IServiceProvider serviceProvider, IAuthService authService, IMessenger messenger)
     {
         _serviceProvider = serviceProvider;
         _authService = authService;
+        _messenger = messenger;
 
         if (IsAdmin)
         {
@@ -47,6 +53,8 @@ public partial class MainUserViewModel : ObservableObject
                 MenuItems.Add(item);
             }
         }
+
+        MessageRegistration();
     }
 
     partial void OnSelectedMenuItemChanged(MenuItemViewModel? value)
@@ -56,10 +64,17 @@ public partial class MainUserViewModel : ObservableObject
         switch (value.Value)
         {
             case AdminMenu.AddCategory:
+                CurrentSubView = _serviceProvider.GetRequiredService<AddCategoryViewModel>();
                 break;
             case AdminMenu.UpdateCategory:
                 break;
             case AdminMenu.ViewCategories:
+                if (_viewCategoriesForAdminViewModelCache is null)
+                {
+                    _viewCategoriesForAdminViewModelCache = _serviceProvider.GetRequiredService<ViewCategoriesForAdminViewModel>();
+                    _viewCategoriesForAdminViewModelCache.CategorySelected += OnAdminCategorySelected;
+                }
+                CurrentSubView = _viewCategoriesForAdminViewModelCache;
                 break;
             case AdminMenu.ViewCategoryById:
                 break;
@@ -124,8 +139,32 @@ public partial class MainUserViewModel : ObservableObject
             case AdminMenu.Logout:
             case CustomerMenu.Logout:
                 _authService.LogoutUserAsync();
+                _messenger.UnregisterAll(this);
                 LogoutRequested?.Invoke();
                 break;
         }
+    }
+
+    private void MessageRegistration()
+    {
+        _messenger.Register<CategoryAddedMessage>(this, (r, m) =>
+        {
+            CurrentSubView = new DisplayAddedCategoryViewModel(m.Data, _messenger);
+        });
+
+        _messenger.Register<NavigateBackToAddCategoryMessage>(this, (r, m) =>
+        {
+            CurrentSubView = _serviceProvider.GetRequiredService<AddCategoryViewModel>();
+        });
+
+        _messenger.Register<CategoryUpdatedMessage>(this, (r, m) =>
+        {
+            CurrentSubView = new DisplayUpdatedCategoryViewModel(m.Data, _messenger);
+        });
+    }
+
+    private async void OnAdminCategorySelected(int categoryId)
+    {
+        throw new NotImplementedException();
     }
 }

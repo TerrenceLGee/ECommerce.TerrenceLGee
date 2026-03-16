@@ -17,4 +17,6 @@ public class CategoryData
 
     [JsonPropertyName("products")]
     public List<ProductData> Products { get; set; } = [];
+
+    public string? ErrorMessage { get; set; }
 }

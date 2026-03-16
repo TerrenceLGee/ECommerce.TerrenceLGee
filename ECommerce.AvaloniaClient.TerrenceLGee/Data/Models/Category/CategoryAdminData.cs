@@ -14,6 +14,9 @@ public class CategoryAdminData
     [JsonPropertyName("name")]
     public string Name { get; set; } = string.Empty;
 
+    [JsonPropertyName("description")]
+    public string? Description { get; set; }
+
     [JsonPropertyName("createdAt")]
     public DateTime CreatedAt { get; set; }
 
@@ -22,4 +25,6 @@ public class CategoryAdminData
 
     [JsonPropertyName("products")]
     public List<ProductAdminData> Products { get; set; } = [];
+
+    public string? ErrorMessage { get; set; }
 }

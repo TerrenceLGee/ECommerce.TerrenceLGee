@@ -292,22 +292,25 @@ public partial class AuthViewModel : ObservableValidator
             Password = LoginPassword
         };
 
-        var (success, message) = await _authService.LoginUserAsync(login);
+        var (success, data) = await _authService.LoginUserAsync(login);
 
         if (success)
         {
             ClearLogin();
-            SuccessMessage = message;
+            SuccessMessage = "Login successful";
 
-            var principal = _authService.GetPrincipalFromToken(_authService.JwtToken);
-            var isAdmin = principal?.HasClaim(ClaimTypes.Role, "admin") ?? false;
+            var isAdmin = (data is not null)
+                ? data.Roles.Contains("admin")
+                : false;
 
             LoginSuccessful?.Invoke(isAdmin);
         }
         else
         {
             ClearLogin();
-            ErrorMessage = message;
+            ErrorMessage = (data is not null)
+                ? data.ErrorMessage
+                : "Unexpected error occurred while attempting to login";
         }
     }
 
