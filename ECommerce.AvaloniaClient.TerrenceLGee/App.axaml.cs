@@ -55,7 +55,10 @@ public partial class App : Application
         services.AddTransient<AddCategoryViewModel>();
         services.AddTransient<DisplayAddedCategoryViewModel>();
         services.AddTransient<DisplayUpdatedCategoryViewModel>();
+        services.AddTransient<DisplayAdminCategoryDetailViewModel>();
         services.AddTransient<ViewCategoriesForAdminViewModel>();
+        services.AddTransient<AdminChooseCategoryForUpdateViewModel>();
+        services.AddTransient<UpdateCategoryViewModel>();
 
         var serviceProvider = services.BuildServiceProvider();
 

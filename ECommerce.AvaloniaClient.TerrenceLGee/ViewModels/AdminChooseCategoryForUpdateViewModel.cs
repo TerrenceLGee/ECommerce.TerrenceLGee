@@ -11,18 +11,16 @@ using System.Threading.Tasks;
 
 namespace ECommerce.AvaloniaClient.TerrenceLGee.ViewModels;
 
-public partial class ViewCategoriesForAdminViewModel : ObservableObject
+public partial class AdminChooseCategoryForUpdateViewModel : ObservableObject
 {
     private readonly ICategoryService _categoryService;
     private readonly IMessenger _messenger;
     public ObservableCollection<CategoryAdminSummaryData> Categories { get; } = [];
-    public event Action<int>? CategorySelected;
-
 
     [ObservableProperty]
     private bool _isLoading;
     [ObservableProperty]
-    private CategoryAdminSummaryData? _selectedCategory;
+    private CategoryAdminSummaryData? _selectedCategoryForUpdate;
 
     [ObservableProperty]
     private int _page = 1;
@@ -34,10 +32,8 @@ public partial class ViewCategoriesForAdminViewModel : ObservableObject
     private bool _hasPreviousPage;
     [ObservableProperty]
     private bool _hasNextPage;
-    [ObservableProperty]
-    private string _searchByDescription;
-
-    public ViewCategoriesForAdminViewModel(ICategoryService categoryService, IMessenger messenger)
+    
+    public AdminChooseCategoryForUpdateViewModel(ICategoryService categoryService, IMessenger messenger)
     {
         _categoryService = categoryService;
         _messenger = messenger;
@@ -52,8 +48,7 @@ public partial class ViewCategoriesForAdminViewModel : ObservableObject
         var queryParams = new CategoryQueryParams
         {
             Page = Page,
-            PageSize = PageSize,
-            Description = SearchByDescription,
+            PageSize = PageSize
         };
 
         var result = await _categoryService.GetCategoriesForAdminAsync(queryParams);
@@ -91,11 +86,12 @@ public partial class ViewCategoriesForAdminViewModel : ObservableObject
         await LoadCategoriesAsync();
     }
 
-    partial void OnSelectedCategoryChanged(CategoryAdminSummaryData? value)
+
+    partial void OnSelectedCategoryForUpdateChanged(CategoryAdminSummaryData? value)
     {
         if (value is not null)
         {
-            _messenger.Send(new CategorySelectedForAdminMessage(value.Id));
+            _messenger.Send(new CategorySelectedForUpdateMessage(value));
         }
     }
 }

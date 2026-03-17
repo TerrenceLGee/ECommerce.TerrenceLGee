@@ -7,24 +7,24 @@
              xmlns:vm="using:ECommerce.AvaloniaClient.TerrenceLGee.ViewModels"
              x:DataType="vm:DisplayAddedCategoryViewModel">
   <StackPanel>
-	  <TextBlock Text="Newly Added Category" FontSize="36" FontWeight="ExtraBold" Margin="0,0,0,15"/>
+	  <TextBlock Text="Added Category" FontSize="36" FontWeight="ExtraBold" Margin="0,0,0,15"/>
       <Border Padding="15" CornerRadius="5" Background="#3a3a3a">
 		  <StackPanel Spacing="10">
               <WrapPanel>
-				  <TextBlock Text="Id: " FontWeight="ExtraBold"/>
-                  <TextBlock Text="{Binding Category.Id}"/>
+				  <TextBlock Text="Id: " FontSize="24"/>
+                  <TextBlock Text="{Binding Category.Id}" FontWeight="ExtraBold" FontSize="24" TextWrapping="Wrap"/>
               </WrapPanel>
 			  <WrapPanel>
-				  <TextBlock Text="Name: " FontWeight="ExtraBold"/>
-                  <TextBlock Text="{Binding Category.Name}"/>
+				  <TextBlock Text="Name: " FontSize="24"/>
+                  <TextBlock Text="{Binding Category.Name}" FontWeight="ExtraBold" FontSize="24" TextWrapping="Wrap"/>
               </WrapPanel>
               <WrapPanel>
-				  <TextBlock Text="Description: " FontWeight="ExtraBold"/>
-                  <TextBlock Text="{Binding Category.Description}"/>
+				  <TextBlock Text="Description: " FontSize="24"/>
+                  <TextBlock Text="{Binding Category.Description}" FontWeight="ExtraBold" FontSize="24" TextWrapping="Wrap"/>
               </WrapPanel>
               <WrapPanel>
-				  <TextBlock Text="Created At: " FontWeight="ExtraBold"/>
-                  <TextBlock Text="{Binding Category.CreatedAt}"/>
+				  <TextBlock Text="Created At: " FontSize="24"/>
+                  <TextBlock Text="{Binding Category.CreatedAt}" FontWeight="ExtraBold" FontSize="24" TextWrapping="Wrap"/>
               </WrapPanel>
 
               <Button Content="Add Another Category" Command="{Binding GoBackCommand}"

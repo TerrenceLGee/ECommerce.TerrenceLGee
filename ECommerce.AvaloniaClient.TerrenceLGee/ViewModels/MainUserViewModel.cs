@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.Messaging;
 using ECommerce.AvaloniaClient.TerrenceLGee.Enums;
 using ECommerce.AvaloniaClient.TerrenceLGee.Messages.CategoryMessages;
 using ECommerce.AvaloniaClient.TerrenceLGee.Services.Interfaces.Auth;
+using ECommerce.AvaloniaClient.TerrenceLGee.Services.Interfaces.Category;
 using ECommerce.Shared.TerrenceLGee.Enums.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -14,7 +15,6 @@ namespace ECommerce.AvaloniaClient.TerrenceLGee.ViewModels;
 public partial class MainUserViewModel : ObservableObject
 {
     private readonly IServiceProvider _serviceProvider;
-    private ViewCategoriesForAdminViewModel _viewCategoriesForAdminViewModelCache;
     private readonly IMessenger _messenger;
     private readonly IAuthService _authService;
     public ObservableCollection<MenuItemViewModel> MenuItems { get; } = [];
@@ -67,18 +67,10 @@ public partial class MainUserViewModel : ObservableObject
                 CurrentSubView = _serviceProvider.GetRequiredService<AddCategoryViewModel>();
                 break;
             case AdminMenu.UpdateCategory:
+                CurrentSubView = _serviceProvider.GetRequiredService<AdminChooseCategoryForUpdateViewModel>();
                 break;
             case AdminMenu.ViewCategories:
-                if (_viewCategoriesForAdminViewModelCache is null)
-                {
-                    _viewCategoriesForAdminViewModelCache = _serviceProvider.GetRequiredService<ViewCategoriesForAdminViewModel>();
-                    _viewCategoriesForAdminViewModelCache.CategorySelected += OnAdminCategorySelected;
-                }
-                CurrentSubView = _viewCategoriesForAdminViewModelCache;
-                break;
-            case AdminMenu.ViewCategoryById:
-                break;
-            case AdminMenu.ViewCategoryByName:
+                CurrentSubView = _serviceProvider.GetRequiredService<ViewCategoriesForAdminViewModel>();
                 break;
             case AdminMenu.AddProduct:
                 break;
@@ -90,15 +82,9 @@ public partial class MainUserViewModel : ObservableObject
                 break;
             case AdminMenu.ViewProducts:
                 break;
-            case AdminMenu.ViewProductById:
-                break;
-            case AdminMenu.ViewProductByName:
-                break;
             case AdminMenu.ViewCustomers:
                 break;
             case AdminMenu.ViewAllSales:
-                break;
-            case AdminMenu.ViewSaleById:
                 break;
             case AdminMenu.UpdateSaleStatus:
                 break;
@@ -108,21 +94,11 @@ public partial class MainUserViewModel : ObservableObject
                 break;
             case CustomerMenu.ViewCategories:
                 break;
-            case CustomerMenu.ViewCategoryById:
-                break;
-            case CustomerMenu.ViewCategoryByName:
-                break;
             case CustomerMenu.ViewProducts:
-                break;
-            case CustomerMenu.ViewProductById:
-                break;
-            case CustomerMenu.ViewProductByName:
                 break;
             case CustomerMenu.AddSale:
                 break;
             case CustomerMenu.ViewOrders:
-                break;
-            case CustomerMenu.ViewOrderById:
                 break;
             case CustomerMenu.CancelOrder:
                 break;
@@ -133,8 +109,6 @@ public partial class MainUserViewModel : ObservableObject
             case CustomerMenu.DeleteAddress:
                 break;
             case CustomerMenu.ViewAddresses:
-                break;
-            case CustomerMenu.ViewAddressById:
                 break;
             case AdminMenu.Logout:
             case CustomerMenu.Logout:
@@ -161,10 +135,29 @@ public partial class MainUserViewModel : ObservableObject
         {
             CurrentSubView = new DisplayUpdatedCategoryViewModel(m.Data, _messenger);
         });
-    }
 
-    private async void OnAdminCategorySelected(int categoryId)
-    {
-        throw new NotImplementedException();
+        _messenger.Register<CategorySelectedForUpdateMessage>(this, (r, m) =>
+        {
+            var categoryService = _serviceProvider.GetRequiredService<ICategoryService>();
+            CurrentSubView = new UpdateCategoryViewModel(categoryService, m.Data, _messenger);
+        });
+
+        _messenger.Register<NavigateBackToUpdateCategoryMessage>(this, (r, m) =>
+        {
+            CurrentSubView = _serviceProvider.GetRequiredService<AdminChooseCategoryForUpdateViewModel>();
+        });
+
+        _messenger.Register<CategorySelectedForAdminMessage>(this, async (r, m) =>
+        {
+            var categoryService = _serviceProvider.GetRequiredService<ICategoryService>();
+            var detailVM= new DisplayAdminCategoryDetailViewModel(categoryService, m.CategoryId, _messenger);
+            await detailVM.GetCategoryAsync();
+            CurrentSubView = detailVM;
+        });
+
+        _messenger.Register<NavingateBackToAllAdminCategoriesMessage>(this, (r, m) =>
+        {
+            CurrentSubView = _serviceProvider.GetRequiredService<ViewCategoriesForAdminViewModel>();
+        });
     }
 }

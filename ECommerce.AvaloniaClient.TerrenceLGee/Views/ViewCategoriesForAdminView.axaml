@@ -13,6 +13,9 @@
       <TextBox Text="{Binding SearchByDescription}"
                Watermark="Search by category description..."
                Margin="0,0,0,10"/>
+      <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="10">
+		  <Button Content="Search By Description" Command="{Binding LoadCategoriesCommand}"/>
+      </StackPanel>
 
               <DataGrid ItemsSource="{Binding Categories}"
                   SelectedItem="{Binding SelectedCategory}"
@@ -21,10 +24,10 @@
                   BorderThickness="1"
                   BorderBrush="Gray">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="50"/>
-                <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="*"/>
+                <DataGridTextColumn Header="Id" Binding="{Binding Id}" Width="Auto"/>
+                <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="Auto"/>
                 <DataGridTextColumn Header="Description" Binding="{Binding Description}" Width="Auto"/>
-                <DataGridTextColumn Header="Products In Category" Binding="{Binding ProductsInCategory}" Width="50"/>
+                <DataGridTextColumn Header="Products In Category" Binding="{Binding ProductsInCategory}" Width="Auto"/>
                 <DataGridTextColumn Header="Created At" Binding="{Binding CreatedAt}" Width="Auto"/>
                 <DataGridTextColumn Header="Updated At" Binding="{Binding UpdatedAt}" Width="Auto"/>
             </DataGrid.Columns>

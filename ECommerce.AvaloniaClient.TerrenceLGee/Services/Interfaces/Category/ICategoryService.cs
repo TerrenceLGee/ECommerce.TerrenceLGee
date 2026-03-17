@@ -10,10 +10,8 @@ public interface ICategoryService
 {
     Task<CategoryAdminData?> AddCategoryAsync(CreateCategoryDto category);
     Task<CategoryAdminData?> UpdateCategoryAsync(UpdateCategoryDto category);
-    Task<CategoryData?> GetCategoryByIdAsync(int id);
-    Task<CategoryAdminData?> GetCategoryByIdForAdminAsync(int id);
-    Task<CategoryData?> GetCategoryByNameAsync(string name);
-    Task<CategoryAdminData?> GetCategoryByNameForAdminAsync(string name);
-    Task<List<CategorySummaryData>> GetCategories(CategoryQueryParams queryParams);
-    Task<CategoriesAdminRoot?> GetCategoriesForAdmin(CategoryQueryParams queryParams);
+    Task<CategoryData?> GetCategoryAsync(int id);
+    Task<CategoryAdminData?> GetCategoryForAdminAsync(int id);
+    Task<CategoriesRoot?> GetCategoriesAsync(CategoryQueryParams queryParams);
+    Task<CategoriesAdminRoot?> GetCategoriesForAdminAsync(CategoryQueryParams queryParams);
 }

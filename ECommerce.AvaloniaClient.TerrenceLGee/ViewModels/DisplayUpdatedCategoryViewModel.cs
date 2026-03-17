@@ -2,13 +2,14 @@
 using CommunityToolkit.Mvvm.Messaging;
 using ECommerce.AvaloniaClient.TerrenceLGee.Data.Models.Category;
 using ECommerce.AvaloniaClient.TerrenceLGee.Messages.CategoryMessages;
+using System;
 
 namespace ECommerce.AvaloniaClient.TerrenceLGee.ViewModels;
 
 public partial class DisplayUpdatedCategoryViewModel : ViewModelBase
 {
     public CategoryAdminData Category { get; }
-    public IMessenger _messenger;
+    private readonly IMessenger _messenger;
 
     public DisplayUpdatedCategoryViewModel(CategoryAdminData category, IMessenger messenger)
     {

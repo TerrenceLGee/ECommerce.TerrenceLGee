@@ -20,10 +20,19 @@
 			<local:ViewCategoriesForAdminView/>
         </DataTemplate>
         <DataTemplate DataType="{x:Type vm:DisplayAddedCategoryViewModel}">
-			<local:DisplayAddedCategoryView/>
+            <local:DisplayAddedCategoryView/>
         </DataTemplate>
         <DataTemplate DataType="{x:Type vm:DisplayUpdatedCategoryViewModel}">
 			<local:DisplayUpdatedCategoryView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:DisplayAdminCategoryDetailViewModel}">
+			<local:DisplayAdminCategoryDetailView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:AdminChooseCategoryForUpdateViewModel}">
+			<local:AdminChooseCategoryForUpdateView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:UpdateCategoryViewModel}">
+			<local:UpdateCategoryView/>
         </DataTemplate>
     </Application.DataTemplates>
 

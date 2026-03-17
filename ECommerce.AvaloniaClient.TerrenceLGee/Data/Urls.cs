@@ -16,7 +16,7 @@ public static class Urls
     public static string GetCountOfAllAddressesForAdminUrl => "addresses/admin/count";
     public static string GetCountOfAllCustomerAddressesUrl => "addresses/count";
     public static string AdminAddCategoryUrl => "categories/admin/add";
-    public static string AdminUpdateCategoruUrl => "categories/admin/update/";
+    public static string AdminUpdateCategoryUrl => "categories/admin/update/";
     public static string AdminGetCategoryByIdUrl => "categories/admin/";
     public static string AdminGetCategoryByNameUrl => "categories/admin/";
     public static string AdminGetCategoriesUrl => "categories/admin";

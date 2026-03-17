@@ -84,37 +84,205 @@ public class CategoryService : ICategoryService
         }
     }
 
-    public Task<CategoryAdminData?> UpdateCategoryAsync(UpdateCategoryDto category)
+    public async Task<CategoryAdminData?> UpdateCategoryAsync(UpdateCategoryDto category)
     {
-        throw new System.NotImplementedException();
+        var categoryAdminDataForError = new CategoryAdminData();
+        try
+        {
+            var httpClient = _clientFactory.CreateClient(ClientName);
+            var url = $"{Urls.BaseUrl}{Urls.AdminUpdateCategoryUrl}{category.Id}";
+
+            var content = new StringContent(JsonSerializer.Serialize(category), Encoding.UTF8, MediaType);
+
+            var response = await httpClient.PutAsync(url, content);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                categoryAdminDataForError.ErrorMessage = $"Unable to update category {category.Id}\nReason: {response.ReasonPhrase}.";
+                return categoryAdminDataForError;
+            }
+
+            var responseContent = await response.Content.ReadAsStringAsync();
+            var categoryUpdatedResponse = JsonSerializer.Deserialize<CategoryAdminRoot>(responseContent, options);
+
+            if (categoryUpdatedResponse is null)
+            {
+                categoryAdminDataForError.ErrorMessage = $"Unable to category {category.Id} at this time, please try again later.";
+                return categoryAdminDataForError;
+            }
+
+            if (!categoryUpdatedResponse.IsSuccess || categoryUpdatedResponse.StatusCode != 200)
+            {
+                categoryAdminDataForError.ErrorMessage = $"Unable to update category {category.Id}: {string.Join('\n', categoryUpdatedResponse.Errors)}";
+                return categoryAdminDataForError;
+            }
+
+            return categoryUpdatedResponse.Data;
+        }
+        catch (HttpRequestException ex)
+        {
+            _errorMessage = $"\nClass: {nameof(CategoryService)}\n" +
+                $"Method: {nameof(UpdateCategoryAsync)}\n" +
+                $"There was an API error attempting to update category {category.Id}: {ex.Message}.";
+            _logger.LogError(ex, LogErrorString, _errorMessage);
+            categoryAdminDataForError.ErrorMessage = $"There was an API error attempting to update category {category.Id}.";
+            return categoryAdminDataForError;
+        }
+        catch (Exception ex)
+        {
+            _errorMessage = $"\nClass: {nameof(CategoryService)}\n" +
+                $"Method: {nameof(UpdateCategoryAsync)}\n" +
+                $"There was an unexpected error attempting to update category {category.Id}: {ex.Message}";
+            _logger.LogError(ex, LogErrorString, _errorMessage);
+            categoryAdminDataForError.ErrorMessage = $"There was an unexpected error attempting to update category {category.Id}";
+            return categoryAdminDataForError;
+        }
     }
 
-    public Task<CategoryData?> GetCategoryByIdAsync(int id)
+    public async Task<CategoryData?> GetCategoryAsync(int id)
     {
-        throw new System.NotImplementedException();
+        var categoryDataForError = new CategoryData();
+        try
+        {
+            var httpClient = _clientFactory.CreateClient(ClientName);
+            var url = $"{Urls.BaseUrl}{Urls.CustomerGetCategoryByIdUrl}{id}";
+
+            var response = await httpClient.GetAsync(url);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                categoryDataForError.ErrorMessage = $"Unable to retrieve category {id}\nReason: {response.ReasonPhrase}";
+                return categoryDataForError;
+            }
+
+            var responseContent = await response.Content.ReadAsStringAsync();
+            var categoryResponse = JsonSerializer.Deserialize<CategoryRoot>(responseContent, options);
+
+            if (categoryResponse is null)
+            {
+                categoryDataForError.ErrorMessage = $"Unable to retrieve category {id} at this time, please try again later";
+                return categoryDataForError;
+            }
+
+            if (!categoryResponse.IsSuccess || categoryResponse.StatusCode != 200)
+            {
+                categoryDataForError.ErrorMessage = $"Unable to retrieve category {id}: {string.Join('\n', categoryResponse.Errors)}";
+                return categoryDataForError;
+            }
+
+            return categoryResponse.Data;
+        }
+        catch (HttpRequestException ex)
+        {
+            _errorMessage = $"\nClass: {nameof(CategoryService)}\n" +
+                $"Method: {nameof(GetCategoryAsync)}\n" +
+                $"There was an API error retrieving category {id}: {ex.Message}";
+            _logger.LogError(ex, LogErrorString, _errorMessage);
+            categoryDataForError.ErrorMessage = $"There was an API error retrieving category {id}";
+            return categoryDataForError;
+        }
+        catch (Exception ex)
+        {
+            _errorMessage = $"\nClass: {nameof(CategoryService)}\n" +
+                $"Method: {nameof(GetCategoryAsync)}\n" +
+                $"There was an unexpected error retrieving category {id}: {ex.Message}";
+            _logger.LogError(ex, LogErrorString, _errorMessage);
+            categoryDataForError.ErrorMessage = $"There was an unexpected error retrieving category {id}";
+            return categoryDataForError;
+        }
     }
 
-    public Task<CategoryAdminData?> GetCategoryByIdForAdminAsync(int id)
+    public async Task<CategoryAdminData?> GetCategoryForAdminAsync(int id)
     {
-        throw new System.NotImplementedException();
+        var categoryAdminDataForError = new CategoryAdminData();
+        try
+        {
+            var httpClient = _clientFactory.CreateClient(ClientName);
+            var url = $"{Urls.BaseUrl}{Urls.AdminGetCategoryByIdUrl}{id}";
+
+            var response = await httpClient.GetAsync(url);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                categoryAdminDataForError.ErrorMessage = $"Unable to retrieve category {id}\nReason: {response.ReasonPhrase}";
+                return categoryAdminDataForError;
+            }
+
+            var responseContent = await response.Content.ReadAsStringAsync();
+            var categoryResponse = JsonSerializer.Deserialize<CategoryAdminRoot>(responseContent, options);
+
+            if (categoryResponse is null)
+            {
+                categoryAdminDataForError.ErrorMessage = $"Unable to retrieve category {id} at this time, please try again later";
+                return categoryAdminDataForError;
+            }
+
+            if (!categoryResponse.IsSuccess || categoryResponse.StatusCode != 200)
+            {
+                categoryAdminDataForError.ErrorMessage = $"Unable to retrieve category {id}: {string.Join('\n', categoryResponse.Errors)}";
+                return categoryAdminDataForError;
+            }
+
+            return categoryResponse.Data;
+        }
+        catch (HttpRequestException ex)
+        {
+            _errorMessage = $"\nClass: {nameof(CategoryService)}\n" +
+                $"Method: {nameof(GetCategoryForAdminAsync)}\n" +
+                $"There was an API error retrieving category {id}: {ex.Message}";
+            _logger.LogError(ex, LogErrorString, _errorMessage);
+            categoryAdminDataForError.ErrorMessage = $"There was an API error retrieving category {id}";
+            return categoryAdminDataForError;
+        }
+        catch (Exception ex)
+        {
+            _errorMessage = $"\nClass: {nameof(CategoryService)}\n" +
+                $"Method: {nameof(GetCategoryForAdminAsync)}\n" +
+                $"There was an unexpected error retrieving category {id}: {ex.Message}";
+            _logger.LogError(ex, LogErrorString, _errorMessage);
+            categoryAdminDataForError.ErrorMessage = $"There was an unexpected error retrieving category {id}";
+            return categoryAdminDataForError;
+        }
     }
 
-    public Task<CategoryData?> GetCategoryByNameAsync(string name)
+
+    public async Task<CategoriesRoot?> GetCategoriesAsync(CategoryQueryParams queryParams)
     {
-        throw new System.NotImplementedException();
+        try
+        {
+            var httpClient = _clientFactory.CreateClient(ClientName);
+            var url = $"{Urls.BaseUrl}{Urls.CustomerGetCategoriesUrl}{BuildQueryString(queryParams)}";
+
+            var response = await httpClient.GetAsync(url);
+
+            if (!response.IsSuccessStatusCode) return null;
+
+            var responseContent = await response.Content.ReadAsStringAsync();
+            var categoriesResponse = JsonSerializer.Deserialize<CategoriesRoot>(responseContent, options);
+
+            if (categoriesResponse is null) return null;
+
+            return categoriesResponse;
+        }
+        catch (HttpRequestException ex)
+        {
+            _errorMessage = $"\nClass: {nameof(CategoryService)}\n" +
+                $"Method: {nameof(GetCategoriesAsync)}\n" +
+                $"There was an API error attempting to retrieve all of the categories: {ex.Message}";
+            _logger.LogError(ex, LogErrorString, _errorMessage);
+            return null;
+        }
+        catch (Exception ex)
+        {
+            _errorMessage = $"\nClass: {nameof(CategoryService)}\n" +
+                $"Method: {nameof(GetCategoriesAsync)}\n" +
+                $"There was an unexpected error attempting to retrieve all of the categories: {ex.Message}";
+            _logger.LogError(ex, LogErrorString, _errorMessage);
+            return null;
+        }
     }
 
-    public Task<CategoryAdminData?> GetCategoryByNameForAdminAsync(string name)
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public Task<List<CategorySummaryData>> GetCategories(CategoryQueryParams queryParams)
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public async Task<CategoriesAdminRoot?> GetCategoriesForAdmin(CategoryQueryParams queryParams)
+    public async Task<CategoriesAdminRoot?> GetCategoriesForAdminAsync(CategoryQueryParams queryParams)
     {
         try
         {
@@ -134,17 +302,17 @@ public class CategoryService : ICategoryService
         }
         catch (HttpRequestException ex)
         {
-            _errorMessage = $"Class: {nameof(CategoryService)}\n" +
-                $"Method: {nameof(GetCategoriesForAdmin)}\n" +
-                $"There was an API error attempting to retrieve all of the categories";
+            _errorMessage = $"\nClass: {nameof(CategoryService)}\n" +
+                $"Method: {nameof(GetCategoriesForAdminAsync)}\n" +
+                $"There was an API error attempting to retrieve all of the categories: {ex.Message}";
             _logger.LogError(ex, LogErrorString, _errorMessage);
             return null;
         }
         catch (Exception ex)
         {
-            _errorMessage = $"Class: {nameof(CategoryService)}\n" +
-                $"Method: {nameof(GetCategoriesForAdmin)}\n" +
-                $"There was an unexpected error attempting to retrieve all of the categories";
+            _errorMessage = $"\nClass: {nameof(CategoryService)}\n" +
+                $"Method: {nameof(GetCategoriesForAdminAsync)}\n" +
+                $"There was an unexpected error attempting to retrieve all of the categories: {ex.Message}";
             _logger.LogError(ex, LogErrorString, _errorMessage);
             return null;
         }

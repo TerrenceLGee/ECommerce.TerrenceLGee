@@ -23,6 +23,9 @@ public class ProductAdminData
     [JsonPropertyName("stockQuantity")]
     public int StockQuantity { get; set; }
 
+    [JsonPropertyName("unitPrice")]
+    public decimal UnitPrice { get; set; }
+
     [JsonPropertyName("discountPercentage")]
     public int DiscountPercentage { get; set; }
 

@@ -93,7 +93,7 @@ public static class DatabaseSeeder
             new Category
             {
                 Name = "Electronics",
-                Description = "A wide assrortment of electronics ranging from stereo systems to computer and everything in between.",
+                Description = "A wide assortment of electronics ranging from stereo systems to computers and everything in between.",
                 CreatedAt = DateTime.UtcNow,
             },
             new Category

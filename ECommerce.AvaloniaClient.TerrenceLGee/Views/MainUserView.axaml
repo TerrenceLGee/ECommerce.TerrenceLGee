@@ -6,7 +6,7 @@
              x:Class="ECommerce.AvaloniaClient.TerrenceLGee.MainUserView"
              xmlns:vm="using:ECommerce.AvaloniaClient.TerrenceLGee.ViewModels"
              x:DataType="vm:MainUserViewModel">
-  <Grid ColumnDefinitions="350, *">
+  <Grid ColumnDefinitions="250, *">
 	  <Border Grid.Column="0" Background="#333333" Padding="10">
 		  <ListBox ItemsSource="{Binding MenuItems}"
                    SelectedItem="{Binding SelectedMenuItem}"
@@ -14,7 +14,7 @@
                    BorderThickness="0">
               <ListBox.ItemTemplate>
 				  <DataTemplate>
-					  <TextBlock Text="{Binding DisplayName}" Margin="5"/>
+					  <TextBlock Text="{Binding DisplayName}" Margin="5" TextWrapping="Wrap"/>
                   </DataTemplate>
               </ListBox.ItemTemplate>
           </ListBox>

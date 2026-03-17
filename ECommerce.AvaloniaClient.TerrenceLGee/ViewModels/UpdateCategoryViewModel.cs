@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
+using ECommerce.AvaloniaClient.TerrenceLGee.Data.Models.Category;
 using ECommerce.AvaloniaClient.TerrenceLGee.Messages.CategoryMessages;
 using ECommerce.AvaloniaClient.TerrenceLGee.Services.Interfaces.Category;
 using ECommerce.Shared.TerrenceLGee.DTOs.CategoryDTOs;
@@ -10,15 +11,22 @@ using System.Threading.Tasks;
 
 namespace ECommerce.AvaloniaClient.TerrenceLGee.ViewModels;
 
-public partial class AddCategoryViewModel : ObservableValidator
+public partial class UpdateCategoryViewModel : ObservableValidator
 {
     private readonly ICategoryService _categoryService;
+    public CategoryAdminSummaryData Category { get; set; }
     private readonly IMessenger _messenger;
 
-    public AddCategoryViewModel(ICategoryService categoryService, IMessenger messenger)
+    public UpdateCategoryViewModel(
+        ICategoryService categoryService,
+        CategoryAdminSummaryData category,
+        IMessenger messenger)
     {
         _categoryService = categoryService;
+        Category = category;
         _messenger = messenger;
+        _name = Category.Name;
+        _description = Category.Description;
     }
 
     [ObservableProperty]
@@ -44,9 +52,8 @@ public partial class AddCategoryViewModel : ObservableValidator
     [ObservableProperty]
     public string? _errorMessage;
 
-
     [RelayCommand]
-    public async Task AddCategoryAsync()
+    public async Task UpdateCategoryAsync()
     {
         SuccessMessage = null;
         ErrorMessage = null;
@@ -61,26 +68,26 @@ public partial class AddCategoryViewModel : ObservableValidator
             return;
         }
 
-        var category = new CreateCategoryDto
+        var category = new UpdateCategoryDto
         {
+            Id = Category.Id,
             Name = Name,
             Description = Description
         };
 
-
-        var data = await _categoryService.AddCategoryAsync(category);
+        var data = await _categoryService.UpdateCategoryAsync(category);
 
         if (data is null)
         {
-            ErrorMessage = "Unable to add category at this time";
+            ErrorMessage = $"Unable to update category {Category.Id} at this time";
             return;
         }
 
         if (string.IsNullOrEmpty(data.ErrorMessage))
         {
-            ClearCategoryAdd();
-            SuccessMessage = "Category added successfully";
-            _messenger.Send(new CategoryAddedMessage(data));
+            ClearCategoryUpdate();
+            SuccessMessage = $"Category {Category.Id} updated successfully";
+            _messenger.Send(new CategoryUpdatedMessage(data));
         }
         else
         {
@@ -88,7 +95,7 @@ public partial class AddCategoryViewModel : ObservableValidator
         }
     }
 
-    private void ClearCategoryAdd()
+    private void ClearCategoryUpdate()
     {
         Name = string.Empty;
         Description = string.Empty;

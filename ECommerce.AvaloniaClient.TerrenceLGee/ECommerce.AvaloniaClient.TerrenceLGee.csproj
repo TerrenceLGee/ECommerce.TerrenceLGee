@@ -38,4 +38,10 @@
   <ItemGroup>
     <ProjectReference Include="..\ECommerce.Shared.TerrenceLGee\ECommerce.Shared.TerrenceLGee.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Views\DisplayAddedCategoryView.axaml.cs">
+      <DependentUpon>DisplayAddedCategoryView.axaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
 </Project>

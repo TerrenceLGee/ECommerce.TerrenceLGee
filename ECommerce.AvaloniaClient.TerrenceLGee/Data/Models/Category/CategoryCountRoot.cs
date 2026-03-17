@@ -6,6 +6,4 @@ public class CategoryCountRoot : Root
 {
     [JsonPropertyName("data")]
     public int Data { get; set; }
-
-    public string? ErrorMessage { get; set; }
 }
