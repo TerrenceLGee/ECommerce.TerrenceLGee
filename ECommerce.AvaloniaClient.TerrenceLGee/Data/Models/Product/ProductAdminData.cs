@@ -40,4 +40,6 @@ public class ProductAdminData
 
     [JsonPropertyName("updatedAt")]
     public DateTime? UpdatedAt { get; set; }
+
+    public string? ErrorMessage { get; set; }
 }

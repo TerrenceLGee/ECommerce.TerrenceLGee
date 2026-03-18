@@ -10,6 +10,7 @@ using ECommerce.AvaloniaClient.TerrenceLGee.Services.Handlers;
 using ECommerce.AvaloniaClient.TerrenceLGee.Services.Interfaces;
 using ECommerce.AvaloniaClient.TerrenceLGee.Services.Interfaces.Auth;
 using ECommerce.AvaloniaClient.TerrenceLGee.Services.Interfaces.Category;
+using ECommerce.AvaloniaClient.TerrenceLGee.Services.Interfaces.Product;
 using ECommerce.AvaloniaClient.TerrenceLGee.ViewModels;
 using ECommerce.AvaloniaClient.TerrenceLGee.Views;
 using Microsoft.Extensions.DependencyInjection;
@@ -48,17 +49,25 @@ public partial class App : Application
 
         services.AddSingleton<IAuthService, AuthService>();
         services.AddSingleton<ICategoryService, CategoryService>();
+        services.AddSingleton<IProductService, ProductService>();
 
         services.AddSingleton<MainWindowViewModel>();
         services.AddTransient<AuthViewModel>();
         services.AddTransient<MainUserViewModel>();
+
         services.AddTransient<AddCategoryViewModel>();
         services.AddTransient<DisplayAddedCategoryViewModel>();
         services.AddTransient<DisplayUpdatedCategoryViewModel>();
         services.AddTransient<DisplayAdminCategoryDetailViewModel>();
+        services.AddTransient<DisplayCustomerCategoryDetailViewModel>();
         services.AddTransient<ViewCategoriesForAdminViewModel>();
+        services.AddTransient<ViewCategoriesForCustomerViewModel>();
         services.AddTransient<AdminChooseCategoryForUpdateViewModel>();
         services.AddTransient<UpdateCategoryViewModel>();
+
+        services.AddTransient<AddProductViewModel>();
+        services.AddTransient<DisplayAddedProductViewModel>();
+        services.AddTransient<AdminChooseProductForUpdateViewModel>();
 
         var serviceProvider = services.BuildServiceProvider();
 

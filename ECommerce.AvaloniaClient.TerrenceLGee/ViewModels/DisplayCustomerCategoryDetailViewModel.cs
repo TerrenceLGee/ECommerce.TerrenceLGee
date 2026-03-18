@@ -13,16 +13,16 @@ using System.Threading.Tasks;
 
 namespace ECommerce.AvaloniaClient.TerrenceLGee.ViewModels;
 
-public partial class DisplayAdminCategoryDetailViewModel : ObservableObject
+public partial class DisplayCustomerCategoryDetailViewModel : ObservableObject
 {
     public int CategoryId { get; }
     [ObservableProperty]
-    public CategoryAdminData? _category;
-    public ObservableCollection<ProductAdminData> Products { get; } = [];
+    public CategoryData? _category;
+    public ObservableCollection<ProductData> Products { get; } = [];
     private readonly ICategoryService _categoryService;
     private readonly IMessenger _messenger;
 
-    public DisplayAdminCategoryDetailViewModel(ICategoryService categoryService, int categoryId, IMessenger messenger)
+    public DisplayCustomerCategoryDetailViewModel(ICategoryService categoryService, int categoryId, IMessenger messenger)
     {
         _categoryService = categoryService;
         CategoryId = categoryId;
@@ -42,7 +42,7 @@ public partial class DisplayAdminCategoryDetailViewModel : ObservableObject
 
     public async Task GetCategoryAsync()
     {
-        Category = await _categoryService.GetCategoryForAdminAsync(CategoryId);
+        Category = await _categoryService.GetCategoryAsync(CategoryId);
         if (Category is not null)
         {
             LoadProducts(Category.Products);
@@ -50,7 +50,7 @@ public partial class DisplayAdminCategoryDetailViewModel : ObservableObject
     }
 
     [RelayCommand]
-    private void LoadProducts(List<ProductAdminData> products)
+    private void LoadProducts(List<ProductData> products)
     {
         var pagedProducts = products.Skip((Page - 1) * PageSize)
             .Take(PageSize);
@@ -63,7 +63,7 @@ public partial class DisplayAdminCategoryDetailViewModel : ObservableObject
     }
 
     [RelayCommand]
-    private void NextPage(List<ProductAdminData> products)
+    private void NextPage(List<ProductData> products)
     {
         if (!HasNextPage) return;
         Page++;
@@ -71,7 +71,7 @@ public partial class DisplayAdminCategoryDetailViewModel : ObservableObject
     }
 
     [RelayCommand]
-    private void PreviousPage(List<ProductAdminData> products)
+    private void PreviousPage(List<ProductData> products)
     {
         if (!HasPreviousPage) return;
         Page--;
@@ -81,6 +81,6 @@ public partial class DisplayAdminCategoryDetailViewModel : ObservableObject
     [RelayCommand]
     private void GoBack()
     {
-        _messenger.Send(new NavigateBackToAllAdminCategoriesMessage());
+        _messenger.Send(new NavigateToAllCustomerCategoriesMessage());
     }
 }

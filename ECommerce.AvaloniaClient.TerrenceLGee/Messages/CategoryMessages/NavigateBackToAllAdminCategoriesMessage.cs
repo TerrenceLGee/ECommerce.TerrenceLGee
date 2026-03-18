@@ -1,4 +1,4 @@
 ﻿namespace ECommerce.AvaloniaClient.TerrenceLGee.Messages.CategoryMessages;
 
-public record NavingateBackToAllAdminCategoriesMessage;
+public record NavigateBackToAllAdminCategoriesMessage;
 

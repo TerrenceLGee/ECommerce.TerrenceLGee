@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.Messaging;
 using ECommerce.AvaloniaClient.TerrenceLGee.Enums;
 using ECommerce.AvaloniaClient.TerrenceLGee.Messages.CategoryMessages;
+using ECommerce.AvaloniaClient.TerrenceLGee.Messages.ProductMessages;
 using ECommerce.AvaloniaClient.TerrenceLGee.Services.Interfaces.Auth;
 using ECommerce.AvaloniaClient.TerrenceLGee.Services.Interfaces.Category;
 using ECommerce.Shared.TerrenceLGee.Enums.Extensions;
@@ -73,6 +74,7 @@ public partial class MainUserViewModel : ObservableObject
                 CurrentSubView = _serviceProvider.GetRequiredService<ViewCategoriesForAdminViewModel>();
                 break;
             case AdminMenu.AddProduct:
+                CurrentSubView = _serviceProvider.GetRequiredService<AddProductViewModel>();
                 break;
             case AdminMenu.UpdateProduct:
                 break;
@@ -93,6 +95,7 @@ public partial class MainUserViewModel : ObservableObject
             case CustomerMenu.ViewProfile:
                 break;
             case CustomerMenu.ViewCategories:
+                CurrentSubView = _serviceProvider.GetRequiredService<ViewCategoriesForCustomerViewModel>();
                 break;
             case CustomerMenu.ViewProducts:
                 break;
@@ -120,6 +123,12 @@ public partial class MainUserViewModel : ObservableObject
     }
 
     private void MessageRegistration()
+    {
+        CategoryMessageRegistration();
+        ProductMessageRegistration();
+    }
+
+    private void CategoryMessageRegistration()
     {
         _messenger.Register<CategoryAddedMessage>(this, (r, m) =>
         {
@@ -150,14 +159,40 @@ public partial class MainUserViewModel : ObservableObject
         _messenger.Register<CategorySelectedForAdminMessage>(this, async (r, m) =>
         {
             var categoryService = _serviceProvider.GetRequiredService<ICategoryService>();
-            var detailVM= new DisplayAdminCategoryDetailViewModel(categoryService, m.CategoryId, _messenger);
+            var detailVM = new DisplayAdminCategoryDetailViewModel(categoryService, m.CategoryId, _messenger);
             await detailVM.GetCategoryAsync();
             CurrentSubView = detailVM;
         });
 
-        _messenger.Register<NavingateBackToAllAdminCategoriesMessage>(this, (r, m) =>
+        _messenger.Register<NavigateBackToAllAdminCategoriesMessage>(this, (r, m) =>
         {
             CurrentSubView = _serviceProvider.GetRequiredService<ViewCategoriesForAdminViewModel>();
+        });
+
+        _messenger.Register<CategorySelectedForCustomerMessage>(this, async (r, m) =>
+        {
+            var categoryService = _serviceProvider.GetRequiredService<ICategoryService>();
+            var detailVM = new DisplayCustomerCategoryDetailViewModel(categoryService, m.CategoryId, _messenger);
+            await detailVM.GetCategoryAsync();
+            CurrentSubView = detailVM;
+        });
+
+        _messenger.Register<NavigateToAllCustomerCategoriesMessage>(this, (r, m) =>
+        {
+            CurrentSubView = _serviceProvider.GetRequiredService<ViewCategoriesForCustomerViewModel>();
+        });
+    }
+
+    private void ProductMessageRegistration()
+    {
+        _messenger.Register<ProductAddedMessage>(this, (r, m) =>
+        {
+            CurrentSubView = new DisplayAddedProductViewModel(m.Data, _messenger);
+        });
+
+        _messenger.Register<NavigateBackToAddProductMessage>(this, (r, m) =>
+        {
+            CurrentSubView = _serviceProvider.GetRequiredService<AddProductViewModel>();
         });
     }
 }

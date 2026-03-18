@@ -27,4 +27,6 @@ public class ProductData
 
     [JsonPropertyName("isInStock")]
     public bool IsInStock { get; set; }
+
+    public string? ErrorMessage { get; set; }
 }

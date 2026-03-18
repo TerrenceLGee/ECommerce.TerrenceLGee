@@ -5,23 +5,21 @@ using ECommerce.AvaloniaClient.TerrenceLGee.Data.Models.Category;
 using ECommerce.AvaloniaClient.TerrenceLGee.Messages.CategoryMessages;
 using ECommerce.AvaloniaClient.TerrenceLGee.Services.Interfaces.Category;
 using ECommerce.Shared.TerrenceLGee.Parameters.CategoryParameters;
-using System;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 
 namespace ECommerce.AvaloniaClient.TerrenceLGee.ViewModels;
 
-public partial class ViewCategoriesForAdminViewModel : ObservableObject
+public partial class ViewCategoriesForCustomerViewModel : ObservableObject
 {
     private readonly ICategoryService _categoryService;
     private readonly IMessenger _messenger;
-    public ObservableCollection<CategoryAdminSummaryData> Categories { get; } = [];
-
+    public ObservableCollection<CategorySummaryData> Categories { get; } = [];
 
     [ObservableProperty]
     private bool _isLoading;
     [ObservableProperty]
-    private CategoryAdminSummaryData? _selectedCategory;
+    private CategorySummaryData? _selectedCategory;
 
     [ObservableProperty]
     private int _page = 1;
@@ -36,7 +34,7 @@ public partial class ViewCategoriesForAdminViewModel : ObservableObject
     [ObservableProperty]
     private string _searchByDescription;
 
-    public ViewCategoriesForAdminViewModel(ICategoryService categoryService, IMessenger messenger)
+    public ViewCategoriesForCustomerViewModel(ICategoryService categoryService, IMessenger messenger)
     {
         _categoryService = categoryService;
         _messenger = messenger;
@@ -55,7 +53,7 @@ public partial class ViewCategoriesForAdminViewModel : ObservableObject
             Description = SearchByDescription
         };
 
-        var result = await _categoryService.GetCategoriesForAdminAsync(queryParams);
+        var result = await _categoryService.GetCategoriesAsync(queryParams);
 
         if (result is not null)
         {
@@ -90,11 +88,11 @@ public partial class ViewCategoriesForAdminViewModel : ObservableObject
         await LoadCategoriesAsync();
     }
 
-    partial void OnSelectedCategoryChanged(CategoryAdminSummaryData? value)
+    partial void OnSelectedCategoryChanged(CategorySummaryData? value)
     {
         if (value is not null)
         {
-            _messenger.Send(new CategorySelectedForAdminMessage(value.Id));
+            _messenger.Send(new CategorySelectedForCustomerMessage(value.Id));
         }
     }
 }

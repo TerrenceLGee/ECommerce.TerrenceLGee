@@ -19,6 +19,9 @@
         <DataTemplate DataType="{x:Type vm:ViewCategoriesForAdminViewModel}">
 			<local:ViewCategoriesForAdminView/>
         </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:ViewCategoriesForCustomerViewModel}">
+			<local:ViewCategoriesForCustomerView/>
+        </DataTemplate>
         <DataTemplate DataType="{x:Type vm:DisplayAddedCategoryViewModel}">
             <local:DisplayAddedCategoryView/>
         </DataTemplate>
@@ -28,11 +31,23 @@
         <DataTemplate DataType="{x:Type vm:DisplayAdminCategoryDetailViewModel}">
 			<local:DisplayAdminCategoryDetailView/>
         </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:DisplayCustomerCategoryDetailViewModel}">
+			<local:DisplayCustomerCategoryDetailView/>
+        </DataTemplate>
         <DataTemplate DataType="{x:Type vm:AdminChooseCategoryForUpdateViewModel}">
 			<local:AdminChooseCategoryForUpdateView/>
         </DataTemplate>
         <DataTemplate DataType="{x:Type vm:UpdateCategoryViewModel}">
 			<local:UpdateCategoryView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:AddProductViewModel}">
+			<local:AddProductView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:DisplayAddedProductViewModel}">
+			<local:DisplayAddedProductView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:AdminChooseProductForUpdateViewModel}">
+			<local:AdminChooseProductForUpdateView/>
         </DataTemplate>
     </Application.DataTemplates>
 

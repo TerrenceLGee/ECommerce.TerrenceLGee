@@ -8,7 +8,7 @@ public class CreateProductDto
     public int CategoryId { get; set; }
 
     [Required(ErrorMessage = "Product name is required.")]
-    [MaxLength(ErrorMessage = "Product name cannot exceed 100 characters.")]
+    [MaxLength(100, ErrorMessage = "Product name cannot exceed 100 characters.")]
     public string Name { get; set; } = string.Empty;
 
     [MaxLength(1000, ErrorMessage = "Product description cannot exceed 1000 characters.")]

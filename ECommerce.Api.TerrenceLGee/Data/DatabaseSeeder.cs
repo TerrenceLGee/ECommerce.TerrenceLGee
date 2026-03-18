@@ -99,7 +99,7 @@ public static class DatabaseSeeder
             new Category
             {
                 Name = "Music",
-                Description = "Almost any musical genre that you can image with a wide range of music artists available on both vinly and CD.",
+                Description = "Almost any musical genre that you can image with a wide range of music artists available on both vinyl and CD.",
                 CreatedAt = DateTime.UtcNow,
             },
             new Category

@@ -5,7 +5,6 @@ using ECommerce.Shared.TerrenceLGee.DTOs.CategoryDTOs;
 using ECommerce.Shared.TerrenceLGee.Parameters.CategoryParameters;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
@@ -318,7 +317,7 @@ public class CategoryService : ICategoryService
         }
     }
 
-    private string BuildQueryString(CategoryQueryParams queryParams)
+    private static string BuildQueryString(CategoryQueryParams queryParams)
     {
         var query = new StringBuilder();
         query.Append($"?page={queryParams.Page}&pageSize={queryParams.PageSize}");

@@ -1,0 +1,81 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="ECommerce.AvaloniaClient.TerrenceLGee.AddProductView"
+             xmlns:vm="using:ECommerce.AvaloniaClient.TerrenceLGee.ViewModels"
+             x:DataType="vm:AddProductViewModel">
+    <UserControl.Styles>
+		<Style Selector="TextBlock.Error">
+			<Setter Property="Foreground" Value="Red"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Margin" Value="0,0,0,5"/>
+        </Style>
+    </UserControl.Styles>
+    <ScrollViewer>
+		<Grid RowDefinitions="Auto, Auto, Auto, Auto, Auto" Margin="10">
+	  <StackPanel Grid.Row="0">
+		  <TextBlock Text="Select A Category To Add This Product To" FontSize="36" FontWeight="Bold" Margin="0,0,0,10"/>
+          <ProgressBar IsIndeterminate="True" IsVisible="{Binding IsLoading}"/>
+      </StackPanel>
+      <DataGrid Grid.Row="1"
+                ItemsSource="{Binding Categories}"
+                SelectedItem="{Binding SelectedCategory}"
+                IsReadOnly="True"
+                GridLinesVisibility="All"
+                BorderThickness="1"
+                BorderBrush="Gray">
+          <DataGrid.Columns>
+			  <DataGridTextColumn Header="Id" Binding="{Binding Id}" Width="Auto"/>
+              <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="Auto"/>
+              <DataGridTextColumn Header="Description" Binding="{Binding Description}" Width="Auto"/>
+              <DataGridTextColumn Header="Products In Category" Binding="{Binding ProductsInCategory}" Width="Auto"/>
+              <DataGridTextColumn Header="Created At" Binding="{Binding CreatedAt}" Width="Auto"/>
+              <DataGridTextColumn Header="Updated At" Binding="{Binding UpdatedAt}" Width="Auto"/>
+          </DataGrid.Columns>
+      </DataGrid>
+      <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" Spacing="10">
+		  <Button Content="Previous" Command="{Binding PreviousPageCommand}" IsEnabled="{Binding HasPreviousPage}"/>
+          <TextBlock>
+			  <Run Text="{Binding Page}"/>
+              <Run Text=" of "/>
+              <Run Text="{Binding TotalPages}"/>
+          </TextBlock>
+          <Button Content="Next" Command="{Binding NextPageCommand}" IsEnabled="{Binding HasNextPage}"/>
+      </StackPanel>
+      <StackPanel Grid.Row="3">
+		  <TextBlock Text="Name" FontWeight="ExtraBold"/>
+          <TextBox Text="{Binding Name}"/>
+          <TextBlock Classes="Error" Text="{Binding NameErrors}"/>
+
+          <TextBlock Text="Description (optional)" FontWeight="ExtraBold"/>
+          <TextBox Text="{Binding Description}"/>
+          <TextBlock Classes="Error" Text="{Binding DescriptionErrors}"/>
+
+          <TextBlock Text="Stock Quantity" FontWeight="ExtraBold"/>
+          <TextBox Text="{Binding StockQuantity}"/>
+          <TextBlock Classes="Error" Text="{Binding StockQuantityErrors}"/>
+
+          <TextBlock Text="Unit Price" FontWeight="ExtraBold"/>
+          <TextBox Text="{Binding UnitPrice}"/>
+          <TextBlock Classes="Error" Text="{Binding UnitPriceErrors}"/>
+
+          <TextBlock Text="Discount Percentage" FontWeight="ExtraBold"/>
+          <TextBox Text="{Binding DiscountPercentage}"/>
+          <TextBlock Classes="Error" Text="{Binding DiscountPercentageErrors}"/>
+
+          <CheckBox IsChecked="{Binding IsInStock}" Content="In Stock?"/>
+          <CheckBox IsChecked="{Binding IsDeleted}" Content="Deleted?"/>
+      </StackPanel>
+      <StackPanel Grid.Row="4">
+		  <Button Content="Add Product" Command="{Binding AddProductCommand}" HorizontalAlignment="Center"
+                  Margin="0,10,0,0"/>
+          <TextBlock Text="{Binding SuccessMessage}" Foreground="Gold" IsVisible="{Binding !!SuccessMessage}"
+                     HorizontalAlignment="Center"/>
+          <TextBlock Text="{Binding ErrorMessage}" Classes="Error" IsVisible="{Binding !!ErrorMessage}"
+                     HorizontalAlignment="Center"/>
+      </StackPanel>
+  </Grid>
+    </ScrollViewer>
+</UserControl>
