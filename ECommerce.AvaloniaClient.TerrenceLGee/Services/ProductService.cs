@@ -147,24 +147,206 @@ public class ProductService : IProductService
         }
     }
 
-    public Task<string?> DeleteProductAsync(int productId)
+    public async Task<string?> DeleteProductAsync(int productId)
     {
-        throw new NotImplementedException();
+        try
+        {
+            var httpClient = _clientFactory.CreateClient(ClientName);
+            var url = $"{Urls.BaseUrl}{Urls.AdminDeleteProductUrl}{productId}";
+
+            var response = await httpClient.DeleteAsync(url);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                return $"Unable to delete product {productId}\nReason: {response.ReasonPhrase}";
+            }
+
+            var responseContent = await response.Content.ReadAsStringAsync();
+            var productDeletedResponse = JsonSerializer.Deserialize<ProductDeletionRoot>(responseContent, options);
+
+            if (productDeletedResponse is null)
+            {
+                return $"Unable to delete product {productId} at this time, please try again later";
+            }
+
+            if (!productDeletedResponse.IsSuccess || productDeletedResponse.StatusCode != 200)
+            {
+                return $"Unable to delete product {productId}: {string.Join('\n', productDeletedResponse.Errors)}";
+            }
+
+            return productDeletedResponse.Data;
+        }
+        catch (HttpRequestException ex)
+        {
+            _errorMessage = $"\nClass: {nameof(ProductService)}\n" +
+                $"Method: {nameof(DeleteProductAsync)}\n" +
+                $"There was an API error deleting product {productId}: {ex.Message}";
+            _logger.LogError(ex, LogErrorString, _errorMessage);
+            return $"There was an API error deleting product {productId}";
+        }
+        catch (Exception ex)
+        {
+            _errorMessage = $"\nClass: {nameof(ProductService)}\n" +
+                $"Method: {nameof(DeleteProductAsync)}\n" +
+                $"There was an unexpected error deleting product {productId}: {ex.Message}";
+            _logger.LogError(ex, LogErrorString, _errorMessage);
+            return $"There was an unexpected error deleting product {productId}";
+        }
     }
 
-    public Task<string?> RestoreProductAsync(int productId)
+    public async Task<string?> RestoreProductAsync(int productId)
     {
-        throw new NotImplementedException();
+        try
+        {
+            var httpClient = _clientFactory.CreateClient(ClientName);
+            var url = $"{Urls.BaseUrl}{Urls.AdminRestoreProductUrl}{productId}";
+
+            var response = await httpClient.PostAsync(url, null);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                return $"Unable to restore product {productId}\nReason: {response.ReasonPhrase}";
+            }
+
+            var responseContent = await response.Content.ReadAsStringAsync();
+            var productRestoredResponse = JsonSerializer.Deserialize<ProductRestorationRoot>(responseContent, options);
+
+            if (productRestoredResponse is null)
+            {
+                return $"Unable to restore product {productId} at this time, please try again later";
+            }
+
+            if (!productRestoredResponse.IsSuccess || productRestoredResponse.StatusCode != 200)
+            {
+                return $"Unable to restore product {productId}: {string.Join('\n', productRestoredResponse.Errors)}";
+            }
+
+            return productRestoredResponse.Data;
+        }
+        catch (HttpRequestException ex)
+        {
+            _errorMessage = $"\nClass: {nameof(ProductService)}\n" +
+                $"Method: {nameof(RestoreProductAsync)}\n" +
+                $"There was an API error restoring product {productId}: {ex.Message}";
+            _logger.LogError(ex, LogErrorString, _errorMessage);
+            return $"There was an API error restoring product {productId}";
+        }
+        catch (Exception ex)
+        {
+            _errorMessage = $"\nClass: {nameof(ProductService)}\n" +
+                $"Method: {nameof(RestoreProductAsync)}\n" +
+                $"There was an unexpected error restoring product {productId}: {ex.Message}";
+            _logger.LogError(ex, LogErrorString, _errorMessage);
+            return $"There was an unexpected error deleting product {productId}";
+        }
     }
 
-    public Task<ProductAdminData?> GetProductForAdminAsync(int productId)
+    public async Task<ProductAdminData?> GetProductForAdminAsync(int productId)
     {
-        throw new NotImplementedException();
+        var productAdminDataForError = new ProductAdminData();
+
+        try
+        {
+            var httpClient = _clientFactory.CreateClient(ClientName);
+            var url = $"{Urls.BaseUrl}{Urls.AdminGetProductByIdUrl}{productId}";
+
+            var response = await httpClient.GetAsync(url);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                productAdminDataForError.ErrorMessage = $"Unable to retrieve product {productId}\nReason: {response.ReasonPhrase}";
+                return productAdminDataForError;
+            }
+
+            var responseContent = await response.Content.ReadAsStringAsync();
+            var productResponse = JsonSerializer.Deserialize<ProductAdminRoot>(responseContent, options);
+
+            if (productResponse is null)
+            {
+                productAdminDataForError.ErrorMessage = $"Unable to retrieve product {productId} at this time, please try again later";
+                return productAdminDataForError;
+            }
+
+            if (!productResponse.IsSuccess || productResponse.StatusCode != 200)
+            {
+                productAdminDataForError.ErrorMessage = $"Unable to retrieve product {productId}: {string.Join('\n', productResponse.Errors)}";
+                return productAdminDataForError;
+            }
+
+            return productResponse.Data;
+        }
+        catch (HttpRequestException ex)
+        {
+            _errorMessage = $"\nClass: {nameof(ProductService)}\n" +
+                $"Method: {nameof(GetProductForAdminAsync)}\n" +
+                $"There was an API error retrieving product {productId}: {ex.Message}";
+            _logger.LogError(ex, LogErrorString, _errorMessage);
+            productAdminDataForError.ErrorMessage = $"There was an API error retrieving product {productId}";
+            return productAdminDataForError;
+        }
+        catch (Exception ex)
+        {
+            _errorMessage = $"\nClass: {nameof(ProductService)}\n" +
+                $"Method: {nameof(GetProductForAdminAsync)}\n" +
+                $"There was an unexpected error retrieving product {productId}: {ex.Message}";
+            _logger.LogError(ex, LogErrorString, _errorMessage);
+            productAdminDataForError.ErrorMessage = $"There was an unexpected error retrieving product {productId}";
+            return productAdminDataForError;
+        }
     }
 
-    public Task<ProductData?> GetProductAsync(int productId)
+    public async Task<ProductData?> GetProductAsync(int productId)
     {
-        throw new NotImplementedException();
+        var productDataForError = new ProductData();
+
+        try
+        {
+            var httpClient = _clientFactory.CreateClient(ClientName);
+            var url = $"{Urls.BaseUrl}{Urls.CustomerGetProductByIdUrl}{productId}";
+
+            var response = await httpClient.GetAsync(url);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                productDataForError.ErrorMessage = $"Unable to retrieve product {productId}\nReason: {response.ReasonPhrase}";
+                return productDataForError;
+            }
+
+            var responseContent = await response.Content.ReadAsStringAsync();
+            var productResponse = JsonSerializer.Deserialize<ProductRoot>(responseContent, options);
+
+            if (productResponse is null)
+            {
+                productDataForError.ErrorMessage = $"Unable to retrieve product {productId} at this time, please try again later";
+                return productDataForError;
+            }
+
+            if (!productResponse.IsSuccess || productResponse.StatusCode != 200)
+            {
+                productDataForError.ErrorMessage = $"Unable to retrieve product {productId}: {string.Join('\n', productResponse.Errors)}";
+                return productDataForError;
+            }
+
+            return productResponse.Data;
+        }
+        catch (HttpRequestException ex)
+        {
+            _errorMessage = $"\nClass: {nameof(ProductService)}\n" +
+                $"Method: {nameof(GetProductAsync)}\n" +
+                $"There was an API error retrieving product {productId}: {ex.Message}";
+            _logger.LogError(ex, LogErrorString, _errorMessage);
+            productDataForError.ErrorMessage = $"There was an API error retrieving product {productId}";
+            return productDataForError;
+        }
+        catch (Exception ex)
+        {
+            _errorMessage = $"\nClass: {nameof(ProductService)}\n" +
+                $"Method: {nameof(GetProductAsync)}\n" +
+                $"There was an unexpected error retrieving product {productId}: {ex.Message}";
+            _logger.LogError(ex, LogErrorString, _errorMessage);
+            productDataForError.ErrorMessage = $"There was an unexpected error retrieving product {productId}";
+            return productDataForError;
+        }
     }
 
     public async Task<ProductsAdminRoot?> GetProductsForAdminAsync(ProductQueryParams queryParams)
@@ -203,9 +385,40 @@ public class ProductService : IProductService
         }
     }
 
-    public Task<ProductRoot?> GetProductsAsync(ProductQueryParams queryParams)
+    public async Task<ProductsRoot?> GetProductsAsync(ProductQueryParams queryParams)
     {
-        throw new NotImplementedException();
+        try
+        {
+            var httpClient = _clientFactory.CreateClient(ClientName);
+            var url = $"{Urls.BaseUrl}{Urls.CustomerGetProductsUrl}{BuildQueryString(queryParams)}";
+
+            var response = await httpClient.GetAsync(url);
+
+            if (!response.IsSuccessStatusCode) return null;
+
+            var responseContent = await response.Content.ReadAsStringAsync();
+            var productsResponse = JsonSerializer.Deserialize<ProductsRoot>(responseContent, options);
+
+            if (productsResponse is null) return null;
+
+            return productsResponse;
+        }
+        catch (HttpRequestException ex)
+        {
+            _errorMessage = $"\nClass: {nameof(ProductService)}\n" +
+                $"Method: {nameof(GetProductsAsync)}\n" +
+                $"There was an API error attempting to retrieve all of the products: {ex.Message}";
+            _logger.LogError(ex, LogErrorString, _errorMessage);
+            return null;
+        }
+        catch (Exception ex)
+        {
+            _errorMessage = $"\nClass: {nameof(ProductService)}\n" +
+                $"Method: {nameof(GetProductsAsync)}\n" +
+                $"There was an unexpected error attempting to retrieve all of the products: {ex.Message}";
+            _logger.LogError(ex, LogErrorString, _errorMessage);
+            return null;
+        }
     }
 
     private static string BuildQueryString(ProductQueryParams queryParams)

@@ -5,6 +5,7 @@ using ECommerce.AvaloniaClient.TerrenceLGee.Messages.CategoryMessages;
 using ECommerce.AvaloniaClient.TerrenceLGee.Messages.ProductMessages;
 using ECommerce.AvaloniaClient.TerrenceLGee.Services.Interfaces.Auth;
 using ECommerce.AvaloniaClient.TerrenceLGee.Services.Interfaces.Category;
+using ECommerce.AvaloniaClient.TerrenceLGee.Services.Interfaces.Product;
 using ECommerce.Shared.TerrenceLGee.Enums.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -77,12 +78,14 @@ public partial class MainUserViewModel : ObservableObject
                 CurrentSubView = _serviceProvider.GetRequiredService<AddProductViewModel>();
                 break;
             case AdminMenu.UpdateProduct:
+                CurrentSubView = _serviceProvider.GetRequiredService<AdminChooseProductForUpdateViewModel>();
                 break;
             case AdminMenu.DeleteProduct:
                 break;
             case AdminMenu.RestoreProduct:
                 break;
             case AdminMenu.ViewProducts:
+                CurrentSubView = _serviceProvider.GetRequiredService<ViewProductsForAdminViewModel>();
                 break;
             case AdminMenu.ViewCustomers:
                 break;
@@ -193,6 +196,35 @@ public partial class MainUserViewModel : ObservableObject
         _messenger.Register<NavigateBackToAddProductMessage>(this, (r, m) =>
         {
             CurrentSubView = _serviceProvider.GetRequiredService<AddProductViewModel>();
+        });
+
+        _messenger.Register<ProductSelectedForUpdateMessage>(this, (r, m) =>
+        {
+            var productService = _serviceProvider.GetRequiredService<IProductService>();
+            CurrentSubView = new UpdateProductViewModel(productService, m.Data, _messenger);
+        });
+
+        _messenger.Register<ProductUpdatedMessage>(this, (r, m) =>
+        {
+            CurrentSubView = new DisplayUpdatedProductViewModel(m.Data, _messenger);
+        });
+
+        _messenger.Register<NavigateBackToUpdateProductMessage>(this, (r, m) =>
+        {
+            CurrentSubView = _serviceProvider.GetRequiredService<AdminChooseProductForUpdateViewModel>();
+        });
+
+        _messenger.Register<NavigateBackToAllAdminProductsMessage>(this, (r, m) =>
+        {
+            CurrentSubView = _serviceProvider.GetRequiredService<ViewProductsForAdminViewModel>();
+        });
+
+        _messenger.Register<ProductSelectedForAdminMessage>(this, async (r, m) =>
+        {
+            var productService = _serviceProvider.GetRequiredService<IProductService>();
+            var detailVM = new DisplayAdminProductViewModel(productService, m.ProductId, _messenger);
+            await detailVM.GetProductAsync();
+            CurrentSubView = detailVM;
         });
     }
 }

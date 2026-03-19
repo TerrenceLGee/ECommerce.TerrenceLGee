@@ -333,6 +333,16 @@ public class ProductRepository : IProductRepository
             products = products.Where(p => p.IsInStock == productQueryParams.InStock);
         }
 
+        if (productQueryParams.IsDeleted.HasValue)
+        {
+            products = products.Where(p => p.IsDeleted == productQueryParams.IsDeleted);
+        }
+
+        if (productQueryParams.CategoryId.HasValue)
+        {
+            products = products.Where(p => p.CategoryId == productQueryParams.CategoryId);
+        }
+
         products = SortHelper<Product>.ApplySorting(products, productQueryParams.OrderBy);
     }
 

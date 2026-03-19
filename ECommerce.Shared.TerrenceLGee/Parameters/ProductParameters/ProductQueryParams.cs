@@ -12,6 +12,7 @@ public class ProductQueryParams : QueryStringParams
     public string? CategoryName { get; set; }
     public string? Description { get; set; }
     public bool? InStock { get; set; }
+    public bool? IsDeleted { get; set; }
     public bool IsValidUnitPriceRange => MaxUnitPrice >= MinUnitPrice;
     public bool IsValidStockQuantityRange => MaxStockQuantity >= MinStockQuantity;
     public bool IsValidDiscountPercentageRange => MaxDiscountPercentage >= MinDiscountPercentage;

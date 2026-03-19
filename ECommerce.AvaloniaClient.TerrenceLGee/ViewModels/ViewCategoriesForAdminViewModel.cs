@@ -34,7 +34,7 @@ public partial class ViewCategoriesForAdminViewModel : ObservableObject
     [ObservableProperty]
     private bool _hasNextPage;
     [ObservableProperty]
-    private string _searchByDescription;
+    private string? _searchByDescription;
 
     public ViewCategoriesForAdminViewModel(ICategoryService categoryService, IMessenger messenger)
     {

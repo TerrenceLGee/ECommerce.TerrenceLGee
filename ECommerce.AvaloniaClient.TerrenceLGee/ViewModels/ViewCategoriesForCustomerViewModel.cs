@@ -32,7 +32,7 @@ public partial class ViewCategoriesForCustomerViewModel : ObservableObject
     [ObservableProperty]
     private bool _hasNextPage;
     [ObservableProperty]
-    private string _searchByDescription;
+    private string? _searchByDescription;
 
     public ViewCategoriesForCustomerViewModel(ICategoryService categoryService, IMessenger messenger)
     {

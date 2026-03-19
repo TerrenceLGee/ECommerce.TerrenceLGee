@@ -49,6 +49,18 @@
         <DataTemplate DataType="{x:Type vm:AdminChooseProductForUpdateViewModel}">
 			<local:AdminChooseProductForUpdateView/>
         </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:UpdateProductViewModel}">
+			<local:UpdateProductView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:DisplayUpdatedProductViewModel}">
+			<local:DisplayUpdatedProductView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:ViewProductsForAdminViewModel}">
+			<local:ViewProductsForAdminView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:DisplayAdminProductViewModel}">
+			<local:DisplayAdminProductView/>
+        </DataTemplate>
     </Application.DataTemplates>
 
     <Application.Styles>

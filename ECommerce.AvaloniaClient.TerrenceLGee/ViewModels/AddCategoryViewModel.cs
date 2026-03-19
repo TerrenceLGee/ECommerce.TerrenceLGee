@@ -46,7 +46,7 @@ public partial class AddCategoryViewModel : ObservableValidator
 
 
     [RelayCommand]
-    public async Task AddCategoryAsync()
+    private async Task AddCategoryAsync()
     {
         SuccessMessage = null;
         ErrorMessage = null;
