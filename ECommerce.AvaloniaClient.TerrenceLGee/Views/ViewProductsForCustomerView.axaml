@@ -3,9 +3,9 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="ECommerce.AvaloniaClient.TerrenceLGee.ViewProductsForAdminView"
+             x:Class="ECommerce.AvaloniaClient.TerrenceLGee.ViewProductsForCustomerView"
              xmlns:vm="using:ECommerce.AvaloniaClient.TerrenceLGee.ViewModels"
-             x:DataType="vm:ViewProductsForAdminViewModel">
+             x:DataType="vm:ViewProductsForCustomerViewModel">
   <ScrollViewer>
 	  <Grid RowDefinitions="Auto, Auto, Auto" Margin="10">
 		  <StackPanel Grid.Row="0">
@@ -24,16 +24,14 @@
 				  <TextBox Text="{Binding MinDiscountPercentage}" Watermark="Min Discount Percentage..." Width="150"/>
                   <TextBox Text="{Binding MaxDiscountPercentage}" Watermark="Max Discount Percentage..." Width="150"/>
               </StackPanel>
-              <TextBlock Text="Filter By Category Id, Category Name and/or filter on words/letters contained in the Product Description" FontWeight="ExtraBold"/>
+              <TextBlock Text="Filter By Category Name and/or filter on words/letters contained in the Product Description" FontWeight="ExtraBold"/>
               <StackPanel Orientation="Horizontal" Spacing="10">
-				  <TextBox Text="{Binding CategoryId}" Watermark="Category Id..." Width="150"/>
-                  <TextBox Text="{Binding CategoryName}" Watermark="Category Name..." Width="150"/>
+				  <TextBox Text="{Binding CategoryName}" Watermark="Category Name..." Width="150"/>
                   <TextBox Text="{Binding Description}" Watermark="Description Contains..." Width="150"/>
               </StackPanel>
-              <TextBlock Text="Filter By Stock and/or Deleted Status" FontWeight="ExtraBold"/>
+              <TextBlock Text="Filter By Stock Status" FontWeight="ExtraBold"/>
               <StackPanel Orientation="Horizontal" Spacing="10">
 				  <CheckBox IsChecked="{Binding InStock}" Content="In Stock Products"/>
-                  <CheckBox IsChecked="{Binding IsDeleted}" Content="Deleted Products"/>
               </StackPanel>
               <Button Content="Apply Filters" Command="{Binding LoadProductsCommand}"/>
               <Button Content="Clear Filters" Command="{Binding ClearFiltersCommand}"/>
@@ -50,7 +48,6 @@
                             BorderBrush="Gray">
                       <DataGrid.Columns>
 						  <DataGridTextColumn Header="Id" Binding="{Binding Id}" Width="Auto"/>
-                          <DataGridTextColumn Header="Category Id" Binding="{Binding CategoryId}" Width="Auto"/>
                           <DataGridTextColumn Header="Category Name" Binding="{Binding CategoryName}" Width="Auto"/>
                           <DataGridTextColumn Header="Product Name" Binding="{Binding Name}" Width="Auto"/>
                           <DataGridTextColumn Header="Description" Binding="{Binding Description}" Width="Auto"/>
@@ -58,9 +55,6 @@
                           <DataGridTextColumn Header="Unit Price" Binding="{Binding UnitPrice}" Width="Auto"/>
                           <DataGridTextColumn Header="Discount Percentage" Binding="{Binding DiscountPercentage}" Width="Auto"/>
                           <DataGridTextColumn Header="In Stock" Binding="{Binding IsInStock}" Width="Auto"/>
-                          <DataGridTextColumn Header="Is Deleted" Binding="{Binding IsDeleted}" Width="Auto"/>
-                          <DataGridTextColumn Header="Created At" Binding="{Binding CreatedAt}" Width="Auto"/>
-                          <DataGridTextColumn Header="Updated At" Binding="{Binding UpdatedAt}" Width="Auto"/>
                       </DataGrid.Columns>
                   </DataGrid>
               </StackPanel>
@@ -71,7 +65,7 @@
                       <Run Text=" of "/>
                       <Run Text="{Binding TotalPages}"/>
                   </TextBlock>
-                  <Button Content="Next" Command="{Binding NextPageAsymcCommand}" IsEnabled="{Binding HasNextPage}"/>
+                  <Button Content="Next" Command="{Binding NextPageCommand}" IsEnabled="{Binding HasNextPage}"/>
               </StackPanel>
           </StackPanel>
       </Grid>

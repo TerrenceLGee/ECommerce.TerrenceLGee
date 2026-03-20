@@ -55,16 +55,38 @@
         <DataTemplate DataType="{x:Type vm:DisplayUpdatedProductViewModel}">
 			<local:DisplayUpdatedProductView/>
         </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:DisplaySelectedProductFromAdminCategoryDetailViewModel}">
+			<local:DisplaySelectedProductFromAdminCategoryDetailView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:DisplaySelectedProductFromCustomerCategoryDetailViewModel}">
+			<local:DisplaySelectedProductFromCustomerCategoryDetailView/>
+        </DataTemplate>
         <DataTemplate DataType="{x:Type vm:ViewProductsForAdminViewModel}">
 			<local:ViewProductsForAdminView/>
         </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:ViewProductsForCustomerViewModel}">
+			<local:ViewProductsForCustomerView/>
+        </DataTemplate>
         <DataTemplate DataType="{x:Type vm:DisplayAdminProductViewModel}">
 			<local:DisplayAdminProductView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:DisplayCustomerProductViewModel}">
+			<local:DisplayCustomerProductView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:DeleteProductViewModel}">
+            <local:DeleteProductView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:RestoreProductViewModel}">
+			<local:RestoreProductView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:AddAddressViewModel}">
+			<local:AddAddressView/>
         </DataTemplate>
     </Application.DataTemplates>
 
     <Application.Styles>
     <FluentTheme />
     <StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Fluent.xaml"/>
+    <StyleInclude Source="avares://MsBox.Avalonia.Markdown/Controls/MarkdownView.axaml" />
 </Application.Styles>
 </Application>

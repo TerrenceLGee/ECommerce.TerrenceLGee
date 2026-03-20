@@ -7,7 +7,7 @@
              xmlns:vm="using:ECommerce.AvaloniaClient.TerrenceLGee.ViewModels"
              x:DataType="vm:ViewCategoriesForCustomerViewModel">
   <StackPanel>
-	  <TextBlock Text="Categories" FontSize="36" FontWeight="Bold" Margin="0,0,0,10"/>
+	  <TextBlock Text="Categories (Select a category to see more information)" FontSize="36" FontWeight="Bold" Margin="0,0,0,10"/>
       <ProgressBar IsIndeterminate="True" IsVisible="{Binding IsLoading}"/>
       <TextBox Text="{Binding SearchByDescription}"
                Watermark="Search by category description..."

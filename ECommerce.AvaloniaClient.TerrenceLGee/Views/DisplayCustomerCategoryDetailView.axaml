@@ -23,8 +23,9 @@
           </Border>
       </StackPanel>
       <DockPanel Grid.Row="1" Margin="0,20,0,0">
-		  <TextBlock Text="Products In This Category" FontSize="20" FontWeight="Bold" DockPanel.Dock="Top" Margin="0,0,0,10"/>
+		  <TextBlock Text="Products In This Category (Select a product for more information)" FontSize="20" FontWeight="Bold" DockPanel.Dock="Top" Margin="0,0,0,10"/>
           <DataGrid ItemsSource="{Binding Products}"
+                    SelectedItem="{Binding SelectedProduct}"
                     IsReadOnly="True"
                     GridLinesVisibility="All"
                     BorderThickness="1"

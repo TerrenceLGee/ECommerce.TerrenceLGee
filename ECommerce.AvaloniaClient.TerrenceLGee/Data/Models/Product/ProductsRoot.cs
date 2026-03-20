@@ -6,7 +6,7 @@ namespace ECommerce.AvaloniaClient.TerrenceLGee.Data.Models.Product;
 public class ProductsRoot : Root
 {
     [JsonPropertyName("data")]
-    public List<ProductRoot> Data { get; set; } = [];
+    public List<ProductData> Data { get; set; } = [];
 
     [JsonPropertyName("pageNumber")]
     public int PageNumber { get; set; }

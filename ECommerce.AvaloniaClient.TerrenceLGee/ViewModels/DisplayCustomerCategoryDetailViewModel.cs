@@ -22,12 +22,16 @@ public partial class DisplayCustomerCategoryDetailViewModel : ObservableObject
     private readonly ICategoryService _categoryService;
     private readonly IMessenger _messenger;
 
+    [ObservableProperty]
+    private ProductData? _selectedProduct;
+
     public DisplayCustomerCategoryDetailViewModel(ICategoryService categoryService, int categoryId, IMessenger messenger)
     {
         _categoryService = categoryService;
         CategoryId = categoryId;
         _messenger = messenger;
     }
+
 
     [ObservableProperty]
     private int _page = 1;
@@ -82,5 +86,13 @@ public partial class DisplayCustomerCategoryDetailViewModel : ObservableObject
     private void GoBack()
     {
         _messenger.Send(new NavigateToAllCustomerCategoriesMessage());
+    }
+
+    partial void OnSelectedProductChanged(ProductData? value)
+    {
+        if (value is not null)
+        {
+            _messenger.Send(new CategoryProductSelectedForCustomerMessage(value.Id, CategoryId));
+        }
     }
 }

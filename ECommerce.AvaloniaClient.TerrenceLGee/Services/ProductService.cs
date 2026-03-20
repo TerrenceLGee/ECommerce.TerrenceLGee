@@ -147,7 +147,7 @@ public class ProductService : IProductService
         }
     }
 
-    public async Task<string?> DeleteProductAsync(int productId)
+    public async Task<(bool, string?)> DeleteProductAsync(int productId)
     {
         try
         {
@@ -158,7 +158,7 @@ public class ProductService : IProductService
 
             if (!response.IsSuccessStatusCode)
             {
-                return $"Unable to delete product {productId}\nReason: {response.ReasonPhrase}";
+                return (false, $"Unable to delete product {productId}\nReason: {response.ReasonPhrase}");
             }
 
             var responseContent = await response.Content.ReadAsStringAsync();
@@ -166,15 +166,15 @@ public class ProductService : IProductService
 
             if (productDeletedResponse is null)
             {
-                return $"Unable to delete product {productId} at this time, please try again later";
+                return (false, $"Unable to delete product {productId} at this time, please try again later");
             }
 
             if (!productDeletedResponse.IsSuccess || productDeletedResponse.StatusCode != 200)
             {
-                return $"Unable to delete product {productId}: {string.Join('\n', productDeletedResponse.Errors)}";
+                return (false, $"Unable to delete product {productId}: {string.Join('\n', productDeletedResponse.Errors)}");
             }
 
-            return productDeletedResponse.Data;
+            return (true, productDeletedResponse.Data);
         }
         catch (HttpRequestException ex)
         {
@@ -182,7 +182,7 @@ public class ProductService : IProductService
                 $"Method: {nameof(DeleteProductAsync)}\n" +
                 $"There was an API error deleting product {productId}: {ex.Message}";
             _logger.LogError(ex, LogErrorString, _errorMessage);
-            return $"There was an API error deleting product {productId}";
+            return (false, $"There was an API error deleting product {productId}");
         }
         catch (Exception ex)
         {
@@ -190,11 +190,11 @@ public class ProductService : IProductService
                 $"Method: {nameof(DeleteProductAsync)}\n" +
                 $"There was an unexpected error deleting product {productId}: {ex.Message}";
             _logger.LogError(ex, LogErrorString, _errorMessage);
-            return $"There was an unexpected error deleting product {productId}";
+            return (false, $"There was an unexpected error deleting product {productId}");
         }
     }
 
-    public async Task<string?> RestoreProductAsync(int productId)
+    public async Task<(bool, string?)> RestoreProductAsync(int productId)
     {
         try
         {
@@ -205,7 +205,7 @@ public class ProductService : IProductService
 
             if (!response.IsSuccessStatusCode)
             {
-                return $"Unable to restore product {productId}\nReason: {response.ReasonPhrase}";
+                return (false, $"Unable to restore product {productId}\nReason: {response.ReasonPhrase}");
             }
 
             var responseContent = await response.Content.ReadAsStringAsync();
@@ -213,15 +213,15 @@ public class ProductService : IProductService
 
             if (productRestoredResponse is null)
             {
-                return $"Unable to restore product {productId} at this time, please try again later";
+                return (false, $"Unable to restore product {productId} at this time, please try again later");
             }
 
             if (!productRestoredResponse.IsSuccess || productRestoredResponse.StatusCode != 200)
             {
-                return $"Unable to restore product {productId}: {string.Join('\n', productRestoredResponse.Errors)}";
+                return (false, $"Unable to restore product {productId}: {string.Join('\n', productRestoredResponse.Errors)}");
             }
 
-            return productRestoredResponse.Data;
+            return (true, productRestoredResponse.Data);
         }
         catch (HttpRequestException ex)
         {
@@ -229,7 +229,7 @@ public class ProductService : IProductService
                 $"Method: {nameof(RestoreProductAsync)}\n" +
                 $"There was an API error restoring product {productId}: {ex.Message}";
             _logger.LogError(ex, LogErrorString, _errorMessage);
-            return $"There was an API error restoring product {productId}";
+            return (false, $"There was an API error restoring product {productId}");
         }
         catch (Exception ex)
         {
@@ -237,7 +237,7 @@ public class ProductService : IProductService
                 $"Method: {nameof(RestoreProductAsync)}\n" +
                 $"There was an unexpected error restoring product {productId}: {ex.Message}";
             _logger.LogError(ex, LogErrorString, _errorMessage);
-            return $"There was an unexpected error deleting product {productId}";
+            return (false, $"There was an unexpected error deleting product {productId}");
         }
     }
 
@@ -474,6 +474,11 @@ public class ProductService : IProductService
         if (queryParams.InStock.HasValue)
         {
             query.Append($"&inStock={queryParams.InStock}");
+        }
+
+        if (queryParams.IsDeleted.HasValue)
+        {
+            query.Append($"&isDeleted={queryParams.IsDeleted}");
         }
 
         return query.ToString();

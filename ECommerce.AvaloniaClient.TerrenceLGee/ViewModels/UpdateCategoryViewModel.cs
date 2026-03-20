@@ -75,6 +75,7 @@ public partial class UpdateCategoryViewModel : ObservableValidator
             Description = Description
         };
 
+
         var data = await _categoryService.UpdateCategoryAsync(category);
 
         if (data is null)
@@ -93,6 +94,12 @@ public partial class UpdateCategoryViewModel : ObservableValidator
         {
             ErrorMessage = data.ErrorMessage;
         }
+    }
+
+    [RelayCommand]
+    private async Task GoBack()
+    {
+        _messenger.Send(new NavigateBackToAllAdminCategoriesFromUpdateView());
     }
 
     private void ClearCategoryUpdate()

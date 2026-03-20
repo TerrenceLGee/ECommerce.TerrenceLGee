@@ -22,6 +22,9 @@ public partial class DisplayAdminCategoryDetailViewModel : ObservableObject
     private readonly ICategoryService _categoryService;
     private readonly IMessenger _messenger;
 
+    [ObservableProperty]
+    private ProductAdminData? _selectedProduct;
+
     public DisplayAdminCategoryDetailViewModel(ICategoryService categoryService, int categoryId, IMessenger messenger)
     {
         _categoryService = categoryService;
@@ -82,5 +85,13 @@ public partial class DisplayAdminCategoryDetailViewModel : ObservableObject
     private void GoBack()
     {
         _messenger.Send(new NavigateBackToAllAdminCategoriesMessage());
+    }
+
+    partial void OnSelectedProductChanged(ProductAdminData? value)
+    {
+        if (value is not null)
+        {
+            _messenger.Send(new CategoryProductSelectedForAdminMessage(value.Id, CategoryId));
+        }
     }
 }

@@ -10,16 +10,16 @@ using System.Threading.Tasks;
 
 namespace ECommerce.AvaloniaClient.TerrenceLGee.ViewModels;
 
-public partial class ViewProductsForAdminViewModel : ObservableObject
+public partial class ViewProductsForCustomerViewModel : ObservableObject
 {
     private readonly IProductService _productService;
     private readonly IMessenger _messenger;
-    public ObservableCollection<ProductAdminData> Products { get; } = [];
+    public ObservableCollection<ProductData> Products { get; } = [];
 
     [ObservableProperty]
     private bool _isLoading;
     [ObservableProperty]
-    private ProductAdminData? _selectedProduct;
+    private ProductData? _selectedProduct;
 
     [ObservableProperty]
     private int _page = 1;
@@ -55,7 +55,7 @@ public partial class ViewProductsForAdminViewModel : ObservableObject
     [ObservableProperty]
     private bool? _isDeleted;
 
-    public ViewProductsForAdminViewModel(IProductService productService, IMessenger messenger)
+    public ViewProductsForCustomerViewModel(IProductService productService, IMessenger messenger)
     {
         _productService = productService;
         _messenger = messenger;
@@ -71,7 +71,7 @@ public partial class ViewProductsForAdminViewModel : ObservableObject
     }
 
     [RelayCommand]
-    private async Task NextPageAsymc()
+    private async Task NextPageAsync()
     {
         if (!HasNextPage) return;
         Page++;
@@ -100,14 +100,12 @@ public partial class ViewProductsForAdminViewModel : ObservableObject
             MaxStockQuantity = MaxStockQuantity,
             MinDiscountPercentage = MinDiscountPercentage,
             MaxDiscountPercentage = MaxDiscountPercentage,
-            CategoryId = CategoryId,
             CategoryName = CategoryName,
             Description = Description,
             InStock = InStock,
-            IsDeleted = IsDeleted
         };
 
-        var result = await _productService.GetProductsForAdminAsync(queryParams);
+        var result = await _productService.GetProductsAsync(queryParams);
 
         if (result is not null)
         {
@@ -135,18 +133,16 @@ public partial class ViewProductsForAdminViewModel : ObservableObject
         MaxStockQuantity = null;
         MinDiscountPercentage = null;
         MaxDiscountPercentage = null;
-        CategoryId = null;
         CategoryName = string.Empty;
         Description = string.Empty;
         InStock = false;
-        IsDeleted = false;
     }
 
-    partial void OnSelectedProductChanged(ProductAdminData? value)
+    partial void OnSelectedProductChanged(ProductData? value)
     {
         if (value is not null)
         {
-            _messenger.Send(new ProductSelectedForAdminMessage(value.Id));
+            _messenger.Send(new ProductSelectedForCustomerMessage(value.Id));
         }
     }
 }

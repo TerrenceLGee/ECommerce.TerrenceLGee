@@ -130,6 +130,12 @@ public partial class UpdateProductViewModel : ObservableValidator
         }
     }
 
+    [RelayCommand]
+    private async Task GoBack()
+    {
+        _messenger.Send(new NavigateBackToAllAdminProductsFromUpdateView());
+    }
+
     private void ClearUpdateProduct()
     {
         Name = string.Empty;

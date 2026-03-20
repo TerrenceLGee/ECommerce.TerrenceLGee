@@ -107,7 +107,7 @@ public class ProductsController : ControllerBase
             return StatusCode(response.StatusCode, response);
         }
 
-        response = new ApiResponse<string?>(200, $"Product {id} deleted successfully.");
+        response = new ApiResponse<string?>(200, $"Product {id} successfully marked as deleted.");
 
         return StatusCode(response.StatusCode, response);
     }

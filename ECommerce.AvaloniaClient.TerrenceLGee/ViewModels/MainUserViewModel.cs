@@ -81,8 +81,10 @@ public partial class MainUserViewModel : ObservableObject
                 CurrentSubView = _serviceProvider.GetRequiredService<AdminChooseProductForUpdateViewModel>();
                 break;
             case AdminMenu.DeleteProduct:
+                CurrentSubView = _serviceProvider.GetRequiredService<DeleteProductViewModel>();
                 break;
             case AdminMenu.RestoreProduct:
+                CurrentSubView = _serviceProvider.GetRequiredService<RestoreProductViewModel>();
                 break;
             case AdminMenu.ViewProducts:
                 CurrentSubView = _serviceProvider.GetRequiredService<ViewProductsForAdminViewModel>();
@@ -101,6 +103,7 @@ public partial class MainUserViewModel : ObservableObject
                 CurrentSubView = _serviceProvider.GetRequiredService<ViewCategoriesForCustomerViewModel>();
                 break;
             case CustomerMenu.ViewProducts:
+                CurrentSubView = _serviceProvider.GetRequiredService<ViewProductsForCustomerViewModel>();
                 break;
             case CustomerMenu.AddSale:
                 break;
@@ -167,6 +170,7 @@ public partial class MainUserViewModel : ObservableObject
             CurrentSubView = detailVM;
         });
 
+
         _messenger.Register<NavigateBackToAllAdminCategoriesMessage>(this, (r, m) =>
         {
             CurrentSubView = _serviceProvider.GetRequiredService<ViewCategoriesForAdminViewModel>();
@@ -183,6 +187,27 @@ public partial class MainUserViewModel : ObservableObject
         _messenger.Register<NavigateToAllCustomerCategoriesMessage>(this, (r, m) =>
         {
             CurrentSubView = _serviceProvider.GetRequiredService<ViewCategoriesForCustomerViewModel>();
+        });
+
+        _messenger.Register<NavigateBackToAllAdminCategoriesFromUpdateView>(this, (r, m) =>
+        {
+            CurrentSubView = _serviceProvider.GetRequiredService<AdminChooseCategoryForUpdateViewModel>();
+        });
+
+        _messenger.Register<NavigateBackToAdminCategoryDetailView>(this, async (r, m) =>
+        {
+            var categoryService = _serviceProvider.GetRequiredService<ICategoryService>();
+            var detailVM = new DisplayAdminCategoryDetailViewModel(categoryService, m.CategoryId, _messenger);
+            await detailVM.GetCategoryAsync();
+            CurrentSubView = detailVM;
+        });
+
+        _messenger.Register<NavigateBackToCustomerCategoryDetailView>(this, async (r, m) =>
+        {
+            var categoryService = _serviceProvider.GetRequiredService<ICategoryService>();
+            var detailVM = new DisplayCustomerCategoryDetailViewModel(categoryService, m.CategoryId, _messenger);
+            await detailVM.GetCategoryAsync();
+            CurrentSubView = detailVM;
         });
     }
 
@@ -219,10 +244,44 @@ public partial class MainUserViewModel : ObservableObject
             CurrentSubView = _serviceProvider.GetRequiredService<ViewProductsForAdminViewModel>();
         });
 
+        _messenger.Register<NavigateBackToAllCustomerProductsMessage>(this, (r, m) =>
+        {
+            CurrentSubView = _serviceProvider.GetRequiredService<ViewProductsForCustomerViewModel>();
+        });
+
         _messenger.Register<ProductSelectedForAdminMessage>(this, async (r, m) =>
         {
             var productService = _serviceProvider.GetRequiredService<IProductService>();
             var detailVM = new DisplayAdminProductViewModel(productService, m.ProductId, _messenger);
+            await detailVM.GetProductAsync();
+            CurrentSubView = detailVM;
+        });
+
+        _messenger.Register<ProductSelectedForCustomerMessage>(this, async (r, m) =>
+        {
+            var productService = _serviceProvider.GetRequiredService<IProductService>();
+            var detailVM = new DisplayCustomerProductViewModel(productService, m.ProductId, _messenger);
+            await detailVM.GetProductAsync();
+            CurrentSubView = detailVM;
+        });
+
+        _messenger.Register<NavigateBackToAllAdminProductsFromUpdateView>(this, (r, m) =>
+        {
+            CurrentSubView = _serviceProvider.GetRequiredService<AdminChooseProductForUpdateViewModel>();
+        });
+
+        _messenger.Register<CategoryProductSelectedForAdminMessage>(this, async (r, m) =>
+        {
+            var productService = _serviceProvider.GetRequiredService<IProductService>();
+            var detailVM = new DisplaySelectedProductFromAdminCategoryDetailViewModel(productService, m.ProductId, m.CategoryId, _messenger);
+            await detailVM.GetProductAsync();
+            CurrentSubView = detailVM;
+        });
+
+        _messenger.Register<CategoryProductSelectedForCustomerMessage>(this, async (r, m) =>
+        {
+            var productService = _serviceProvider.GetRequiredService<IProductService>();
+            var detailVM = new DisplaySelectedProductFromCustomerCategoryDetailViewModel(productService, m.ProductId, m.CategoryId, _messenger);
             await detailVM.GetProductAsync();
             CurrentSubView = detailVM;
         });

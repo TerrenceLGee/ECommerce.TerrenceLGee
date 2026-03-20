@@ -60,6 +60,8 @@ public partial class App : Application
         services.AddTransient<DisplayUpdatedCategoryViewModel>();
         services.AddTransient<DisplayAdminCategoryDetailViewModel>();
         services.AddTransient<DisplayCustomerCategoryDetailViewModel>();
+        services.AddTransient<DisplaySelectedProductFromAdminCategoryDetailViewModel>();
+        services.AddTransient<DisplaySelectedProductFromCustomerCategoryDetailViewModel>();
         services.AddTransient<ViewCategoriesForAdminViewModel>();
         services.AddTransient<ViewCategoriesForCustomerViewModel>();
         services.AddTransient<AdminChooseCategoryForUpdateViewModel>();
@@ -69,9 +71,15 @@ public partial class App : Application
         services.AddTransient<DisplayAddedProductViewModel>();
         services.AddTransient<DisplayUpdatedProductViewModel>();
         services.AddTransient<DisplayAdminProductViewModel>();
+        services.AddTransient<DisplayCustomerProductViewModel>();
         services.AddTransient<AdminChooseProductForUpdateViewModel>();
         services.AddTransient<ViewProductsForAdminViewModel>();
+        services.AddTransient<ViewProductsForCustomerViewModel>();
         services.AddTransient<UpdateProductViewModel>();
+        services.AddTransient<DeleteProductViewModel>();
+        services.AddTransient<RestoreProductViewModel>();
+
+        services.AddTransient<AddAddressViewModel>();
 
         var serviceProvider = services.BuildServiceProvider();
 
