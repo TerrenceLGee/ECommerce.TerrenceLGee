@@ -100,7 +100,7 @@
               "bearer": [
                 {
                   "key": "token",
-                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkZTNjM2E5Ni03MDg5LTRkYTMtOWExNy0xZDVhNmM5ODMyY2QiLCJqdGkiOiI1YzE1NWFmZC0yMGZjLTQyOTMtOTFlZC1lYzA0Yzc3MmUwZDQiLCJlbWFpbCI6InRqb25lc0BleGFtcGxlLmNvbSIsImlzcyI6IkVDb21tZXJjZUFQSSIsImF1ZCI6WyJFQ29tbWVyY2VDbGllbnQiLCJFQ29tbWVyY2VDbGllbnQiXSwicm9sZSI6ImN1c3RvbWVyIiwiZXhwIjoxNzczMDE2MTExfQ.keo3R-pk_EDIrp0ECx3R5hm5xrOfuQfTvq-0Q7APkIE",
+                  "value": "",
                   "type": "string"
                 }
               ]
@@ -378,6 +378,48 @@
               ]
             },
             "description": "Allows Customer1 to retrieve all of their addresses on record when providing the JWT token from login"
+          },
+          "response": []
+        },
+        {
+          "name": "Admin Get  A Customer Address",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"customerId\": \"de3c3a96-7089-4da3-9a17-1d5a6c9832cd\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://localhost:7001/api/addresses/admin/1",
+              "protocol": "https",
+              "host": [
+                "localhost"
+              ],
+              "port": "7001",
+              "path": [
+                "api",
+                "addresses",
+                "admin",
+                "1"
+              ]
+            },
+            "description": "Admin gets a customer address by Id. Because of the random nature of the GUIDs assigned to customers I was unable to populate this in the JSON body, to test this endpoint, just as admin get all customer addresses from the endpoint and copy a customer id into the body of this requred and then you can test it that way. Also you must logged in as the admin user and be authorized with the JWT token from the login response. The reason this is a post instead of a get is because I am using JSON to add the customer address to the request"
           },
           "response": []
         }

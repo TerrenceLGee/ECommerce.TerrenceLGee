@@ -1,8 +1,10 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Messaging;
 using ECommerce.AvaloniaClient.TerrenceLGee.Enums;
+using ECommerce.AvaloniaClient.TerrenceLGee.Messages.AddressMessages;
 using ECommerce.AvaloniaClient.TerrenceLGee.Messages.CategoryMessages;
 using ECommerce.AvaloniaClient.TerrenceLGee.Messages.ProductMessages;
+using ECommerce.AvaloniaClient.TerrenceLGee.Services.Interfaces.Address;
 using ECommerce.AvaloniaClient.TerrenceLGee.Services.Interfaces.Auth;
 using ECommerce.AvaloniaClient.TerrenceLGee.Services.Interfaces.Category;
 using ECommerce.AvaloniaClient.TerrenceLGee.Services.Interfaces.Product;
@@ -96,6 +98,7 @@ public partial class MainUserViewModel : ObservableObject
             case AdminMenu.UpdateSaleStatus:
                 break;
             case AdminMenu.ViewAddresses:
+                CurrentSubView = _serviceProvider.GetRequiredService<ViewCustomerAddressesForAdminViewModel>();
                 break;
             case CustomerMenu.ViewProfile:
                 break;
@@ -112,6 +115,7 @@ public partial class MainUserViewModel : ObservableObject
             case CustomerMenu.CancelOrder:
                 break;
             case CustomerMenu.AddAddress:
+                CurrentSubView = _serviceProvider.GetRequiredService<AddAddressViewModel>();
                 break;
             case CustomerMenu.UpdateAddress:
                 break;
@@ -132,6 +136,7 @@ public partial class MainUserViewModel : ObservableObject
     {
         CategoryMessageRegistration();
         ProductMessageRegistration();
+        AddressMessageRegistration();
     }
 
     private void CategoryMessageRegistration()
@@ -284,6 +289,32 @@ public partial class MainUserViewModel : ObservableObject
             var detailVM = new DisplaySelectedProductFromCustomerCategoryDetailViewModel(productService, m.ProductId, m.CategoryId, _messenger);
             await detailVM.GetProductAsync();
             CurrentSubView = detailVM;
+        });
+    }
+
+    private void AddressMessageRegistration()
+    {
+        _messenger.Register<CustomerAddresseSelectedForAdminMessage>(this, async (r, m) =>
+        {
+            var addressService = _serviceProvider.GetRequiredService<IAddressService>();
+            var detailVM = new DisplayCustomerAddressForAdminViewModel(addressService, m.AddressId, m.CustomerId, _messenger);
+            await detailVM.GetAddressAsync();
+            CurrentSubView = detailVM;
+        });
+
+        _messenger.Register<NavigateBackToAllCustomerAddressesForAdminMessage>(this, (r, m) =>
+        {
+            CurrentSubView = _serviceProvider.GetRequiredService<ViewCustomerAddressesForAdminViewModel>();
+        });
+
+        _messenger.Register<AddressAddedMessage>(this, (r, m) =>
+        {
+            CurrentSubView = new DisplayAddedAddressViewModel(m.Data, _messenger);
+        });
+
+        _messenger.Register<NavigateBackToAddAddressMessage>(this, (r, m) =>
+        {
+            CurrentSubView = _serviceProvider.GetRequiredService<AddAddressViewModel>();
         });
     }
 }

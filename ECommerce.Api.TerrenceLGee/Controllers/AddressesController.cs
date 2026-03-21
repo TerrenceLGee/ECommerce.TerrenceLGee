@@ -158,6 +158,36 @@ public class AddressesController : ControllerBase
         return StatusCode(response.StatusCode, response);
     }
 
+    [HttpPost("admin/{id:int}")]
+    [Authorize(Roles = "admin")]
+    public async Task<ActionResult<ApiResponse<RetrievedAddressDto?>>> GetCustomerAddressForAdmin([FromRoute] int id, [FromBody] AddressIdDto addressIdDto)
+    {
+        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+        var (isValidUser, errorResponse) = await UserValidationAsync<RetrievedAddressDto?>(userId);
+
+        if (!isValidUser)
+        {
+            return errorResponse;
+        }
+
+        addressIdDto.Id = id;
+
+        var result = await _addressService.GetAddressAsync(addressIdDto);
+
+        var response = ApiResponse<RetrievedAddressDto?>.GetEmptyResponse;
+
+        if (result.IsFailure)
+        {
+            response = FailureHelper.HandleFailureResult<RetrievedAddressDto?>(result);
+            return StatusCode(response.StatusCode, response);
+        }
+
+        response = new ApiResponse<RetrievedAddressDto?>(200, result.Value);
+
+        return StatusCode(response.StatusCode, response);
+    }
+
     [HttpGet]
     [Authorize(Roles = "admin,customer")]
     public async Task<ActionResult<ApiResponsePaged<RetrievedAddressDto>>> GetAddressesForCustomer([FromQuery] AddressQueryParams queryParams)

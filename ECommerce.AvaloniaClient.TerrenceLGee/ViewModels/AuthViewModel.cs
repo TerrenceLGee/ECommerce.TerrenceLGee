@@ -82,7 +82,7 @@ public partial class AuthViewModel : ObservableValidator
 
     [ObservableProperty]
     [Required(ErrorMessage = "City is required.")]
-    [MaxLength(ErrorMessage = "City cannot exceed 50 characters.")]
+    [MaxLength(50, ErrorMessage = "City cannot exceed 50 characters.")]
     [NotifyPropertyChangedFor(nameof(CityErrors))]
     private string _city;
 
@@ -91,7 +91,7 @@ public partial class AuthViewModel : ObservableValidator
 
     [ObservableProperty]
     [Required(ErrorMessage = "State is required.")]
-    [MaxLength(ErrorMessage = "State cannot exceed 50 characters.")]
+    [MaxLength(50, ErrorMessage = "State cannot exceed 50 characters.")]
     [NotifyPropertyChangedFor(nameof(StateErrors))]
     private string _state;
 
@@ -109,7 +109,7 @@ public partial class AuthViewModel : ObservableValidator
 
     [ObservableProperty]
     [Required(ErrorMessage = "Country is required.")]
-    [MaxLength(ErrorMessage = "Country cannot exceed 50 characters.")]
+    [MaxLength(50, ErrorMessage = "Country cannot exceed 50 characters.")]
     [NotifyPropertyChangedFor(nameof(CountryErrors))]
     private string _country;
 

@@ -11,6 +11,7 @@ public static class Urls
     public static string UpdateAddressUrl => "addresses/update/";
     public static string DeleteAddressUrl => "addresses/";
     public static string GetAddressForCustomerUrl => "addresses/";
+    public static string GetCustomerAddressForAdminUrl => "addresses/admin/";
     public static string GetAllAddressesForCustomerUrl => "addresses";
     public static string GetAllAddressesForAdminUrl => "addresses/admin";
     public static string GetCountOfAllAddressesForAdminUrl => "addresses/admin/count";
