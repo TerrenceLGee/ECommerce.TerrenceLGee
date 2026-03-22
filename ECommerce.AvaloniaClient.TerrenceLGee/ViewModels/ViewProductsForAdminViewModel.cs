@@ -45,8 +45,6 @@ public partial class ViewProductsForAdminViewModel : ObservableObject
     [ObservableProperty]
     private int? _maxDiscountPercentage;
     [ObservableProperty]
-    private int? _categoryId;
-    [ObservableProperty]
     private string? _categoryName;
     [ObservableProperty]
     private string? _description;
@@ -100,7 +98,6 @@ public partial class ViewProductsForAdminViewModel : ObservableObject
             MaxStockQuantity = MaxStockQuantity,
             MinDiscountPercentage = MinDiscountPercentage,
             MaxDiscountPercentage = MaxDiscountPercentage,
-            CategoryId = CategoryId,
             CategoryName = CategoryName,
             Description = Description,
             InStock = InStock,
@@ -135,7 +132,6 @@ public partial class ViewProductsForAdminViewModel : ObservableObject
         MaxStockQuantity = null;
         MinDiscountPercentage = null;
         MaxDiscountPercentage = null;
-        CategoryId = null;
         CategoryName = string.Empty;
         Description = string.Empty;
         InStock = false;

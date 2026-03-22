@@ -49,7 +49,7 @@ public partial class AddAddressViewModel : ObservableValidator
 
     [ObservableProperty]
     [Required(ErrorMessage = "State is required.")]
-    [MaxLength(ErrorMessage = "State cannot exceed 50 characters.")]
+    [MaxLength(50, ErrorMessage = "State cannot exceed 50 characters.")]
     [NotifyPropertyChangedFor(nameof(StateErrors))]
     private string _state;
 

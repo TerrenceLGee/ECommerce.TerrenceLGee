@@ -83,10 +83,14 @@ public partial class App : Application
 
         services.AddTransient<AddAddressViewModel>();
         services.AddTransient<UpdateAddressViewModel>();
+        services.AddTransient<DeleteAddressViewModel>();
         services.AddTransient<CustomerChooseAddressForUpdateViewModel>();
+        services.AddTransient<ViewAddressesViewModel>();
         services.AddTransient<ViewCustomerAddressesForAdminViewModel>();
         services.AddTransient<DisplayCustomerAddressForAdminViewModel>();
         services.AddTransient<DisplayAddedAddressViewModel>();
+        services.AddTransient<DisplayUpdatedAddressViewModel>();
+        services.AddTransient<DisplayAddressViewModel>();
 
         var serviceProvider = services.BuildServiceProvider();
 

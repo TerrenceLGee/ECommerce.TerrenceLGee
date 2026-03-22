@@ -21,7 +21,6 @@ public class AuthService : IAuthService
     private string _errorMessage = string.Empty;
     private const string ClientName = "client";
     private const string MediaType = "application/json";
-    private const string Scheme = "Bearer";
     private const string LogErrorString = "{msg}\n\n";
 
     public AuthService(IHttpClientFactory clientFactory, ILogger<AuthService> logger, IAuthTokenHolder tokenHolder)

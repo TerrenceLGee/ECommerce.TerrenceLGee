@@ -36,8 +36,6 @@
                           BorderThickness="1"
                           BorderBrush="Gray">
                     <DataGrid.Columns>
-						<DataGridTextColumn Header="Id" Binding="{Binding Id}" Width="Auto"/>
-                        <DataGridTextColumn Header="Category Id" Binding="{Binding CategoryId}" Width="Auto"/>
                         <DataGridTextColumn Header="Category Name" Binding="{Binding CategoryName}" Width="Auto"/>
                         <DataGridTextColumn Header="Product Name" Binding="{Binding Name}" Width="Auto"/>
                         <DataGridTextColumn Header="Description" Binding="{Binding Description}" Width="Auto"/>

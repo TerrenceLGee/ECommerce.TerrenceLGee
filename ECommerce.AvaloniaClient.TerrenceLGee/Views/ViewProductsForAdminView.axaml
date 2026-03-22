@@ -24,9 +24,8 @@
 				  <TextBox Text="{Binding MinDiscountPercentage}" Watermark="Min Discount Percentage..." Width="150"/>
                   <TextBox Text="{Binding MaxDiscountPercentage}" Watermark="Max Discount Percentage..." Width="150"/>
               </StackPanel>
-              <TextBlock Text="Filter By Category Id, Category Name and/or filter on words/letters contained in the Product Description" FontWeight="ExtraBold"/>
+              <TextBlock Text="Filter By Category Name and/or filter on words/letters contained in the Product Description" FontWeight="ExtraBold"/>
               <StackPanel Orientation="Horizontal" Spacing="10">
-				  <TextBox Text="{Binding CategoryId}" Watermark="Category Id..." Width="150"/>
                   <TextBox Text="{Binding CategoryName}" Watermark="Category Name..." Width="150"/>
                   <TextBox Text="{Binding Description}" Watermark="Description Contains..." Width="150"/>
               </StackPanel>
@@ -49,8 +48,6 @@
                             BorderThickness="1"
                             BorderBrush="Gray">
                       <DataGrid.Columns>
-						  <DataGridTextColumn Header="Id" Binding="{Binding Id}" Width="Auto"/>
-                          <DataGridTextColumn Header="Category Id" Binding="{Binding CategoryId}" Width="Auto"/>
                           <DataGridTextColumn Header="Category Name" Binding="{Binding CategoryName}" Width="Auto"/>
                           <DataGridTextColumn Header="Product Name" Binding="{Binding Name}" Width="Auto"/>
                           <DataGridTextColumn Header="Description" Binding="{Binding Description}" Width="Auto"/>

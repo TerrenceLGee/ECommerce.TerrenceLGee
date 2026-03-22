@@ -118,10 +118,13 @@ public partial class MainUserViewModel : ObservableObject
                 CurrentSubView = _serviceProvider.GetRequiredService<AddAddressViewModel>();
                 break;
             case CustomerMenu.UpdateAddress:
+                CurrentSubView = _serviceProvider.GetRequiredService<CustomerChooseAddressForUpdateViewModel>();
                 break;
             case CustomerMenu.DeleteAddress:
+                CurrentSubView = _serviceProvider.GetRequiredService<DeleteAddressViewModel>();
                 break;
             case CustomerMenu.ViewAddresses:
+                CurrentSubView = _serviceProvider.GetRequiredService<ViewAddressesViewModel>();
                 break;
             case AdminMenu.Logout:
             case CustomerMenu.Logout:
@@ -315,6 +318,32 @@ public partial class MainUserViewModel : ObservableObject
         _messenger.Register<NavigateBackToAddAddressMessage>(this, (r, m) =>
         {
             CurrentSubView = _serviceProvider.GetRequiredService<AddAddressViewModel>();
+        });
+
+        _messenger.Register<AddressSelectedForUpdateMessage>(this, (r, m) =>
+        {
+            var addressService = _serviceProvider.GetRequiredService<IAddressService>();
+            CurrentSubView = new UpdateAddressViewModel(addressService, m.Data, _messenger);
+        });
+
+        _messenger.Register<NavigateBackToUpdateAddressMessage>(this, (r, m) =>
+        {
+            CurrentSubView = _serviceProvider.GetRequiredService<CustomerChooseAddressForUpdateViewModel>();
+        });
+
+        _messenger.Register<AddressUpdatedMessage>(this, (r, m) =>
+        {
+            CurrentSubView = new DisplayUpdatedAddressViewModel(m.Data, _messenger);
+        });
+
+        _messenger.Register<AddressSelectedForDetailMessage>(this, (r, m) =>
+        {
+            CurrentSubView = new DisplayAddressViewModel(m.Data, _messenger);
+        });
+
+        _messenger.Register<NavigateBackToAllAddressesMessage>(this, (r, m) =>
+        {
+            CurrentSubView = _serviceProvider.GetRequiredService<ViewAddressesViewModel>();
         });
     }
 }

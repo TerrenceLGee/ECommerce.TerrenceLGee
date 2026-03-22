@@ -1,26 +1,33 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using Avalonia.Controls;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using CommunityToolkit.Mvvm.Messaging;
 using ECommerce.AvaloniaClient.TerrenceLGee.Data.Models.Address;
-using ECommerce.AvaloniaClient.TerrenceLGee.Messages.AddressMessages;
 using ECommerce.AvaloniaClient.TerrenceLGee.Services.Interfaces.Address;
 using ECommerce.Shared.TerrenceLGee.Parameters.AddressParameters;
+using MsBox.Avalonia;
+using MsBox.Avalonia.Enums;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 
 namespace ECommerce.AvaloniaClient.TerrenceLGee.ViewModels;
 
-public partial class CustomerChooseAddressForUpdateViewModel : ObservableObject
+public partial class DeleteAddressViewModel : ObservableObject
 {
     private readonly IAddressService _addressService;
-    private readonly IMessenger _messenger;
-    public ObservableCollection<AddressData> Addresses { get; } = [];
 
-    [ObservableProperty]
-    private bool _isLoading;
+    public ObservableCollection<AddressData> Addresses { get; set; } = [];
+
+    public DeleteAddressViewModel(IAddressService addressService)
+    {
+        _addressService = addressService;
+        LoadAddressesCommand.Execute(null);
+    }
+
     [ObservableProperty]
     private AddressData? _selectedAddress;
 
+    [ObservableProperty]
+    private bool _isLoading;
     [ObservableProperty]
     private int _page = 1;
     [ObservableProperty]
@@ -28,16 +35,14 @@ public partial class CustomerChooseAddressForUpdateViewModel : ObservableObject
     [ObservableProperty]
     private int _totalPages;
     [ObservableProperty]
-    private bool _hasPreviousPage;
-    [ObservableProperty]
     private bool _hasNextPage;
+    [ObservableProperty]
+    private bool _hasPreviousPage;
 
-    public CustomerChooseAddressForUpdateViewModel(IAddressService addressService, IMessenger messenger)
-    {
-        _addressService = addressService;
-        _messenger = messenger;
-        LoadAddressesCommand.Execute(null);
-    }
+    [ObservableProperty]
+    private string? _successMessage;
+    [ObservableProperty]
+    private string? _errorMessage;
 
     [RelayCommand]
     private async Task LoadAddressesAsync()
@@ -85,11 +90,35 @@ public partial class CustomerChooseAddressForUpdateViewModel : ObservableObject
         await LoadAddressesAsync();
     }
 
-    partial void OnSelectedAddressChanged(AddressData? value)
+    async partial void OnSelectedAddressChanged(AddressData? value)
     {
+        SuccessMessage = null;
+        ErrorMessage = null;
+
         if (value is not null)
         {
-            _messenger.Send(new AddressSelectedForUpdateMessage(value));
+            var box = MessageBoxManager
+                .GetMessageBoxStandard("Delete", $"Delete Address {value.Id}?", ButtonEnum.YesNo, Icon.Warning,
+                null, WindowStartupLocation.CenterOwner);
+
+            var result = await box.ShowAsync();
+
+            if (result == ButtonResult.Yes)
+            {
+                var (success, data) = await _addressService.DeleteAddressAsync(value.Id);
+
+                if (success)
+                {
+                    SelectedAddress = null;
+                    SuccessMessage = data;
+                }
+                else
+                {
+                    SelectedAddress = null;
+                    ErrorMessage = data;
+                }
+                await LoadAddressesAsync();
+            }
         }
     }
 }

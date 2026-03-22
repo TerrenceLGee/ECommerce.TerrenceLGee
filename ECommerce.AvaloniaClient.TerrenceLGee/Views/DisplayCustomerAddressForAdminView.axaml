@@ -10,10 +10,6 @@
 	  <TextBlock Text="Address Information" FontSize="36" FontWeight="ExtraBold" Margin="0,0,0,15"/>
       <Border Padding="15" CornerRadius="5" Background="#3a3a3a">
 		  <StackPanel Spacing="10">
-			  <WrapPanel>
-				  <TextBlock Text="Id: " FontSize="24"/>
-                  <TextBlock Text="{Binding Address.Id}" FontWeight="ExtraBold" FontSize="24" TextWrapping="Wrap"/>
-              </WrapPanel>
               <WrapPanel>
 				  <TextBlock Text="Customer Id: " FontSize="24"/>
                   <TextBlock Text="{Binding Address.CustomerId}" FontWeight="ExtraBold" FontSize="24" TextWrapping="Wrap"/>

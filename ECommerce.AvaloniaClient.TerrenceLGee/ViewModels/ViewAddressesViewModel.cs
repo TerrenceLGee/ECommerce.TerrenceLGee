@@ -10,17 +10,25 @@ using System.Threading.Tasks;
 
 namespace ECommerce.AvaloniaClient.TerrenceLGee.ViewModels;
 
-public partial class CustomerChooseAddressForUpdateViewModel : ObservableObject
+public partial class ViewAddressesViewModel : ObservableObject
 {
     private readonly IAddressService _addressService;
     private readonly IMessenger _messenger;
-    public ObservableCollection<AddressData> Addresses { get; } = [];
 
-    [ObservableProperty]
-    private bool _isLoading;
+    public ObservableCollection<AddressData> Addresses { get; set; } = [];
+
+    public ViewAddressesViewModel(IAddressService addressService, IMessenger messenger)
+    {
+        _addressService = addressService;
+        _messenger = messenger;
+        LoadAddressesCommand.Execute(null);
+    }
+
     [ObservableProperty]
     private AddressData? _selectedAddress;
 
+    [ObservableProperty]
+    private bool _isLoading;
     [ObservableProperty]
     private int _page = 1;
     [ObservableProperty]
@@ -28,16 +36,14 @@ public partial class CustomerChooseAddressForUpdateViewModel : ObservableObject
     [ObservableProperty]
     private int _totalPages;
     [ObservableProperty]
-    private bool _hasPreviousPage;
-    [ObservableProperty]
     private bool _hasNextPage;
+    [ObservableProperty]
+    private bool _hasPreviousPage;
 
-    public CustomerChooseAddressForUpdateViewModel(IAddressService addressService, IMessenger messenger)
-    {
-        _addressService = addressService;
-        _messenger = messenger;
-        LoadAddressesCommand.Execute(null);
-    }
+    [ObservableProperty]
+    private string? _successMessage;
+    [ObservableProperty]
+    private string? _errorMessage;
 
     [RelayCommand]
     private async Task LoadAddressesAsync()
@@ -89,7 +95,7 @@ public partial class CustomerChooseAddressForUpdateViewModel : ObservableObject
     {
         if (value is not null)
         {
-            _messenger.Send(new AddressSelectedForUpdateMessage(value));
+            _messenger.Send(new AddressSelectedForDetailMessage(value));
         }
     }
 }

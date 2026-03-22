@@ -35,7 +35,6 @@
                             BorderThickness="1"
                             BorderBrush="Gray">
                       <DataGrid.Columns>
-						  <DataGridTextColumn Header="Id" Binding="{Binding Id}" Width="Auto"/>
                           <DataGridTextColumn Header="Customer Id" Binding="{Binding CustomerId}" Width="Auto"/>
                           <DataGridTextColumn Header="Address Line 1" Binding="{Binding AddressLine1}" Width="Auto"/>
                           <DataGridTextColumn Header="Address Line 2" Binding="{Binding AddressLine2}" Width="Auto"/>
