@@ -12,6 +12,7 @@ using ECommerce.AvaloniaClient.TerrenceLGee.Services.Interfaces.Address;
 using ECommerce.AvaloniaClient.TerrenceLGee.Services.Interfaces.Auth;
 using ECommerce.AvaloniaClient.TerrenceLGee.Services.Interfaces.Category;
 using ECommerce.AvaloniaClient.TerrenceLGee.Services.Interfaces.Product;
+using ECommerce.AvaloniaClient.TerrenceLGee.Services.Interfaces.Sale;
 using ECommerce.AvaloniaClient.TerrenceLGee.ViewModels;
 using ECommerce.AvaloniaClient.TerrenceLGee.Views;
 using Microsoft.Extensions.DependencyInjection;
@@ -52,6 +53,7 @@ public partial class App : Application
         services.AddSingleton<ICategoryService, CategoryService>();
         services.AddSingleton<IProductService, ProductService>();
         services.AddSingleton<IAddressService, AddressService>();
+        services.AddSingleton<ISaleService, SaleService>();
 
         services.AddSingleton<MainWindowViewModel>();
         services.AddTransient<AuthViewModel>();
@@ -91,6 +93,10 @@ public partial class App : Application
         services.AddTransient<DisplayAddedAddressViewModel>();
         services.AddTransient<DisplayUpdatedAddressViewModel>();
         services.AddTransient<DisplayAddressViewModel>();
+
+        services.AddTransient<ViewCategoriesForSaleViewModel>();
+        services.AddTransient<ViewProductsForSaleViewModel>();
+        services.AddTransient<DisplayProductDetailForSaleViewModel>();
 
         var serviceProvider = services.BuildServiceProvider();
 

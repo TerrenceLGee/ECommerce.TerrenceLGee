@@ -36,4 +36,6 @@ public class SaleData
 
     [JsonPropertyName("saleProducts")]
     public List<SaleProductData> SaleProducts { get; set; } = [];
+
+    public string? ErrorMessage { get; set; }
 }

@@ -4,6 +4,7 @@ using ECommerce.AvaloniaClient.TerrenceLGee.Enums;
 using ECommerce.AvaloniaClient.TerrenceLGee.Messages.AddressMessages;
 using ECommerce.AvaloniaClient.TerrenceLGee.Messages.CategoryMessages;
 using ECommerce.AvaloniaClient.TerrenceLGee.Messages.ProductMessages;
+using ECommerce.AvaloniaClient.TerrenceLGee.Messages.SaleMessages;
 using ECommerce.AvaloniaClient.TerrenceLGee.Services.Interfaces.Address;
 using ECommerce.AvaloniaClient.TerrenceLGee.Services.Interfaces.Auth;
 using ECommerce.AvaloniaClient.TerrenceLGee.Services.Interfaces.Category;
@@ -11,6 +12,7 @@ using ECommerce.AvaloniaClient.TerrenceLGee.Services.Interfaces.Product;
 using ECommerce.Shared.TerrenceLGee.Enums.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 
@@ -109,6 +111,7 @@ public partial class MainUserViewModel : ObservableObject
                 CurrentSubView = _serviceProvider.GetRequiredService<ViewProductsForCustomerViewModel>();
                 break;
             case CustomerMenu.AddSale:
+                CurrentSubView = _serviceProvider.GetRequiredService<ViewCategoriesForSaleViewModel>();
                 break;
             case CustomerMenu.ViewOrders:
                 break;
@@ -140,6 +143,7 @@ public partial class MainUserViewModel : ObservableObject
         CategoryMessageRegistration();
         ProductMessageRegistration();
         AddressMessageRegistration();
+        SaleMessageRegistration();
     }
 
     private void CategoryMessageRegistration()
@@ -344,6 +348,26 @@ public partial class MainUserViewModel : ObservableObject
         _messenger.Register<NavigateBackToAllAddressesMessage>(this, (r, m) =>
         {
             CurrentSubView = _serviceProvider.GetRequiredService<ViewAddressesViewModel>();
+        });
+    }
+
+    private void SaleMessageRegistration()
+    {
+        _messenger.Register<CategorySelectedForSaleMessage>(this, (r, m) =>
+        {
+            var productService = _serviceProvider.GetRequiredService<IProductService>();
+            CurrentSubView = new ViewProductsForSaleViewModel(productService, m.CategoryId, m.ShoppingCart, _messenger);
+        });
+
+        _messenger.Register<NavigateBackToAllCategoriesForSale>(this, (r, m) =>
+        {
+            CurrentSubView = _serviceProvider.GetRequiredService<ViewCategoriesForSaleViewModel>();
+        });
+
+        _messenger.Register<NavigateBackToProductsFromSelectedProductMessage>(this, (r, m) =>
+        {
+            var productService = _serviceProvider.GetRequiredService<IProductService>();
+            CurrentSubView = new ViewProductsForSaleViewModel(productService, m.CategoryId, m.ShoppingCart, _messenger);
         });
     }
 }

@@ -138,6 +138,8 @@ public partial class ViewProductsForCustomerViewModel : ObservableObject
         InStock = false;
     }
 
+
+
     partial void OnSelectedProductChanged(ProductData? value)
     {
         if (value is not null)

@@ -109,6 +109,15 @@
         <DataTemplate DataType="{x:Type vm:DisplayAddressViewModel}">
 			<local:DisplayAddressView/>
         </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:ViewCategoriesForSaleViewModel}">
+			<local:ViewCategoriesForSaleView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:ViewProductsForSaleViewModel}">
+			<local:ViewProductsForSaleView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:DisplayProductDetailForSaleViewModel}">
+			<local:DisplayProductDetailForSaleView/>
+        </DataTemplate>
     </Application.DataTemplates>
 
     <Application.Styles>
