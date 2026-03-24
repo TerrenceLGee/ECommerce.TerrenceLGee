@@ -60,15 +60,14 @@ public partial class App : Application
         services.AddTransient<AuthViewModel>();
         services.AddTransient<MainUserViewModel>();
 
+        services.AddTransient<HomeScreenViewModel>();
+
         services.AddTransient<AddCategoryViewModel>();
         services.AddTransient<DisplayAddedCategoryViewModel>();
         services.AddTransient<DisplayUpdatedCategoryViewModel>();
         services.AddTransient<DisplayAdminCategoryDetailViewModel>();
-        services.AddTransient<DisplayCustomerCategoryDetailViewModel>();
         services.AddTransient<DisplaySelectedProductFromAdminCategoryDetailViewModel>();
-        services.AddTransient<DisplaySelectedProductFromCustomerCategoryDetailViewModel>();
         services.AddTransient<ViewCategoriesForAdminViewModel>();
-        services.AddTransient<ViewCategoriesForCustomerViewModel>();
         services.AddTransient<AdminChooseCategoryForUpdateViewModel>();
         services.AddTransient<UpdateCategoryViewModel>();
 
@@ -76,10 +75,8 @@ public partial class App : Application
         services.AddTransient<DisplayAddedProductViewModel>();
         services.AddTransient<DisplayUpdatedProductViewModel>();
         services.AddTransient<DisplayAdminProductViewModel>();
-        services.AddTransient<DisplayCustomerProductViewModel>();
         services.AddTransient<AdminChooseProductForUpdateViewModel>();
         services.AddTransient<ViewProductsForAdminViewModel>();
-        services.AddTransient<ViewProductsForCustomerViewModel>();
         services.AddTransient<UpdateProductViewModel>();
         services.AddTransient<DeleteProductViewModel>();
         services.AddTransient<RestoreProductViewModel>();
@@ -100,6 +97,7 @@ public partial class App : Application
         services.AddTransient<DisplayProductDetailForSaleViewModel>();
         services.AddTransient<CheckoutViewModel>();
         services.AddTransient<DisplayOrderDetailsViewModel>();
+        services.AddTransient<ViewOrdersViewModel>();
         
 
         var serviceProvider = services.BuildServiceProvider();

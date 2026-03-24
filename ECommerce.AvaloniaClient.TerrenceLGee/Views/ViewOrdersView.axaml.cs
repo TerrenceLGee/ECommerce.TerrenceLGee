@@ -4,9 +4,9 @@ using Avalonia.Markup.Xaml;
 
 namespace ECommerce.AvaloniaClient.TerrenceLGee;
 
-public partial class DisplaySelectedProductFromCustomerCategoryDetailView : UserControl
+public partial class ViewOrdersView : UserControl
 {
-    public DisplaySelectedProductFromCustomerCategoryDetailView()
+    public ViewOrdersView()
     {
         InitializeComponent();
     }

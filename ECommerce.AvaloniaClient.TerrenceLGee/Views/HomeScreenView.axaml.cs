@@ -4,9 +4,9 @@ using Avalonia.Markup.Xaml;
 
 namespace ECommerce.AvaloniaClient.TerrenceLGee;
 
-public partial class DisplayCustomerCategoryDetailView : UserControl
+public partial class HomeScreenView : UserControl
 {
-    public DisplayCustomerCategoryDetailView()
+    public HomeScreenView()
     {
         InitializeComponent();
     }

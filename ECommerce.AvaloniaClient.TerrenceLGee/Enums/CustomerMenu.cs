@@ -6,10 +6,6 @@ public enum CustomerMenu
 {
     [Display(Name = "View profile")]
     ViewProfile,
-    [Display(Name = "View all categories")]
-    ViewCategories,
-    [Display(Name = "View all products")]
-    ViewProducts,
     [Display(Name = "Shop")]
     AddSale,
     [Display(Name = "View all orders")]

@@ -13,14 +13,14 @@
         <DataTemplate DataType="{x:Type vm:MainUserViewModel}">
 			<local:MainUserView/>
         </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:HomeScreenViewModel}">
+			<local:HomeScreenView/>
+        </DataTemplate>
         <DataTemplate DataType="{x:Type vm:AddCategoryViewModel}">
 			<local:AddCategoryView/>
         </DataTemplate>
         <DataTemplate DataType="{x:Type vm:ViewCategoriesForAdminViewModel}">
 			<local:ViewCategoriesForAdminView/>
-        </DataTemplate>
-        <DataTemplate DataType="{x:Type vm:ViewCategoriesForCustomerViewModel}">
-			<local:ViewCategoriesForCustomerView/>
         </DataTemplate>
         <DataTemplate DataType="{x:Type vm:DisplayAddedCategoryViewModel}">
             <local:DisplayAddedCategoryView/>
@@ -30,9 +30,6 @@
         </DataTemplate>
         <DataTemplate DataType="{x:Type vm:DisplayAdminCategoryDetailViewModel}">
 			<local:DisplayAdminCategoryDetailView/>
-        </DataTemplate>
-        <DataTemplate DataType="{x:Type vm:DisplayCustomerCategoryDetailViewModel}">
-			<local:DisplayCustomerCategoryDetailView/>
         </DataTemplate>
         <DataTemplate DataType="{x:Type vm:AdminChooseCategoryForUpdateViewModel}">
 			<local:AdminChooseCategoryForUpdateView/>
@@ -58,20 +55,11 @@
         <DataTemplate DataType="{x:Type vm:DisplaySelectedProductFromAdminCategoryDetailViewModel}">
 			<local:DisplaySelectedProductFromAdminCategoryDetailView/>
         </DataTemplate>
-        <DataTemplate DataType="{x:Type vm:DisplaySelectedProductFromCustomerCategoryDetailViewModel}">
-			<local:DisplaySelectedProductFromCustomerCategoryDetailView/>
-        </DataTemplate>
         <DataTemplate DataType="{x:Type vm:ViewProductsForAdminViewModel}">
 			<local:ViewProductsForAdminView/>
         </DataTemplate>
-        <DataTemplate DataType="{x:Type vm:ViewProductsForCustomerViewModel}">
-			<local:ViewProductsForCustomerView/>
-        </DataTemplate>
         <DataTemplate DataType="{x:Type vm:DisplayAdminProductViewModel}">
 			<local:DisplayAdminProductView/>
-        </DataTemplate>
-        <DataTemplate DataType="{x:Type vm:DisplayCustomerProductViewModel}">
-			<local:DisplayCustomerProductView/>
         </DataTemplate>
         <DataTemplate DataType="{x:Type vm:DeleteProductViewModel}">
             <local:DeleteProductView/>
@@ -123,6 +111,9 @@
         </DataTemplate>
         <DataTemplate DataType="{x:Type vm:DisplayOrderDetailsViewModel}">
 			<local:DisplayOrderDetailsView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:ViewOrdersViewModel}">
+			<local:ViewOrdersView/>
         </DataTemplate>
     </Application.DataTemplates>
 
