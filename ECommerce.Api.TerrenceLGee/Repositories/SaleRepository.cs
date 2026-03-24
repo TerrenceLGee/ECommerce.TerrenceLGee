@@ -31,14 +31,6 @@ public class SaleRepository : ISaleRepository
 
             if (customer is null) return null;
 
-            var hasBillingAddress = customer.Addresses.Any(a => a.IsBillingAddress);
-
-            if (!hasBillingAddress) return null;
-
-            var hasShippingAddress = customer.Addresses.Any(a => a.IsShippingAddress);
-
-            if (!hasShippingAddress) return null;
-
             sale.CreatedAt = DateTime.UtcNow;
 
             await _context.Sales.AddAsync(sale);

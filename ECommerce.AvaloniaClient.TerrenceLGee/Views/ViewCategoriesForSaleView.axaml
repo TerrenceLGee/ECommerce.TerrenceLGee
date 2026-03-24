@@ -32,5 +32,8 @@
           </TextBlock>
           <Button Content="Next" Command="{Binding NextPageCommand}" IsEnabled="{Binding HasNextPage}"/>
       </StackPanel>
+      <StackPanel>
+		  <Button Content="Checkout" Command="{Binding CheckoutCommand}" HorizontalAlignment="Center"/>
+      </StackPanel>
   </StackPanel>
 </UserControl>

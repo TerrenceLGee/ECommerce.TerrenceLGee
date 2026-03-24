@@ -9,4 +9,6 @@ public class CartItemDto
 
     [Required(ErrorMessage = "Product quantity is required.")]
     public int Quantity { get; set; }
+
+    public string? ProductName { get; set; }
 }

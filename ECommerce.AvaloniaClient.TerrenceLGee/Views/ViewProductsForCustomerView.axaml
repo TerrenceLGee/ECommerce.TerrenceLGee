@@ -51,7 +51,7 @@
                           <DataGridTextColumn Header="Product Name" Binding="{Binding Name}" Width="Auto"/>
                           <DataGridTextColumn Header="Description" Binding="{Binding Description}" Width="Auto"/>
                           <DataGridTextColumn Header="Stock Quantity" Binding="{Binding StockQuantity}" Width="Auto"/>
-                          <DataGridTextColumn Header="Unit Price" Binding="{Binding UnitPrice}" Width="Auto"/>
+                          <DataGridTextColumn Header="Unit Price" Binding="{Binding UnitPrice, StringFormat={}{0:C}}" Width="Auto"/>
                           <DataGridTextColumn Header="Discount Percentage" Binding="{Binding DiscountPercentage}" Width="Auto"/>
                           <DataGridTextColumn Header="In Stock" Binding="{Binding IsInStock}" Width="Auto"/>
                       </DataGrid.Columns>

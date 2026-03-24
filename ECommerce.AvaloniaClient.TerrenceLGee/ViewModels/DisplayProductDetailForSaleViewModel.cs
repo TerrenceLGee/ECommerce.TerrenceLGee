@@ -20,9 +20,11 @@ public partial class DisplayProductDetailForSaleViewModel : ObservableObject
     [ObservableProperty]
     private ProductData _product;
     [ObservableProperty]
-    private List<CartItemDto> _shoppingCart;
+    private static List<CartItemDto> _shoppingCart;
     [ObservableProperty]
-    private decimal _quantity;
+    private decimal _quantity = 1;
+    [ObservableProperty]
+    public decimal _maxQuantity = 5000;
     [ObservableProperty]
     private string? _successMessage;
     [ObservableProperty]
@@ -47,7 +49,7 @@ public partial class DisplayProductDetailForSaleViewModel : ObservableObject
     [RelayCommand]
     private async Task AddToCartAsync()
     {
-        ShoppingCart.Add(new CartItemDto { ProductId = Product.Id, Quantity = (int)Quantity });
+        ShoppingCart.Add(new CartItemDto { ProductId = Product.Id, Quantity = (int)Quantity, ProductName = Product.Name });
         SuccessMessage = $"Successfully added item to your shopping cart";
     }
 
@@ -72,5 +74,11 @@ public partial class DisplayProductDetailForSaleViewModel : ObservableObject
     private void GoBackToProducts()
     {
         _messenger.Send(new NavigateBackToProductsFromSelectedProductMessage(_categoryId, ShoppingCart));
+    }
+
+    [RelayCommand]
+    private void Checkout()
+    {
+        _messenger.Send(new CheckoutFromProductDetail(ShoppingCart));
     }
 }

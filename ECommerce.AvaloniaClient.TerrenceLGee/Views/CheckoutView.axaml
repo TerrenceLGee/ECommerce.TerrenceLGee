@@ -1,0 +1,34 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="ECommerce.AvaloniaClient.TerrenceLGee.CheckoutView"
+             xmlns:vm="using:ECommerce.AvaloniaClient.TerrenceLGee.ViewModels"
+             x:DataType="vm:CheckoutViewModel">
+  <ScrollViewer>
+	  <Grid RowDefinitions="Auto, Auto, Auto" Margin="10">
+          <StackPanel Grid.Row="0">
+			  <TextBlock Text="Items in your order (select any item that you wish to remove from your cart before checking out)"
+                         FontWeight="ExtraBold"/>
+              <StackPanel>
+				  <DataGrid ItemsSource="{Binding ShoppingCartForDisplay}"
+                            SelectedItem="{Binding SelectedItem}"
+                            IsReadOnly="True"
+                            GridLinesVisibility="All"
+                            BorderThickness="1"
+                            BorderBrush="Gray">
+                      <DataGrid.Columns>
+						  <DataGridTextColumn Header="Product" Binding="{Binding ProductName}" Width="Auto"/>
+                          <DataGridTextColumn Header="Quantity" Binding="{Binding Quantity}" Width="Auto"/>
+                      </DataGrid.Columns>
+                  </DataGrid>
+              </StackPanel>
+          </StackPanel>
+          <StackPanel Grid.Row="1">
+			  <Button Content="Complete Order" Command="{Binding CheckoutCommand}"/>
+              <Button Content="Cancel Order" Command="{Binding CancelOrderCommand}"/>
+          </StackPanel>
+      </Grid>
+  </ScrollViewer>
+</UserControl>

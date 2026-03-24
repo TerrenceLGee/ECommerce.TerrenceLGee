@@ -25,7 +25,7 @@
                   </WrapPanel>
                   <WrapPanel>
 					  <TextBlock Text="Unit Price: " FontSize="24"/>
-                      <TextBlock Text="{Binding Product.UnitPrice}" FontWeight="ExtraBold" FontSize="24" TextWrapping="Wrap"/>
+                      <TextBlock Text="{Binding Product.UnitPrice, StringFormat={}{0:C}}" FontWeight="ExtraBold" FontSize="24" TextWrapping="Wrap"/>
                   </WrapPanel>
                   <WrapPanel>
 					  <TextBlock Text="Discount Percentage: " FontSize="24"/>

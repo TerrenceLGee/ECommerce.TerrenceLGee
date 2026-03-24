@@ -9,6 +9,7 @@ using ECommerce.AvaloniaClient.TerrenceLGee.Services.Interfaces.Address;
 using ECommerce.AvaloniaClient.TerrenceLGee.Services.Interfaces.Auth;
 using ECommerce.AvaloniaClient.TerrenceLGee.Services.Interfaces.Category;
 using ECommerce.AvaloniaClient.TerrenceLGee.Services.Interfaces.Product;
+using ECommerce.AvaloniaClient.TerrenceLGee.Services.Interfaces.Sale;
 using ECommerce.Shared.TerrenceLGee.Enums.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -368,6 +369,45 @@ public partial class MainUserViewModel : ObservableObject
         {
             var productService = _serviceProvider.GetRequiredService<IProductService>();
             CurrentSubView = new ViewProductsForSaleViewModel(productService, m.CategoryId, m.ShoppingCart, _messenger);
+        });
+
+        _messenger.Register<ProductSelectedForSaleMessage>(this, (r, m) =>
+        {
+            var productService = _serviceProvider.GetRequiredService<IProductService>();
+            CurrentSubView = new DisplayProductDetailForSaleViewModel(productService, m.ShoppingCart, m.Data, m.CategoryId, _messenger);
+        });
+
+        _messenger.Register<CheckoutFromCategories>(this, (r, m) =>
+        {
+            var saleService = _serviceProvider.GetRequiredService<ISaleService>();
+            CurrentSubView = new CheckoutViewModel(saleService, m.ShoppingCart, _messenger);
+        });
+
+        _messenger.Register<CheckoutFromProducts>(this, (r, m) =>
+        {
+            var saleService = _serviceProvider.GetRequiredService<ISaleService>();
+            CurrentSubView = new CheckoutViewModel(saleService, m.ShoppingCart, _messenger);
+        });
+
+        _messenger.Register<CheckoutFromProductDetail>(this, (r, m) =>
+        {
+            var saleService = _serviceProvider.GetRequiredService<ISaleService>();
+            CurrentSubView = new CheckoutViewModel(saleService, m.ShoppingCart, _messenger);
+        });
+
+        _messenger.Register<NavigateBackToAllCategoriesOrderCanceledMessage>(this, (r, m) =>
+        {
+            CurrentSubView = _serviceProvider.GetRequiredService<ViewCategoriesForSaleViewModel>();
+        });
+
+        _messenger.Register<ShopAgainMessage>(this, (r, m) =>
+        {
+            CurrentSubView = _serviceProvider.GetRequiredService<ViewCategoriesForSaleViewModel>();
+        });
+
+        _messenger.Register<OrderCompletedMessage>(this, (r, m) =>
+        {
+            CurrentSubView = new DisplayOrderDetailsViewModel(m.Data, _messenger);
         });
     }
 }

@@ -3,7 +3,9 @@ using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using ECommerce.AvaloniaClient.TerrenceLGee.Data.Models.Category;
 using ECommerce.AvaloniaClient.TerrenceLGee.Messages.SaleMessages;
+using ECommerce.AvaloniaClient.TerrenceLGee.Services;
 using ECommerce.AvaloniaClient.TerrenceLGee.Services.Interfaces.Category;
+using ECommerce.AvaloniaClient.TerrenceLGee.Services.Interfaces.Sale;
 using ECommerce.Shared.TerrenceLGee.DTOs.OrderDTOs;
 using ECommerce.Shared.TerrenceLGee.Parameters.CategoryParameters;
 using System.Collections.Generic;
@@ -15,11 +17,12 @@ namespace ECommerce.AvaloniaClient.TerrenceLGee.ViewModels;
 public partial class ViewCategoriesForSaleViewModel : ObservableObject
 {
     private readonly ICategoryService _categoryService;
+    private readonly IShoppingCartService _shoppingCartService;
     private readonly IMessenger _messenger;
     public ObservableCollection<CategorySummaryData> Categories { get; } = [];
 
     [ObservableProperty]
-    private List<CartItemDto> _shoppingCart;
+    private static List<CartItemDto> _shoppingCart;
 
     [ObservableProperty]
     private bool _isLoading;
@@ -37,10 +40,15 @@ public partial class ViewCategoriesForSaleViewModel : ObservableObject
     [ObservableProperty]
     private bool _hasNextPage;
 
-    public ViewCategoriesForSaleViewModel(ICategoryService categoryService, IMessenger messenger)
+    public ViewCategoriesForSaleViewModel(
+        ICategoryService categoryService, 
+        IShoppingCartService shoppingCartService, 
+        IMessenger messenger)
     {
         _categoryService = categoryService;
+        _shoppingCartService = shoppingCartService;
         _messenger = messenger;
+        _shoppingCart = ShoppingCartService.ShoppingCart;
         LoadCategoriesCommand.Execute(null);
     }
 
@@ -96,5 +104,11 @@ public partial class ViewCategoriesForSaleViewModel : ObservableObject
         {
             _messenger.Send(new CategorySelectedForSaleMessage(value.Id, ShoppingCart));
         }
+    }
+
+    [RelayCommand]
+    private void Checkout()
+    {
+        _messenger.Send(new CheckoutFromCategories(ShoppingCart));
     }
 }

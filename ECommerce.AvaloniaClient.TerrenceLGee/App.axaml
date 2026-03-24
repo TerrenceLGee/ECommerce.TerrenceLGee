@@ -118,6 +118,12 @@
         <DataTemplate DataType="{x:Type vm:DisplayProductDetailForSaleViewModel}">
 			<local:DisplayProductDetailForSaleView/>
         </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:CheckoutViewModel}">
+			<local:CheckoutView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:DisplayOrderDetailsViewModel}">
+			<local:DisplayOrderDetailsView/>
+        </DataTemplate>
     </Application.DataTemplates>
 
     <Application.Styles>

@@ -21,7 +21,7 @@ public partial class ViewProductsForSaleViewModel : ObservableObject
     private readonly int _categoryId;
 
     [ObservableProperty]
-    private List<CartItemDto> _shoppingCart;
+    private static List<CartItemDto> _shoppingCart;
 
     public ObservableCollection<ProductData> Products { get; } = [];
 
@@ -114,5 +114,11 @@ public partial class ViewProductsForSaleViewModel : ObservableObject
         {
             _messenger.Send(new ProductSelectedForSaleMessage(value, _categoryId, ShoppingCart));
         }
+    }
+
+    [RelayCommand]
+    private void Checkout()
+    {
+        _messenger.Send(new CheckoutFromProducts(ShoppingCart));
     }
 }

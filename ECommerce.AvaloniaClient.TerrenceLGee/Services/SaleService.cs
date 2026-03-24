@@ -1,6 +1,7 @@
 ﻿using ECommerce.AvaloniaClient.TerrenceLGee.Data;
 using ECommerce.AvaloniaClient.TerrenceLGee.Data.Models.Sale;
 using ECommerce.AvaloniaClient.TerrenceLGee.Services.Interfaces.Sale;
+using ECommerce.Shared.TerrenceLGee.DTOs.OrderDTOs;
 using ECommerce.Shared.TerrenceLGee.DTOs.SaleDTOs;
 using ECommerce.Shared.TerrenceLGee.Parameters.SaleParameters;
 using Microsoft.Extensions.Logging;
@@ -28,7 +29,7 @@ public class SaleService : ISaleService
         _logger = logger;
     }
 
-    public async Task<SaleData?> CreateSaleAsync(CreateSaleDto sale)
+    public async Task<SaleData?> CreateOrderAsync(CreateOrderDto sale)
     {
         var saleDataForError = new SaleData();
         try
@@ -66,7 +67,7 @@ public class SaleService : ISaleService
         catch (HttpRequestException ex)
         {
             _errorMessage = $"\nClass: {nameof(SaleService)}\n" +
-                $"Method: {nameof(CreateSaleAsync)}\n" +
+                $"Method: {nameof(CreateOrderAsync)}\n" +
                 $"There was an API error attempting to complete the sale: {ex.Message}";
             _logger.LogError(ex, LogErrorString, _errorMessage);
             saleDataForError.ErrorMessage = "There was an API error attempting to complete the sale";
@@ -75,7 +76,7 @@ public class SaleService : ISaleService
         catch (Exception ex)
         {
             _errorMessage = $"\nClass: {nameof(SaleService)}\n" +
-                $"Method: {nameof(CreateSaleAsync)}\n" +
+                $"Method: {nameof(CreateOrderAsync)}\n" +
                 $"There was an unexpected error attempting to comeplete the sale: {ex.Message}";
             _logger.LogError(ex, LogErrorString, _errorMessage);
             saleDataForError.ErrorMessage = "There was an unexpected error attempting to complete the sale";

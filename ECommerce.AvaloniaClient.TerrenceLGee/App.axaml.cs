@@ -54,6 +54,7 @@ public partial class App : Application
         services.AddSingleton<IProductService, ProductService>();
         services.AddSingleton<IAddressService, AddressService>();
         services.AddSingleton<ISaleService, SaleService>();
+        services.AddSingleton<IShoppingCartService, ShoppingCartService>();
 
         services.AddSingleton<MainWindowViewModel>();
         services.AddTransient<AuthViewModel>();
@@ -97,6 +98,9 @@ public partial class App : Application
         services.AddTransient<ViewCategoriesForSaleViewModel>();
         services.AddTransient<ViewProductsForSaleViewModel>();
         services.AddTransient<DisplayProductDetailForSaleViewModel>();
+        services.AddTransient<CheckoutViewModel>();
+        services.AddTransient<DisplayOrderDetailsViewModel>();
+        
 
         var serviceProvider = services.BuildServiceProvider();
 
