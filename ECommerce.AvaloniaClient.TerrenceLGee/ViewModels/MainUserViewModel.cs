@@ -3,11 +3,13 @@ using CommunityToolkit.Mvvm.Messaging;
 using ECommerce.AvaloniaClient.TerrenceLGee.Enums;
 using ECommerce.AvaloniaClient.TerrenceLGee.Messages.AddressMessages;
 using ECommerce.AvaloniaClient.TerrenceLGee.Messages.CategoryMessages;
+using ECommerce.AvaloniaClient.TerrenceLGee.Messages.Customer;
 using ECommerce.AvaloniaClient.TerrenceLGee.Messages.ProductMessages;
 using ECommerce.AvaloniaClient.TerrenceLGee.Messages.SaleMessages;
 using ECommerce.AvaloniaClient.TerrenceLGee.Services.Interfaces.Address;
 using ECommerce.AvaloniaClient.TerrenceLGee.Services.Interfaces.Auth;
 using ECommerce.AvaloniaClient.TerrenceLGee.Services.Interfaces.Category;
+using ECommerce.AvaloniaClient.TerrenceLGee.Services.Interfaces.Customer;
 using ECommerce.AvaloniaClient.TerrenceLGee.Services.Interfaces.Product;
 using ECommerce.AvaloniaClient.TerrenceLGee.Services.Interfaces.Sale;
 using ECommerce.Shared.TerrenceLGee.Enums.Extensions;
@@ -106,22 +108,13 @@ public partial class MainUserViewModel : ObservableObject
                 CurrentSubView = _serviceProvider.GetRequiredService<ViewCustomerAddressesForAdminViewModel>();
                 break;
             case CustomerMenu.ViewProfile:
+                _messenger.Send(new DisplayCustomerProfileMessage());
                 break;
             case CustomerMenu.AddSale:
                 CurrentSubView = _serviceProvider.GetRequiredService<ViewCategoriesForSaleViewModel>();
                 break;
             case CustomerMenu.ViewOrders:
-                break;
-            case CustomerMenu.CancelOrder:
-                break;
-            case CustomerMenu.AddAddress:
-                CurrentSubView = _serviceProvider.GetRequiredService<AddAddressViewModel>();
-                break;
-            case CustomerMenu.UpdateAddress:
-                CurrentSubView = _serviceProvider.GetRequiredService<CustomerChooseAddressForUpdateViewModel>();
-                break;
-            case CustomerMenu.DeleteAddress:
-                CurrentSubView = _serviceProvider.GetRequiredService<DeleteAddressViewModel>();
+                CurrentSubView = _serviceProvider.GetRequiredService<ViewOrdersViewModel>();
                 break;
             case CustomerMenu.ViewAddresses:
                 CurrentSubView = _serviceProvider.GetRequiredService<ViewAddressesViewModel>();
@@ -141,6 +134,7 @@ public partial class MainUserViewModel : ObservableObject
         ProductMessageRegistration();
         AddressMessageRegistration();
         SaleMessageRegistration();
+        CustomerMessageRegistration();
     }
 
     private void CategoryMessageRegistration()
@@ -299,10 +293,21 @@ public partial class MainUserViewModel : ObservableObject
 
         _messenger.Register<AddressSelectedForDetailMessage>(this, (r, m) =>
         {
-            CurrentSubView = new DisplayAddressViewModel(m.Data, _messenger);
+            var addressService = _serviceProvider.GetRequiredService<IAddressService>();
+            CurrentSubView = new DisplayAddressViewModel(addressService, m.Data, _messenger);
         });
 
         _messenger.Register<NavigateBackToAllAddressesMessage>(this, (r, m) =>
+        {
+            CurrentSubView = _serviceProvider.GetRequiredService<ViewAddressesViewModel>();
+        });
+
+        _messenger.Register<AddAddressMessage>(this, (r, m) =>
+        {
+            CurrentSubView = _serviceProvider.GetRequiredService<AddAddressViewModel>();
+        });
+
+        _messenger.Register<NavigateBackToAllAddressesAfterAddMessage>(this, (r, m) =>
         {
             CurrentSubView = _serviceProvider.GetRequiredService<ViewAddressesViewModel>();
         });
@@ -364,6 +369,30 @@ public partial class MainUserViewModel : ObservableObject
         _messenger.Register<OrderCompletedMessage>(this, (r, m) =>
         {
             CurrentSubView = new DisplayOrderDetailsViewModel(m.Data, _messenger);
+        });
+
+        _messenger.Register<SaleSelectedForCustomerDetailMessage>(this, async (r, m) =>
+        {
+            var saleService = _serviceProvider.GetRequiredService<ISaleService>();
+            var detailVM = new DisplayCustomerOrderDetailViewModel(saleService, m.SaleId, _messenger);
+            await detailVM.GetSaleAsync();
+            CurrentSubView = detailVM;
+        });
+
+        _messenger.Register<NavigateBackToAllCustomerOrdersMessage>(this, (r, m) =>
+        {
+            CurrentSubView = _serviceProvider.GetRequiredService<ViewOrdersViewModel>();
+        });
+    }
+
+    private void CustomerMessageRegistration()
+    {
+        _messenger.Register<DisplayCustomerProfileMessage>(this, async (r, m) =>
+        {
+            var customerService = _serviceProvider.GetRequiredService<ICustomerService>();
+            var profileVM = new DisplayCustomerProfileViewModel(customerService, _messenger);
+            await profileVM.GetProfileAsync();
+            CurrentSubView = profileVM;
         });
     }
 }

@@ -68,7 +68,7 @@
                       <Run Text=" of "/>
                       <Run Text="{Binding TotalPages}"/>
                   </TextBlock>
-                  <Button Content="Next" Command="{Binding NextPageAsymcCommand}" IsEnabled="{Binding HasNextPage}"/>
+                  <Button Content="Next" Command="{Binding NextPageCommand}" IsEnabled="{Binding HasNextPage}"/>
               </StackPanel>
           </StackPanel>
       </Grid>

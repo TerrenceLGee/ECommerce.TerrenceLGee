@@ -5,10 +5,8 @@ using ECommerce.AvaloniaClient.TerrenceLGee.Data.Models.Category;
 using ECommerce.AvaloniaClient.TerrenceLGee.Data.Models.Product;
 using ECommerce.AvaloniaClient.TerrenceLGee.Messages.CategoryMessages;
 using ECommerce.AvaloniaClient.TerrenceLGee.Services.Interfaces.Category;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace ECommerce.AvaloniaClient.TerrenceLGee.ViewModels;
@@ -32,17 +30,6 @@ public partial class DisplayAdminCategoryDetailViewModel : ObservableObject
         _messenger = messenger;
     }
 
-    [ObservableProperty]
-    private int _page = 1;
-    [ObservableProperty]
-    private int _pageSize = 10;
-    [ObservableProperty]
-    private int _totalPages;
-    [ObservableProperty]
-    private bool _hasPreviousPage;
-    [ObservableProperty]
-    private bool _hasNextPage;
-
     public async Task GetCategoryAsync()
     {
         Category = await _categoryService.GetCategoryForAdminAsync(CategoryId);
@@ -55,30 +42,10 @@ public partial class DisplayAdminCategoryDetailViewModel : ObservableObject
     [RelayCommand]
     private void LoadProducts(List<ProductAdminData> products)
     {
-        var pagedProducts = products.Skip((Page - 1) * PageSize)
-            .Take(PageSize);
-
-        foreach (var product in pagedProducts)
+        foreach (var product in products)
         {
             Products.Add(product);
         }
-        TotalPages = (int)Math.Ceiling(products.Count / (double)PageSize);
-    }
-
-    [RelayCommand]
-    private void NextPage(List<ProductAdminData> products)
-    {
-        if (!HasNextPage) return;
-        Page++;
-        LoadProducts(products);
-    }
-
-    [RelayCommand]
-    private void PreviousPage(List<ProductAdminData> products)
-    {
-        if (!HasPreviousPage) return;
-        Page--;
-        LoadProducts(products);
     }
 
     [RelayCommand]

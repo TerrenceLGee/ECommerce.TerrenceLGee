@@ -22,4 +22,10 @@ public partial class DisplayAddedAddressViewModel : ViewModelBase
         _messenger.Send(new NavigateBackToAddAddressMessage());
     }
 
+    [RelayCommand]
+    private void GoBackToAllAddresses()
+    {
+        _messenger.Send(new NavigateBackToAllAddressesAfterAddMessage());
+    }
+
 }

@@ -6,7 +6,8 @@
              x:Class="ECommerce.AvaloniaClient.TerrenceLGee.ViewAddressesView"
              xmlns:vm="using:ECommerce.AvaloniaClient.TerrenceLGee.ViewModels"
              x:DataType="vm:ViewAddressesViewModel">
-  <Grid RowDefinitions="Auto, Auto" Margin="10">
+    <ScrollViewer>
+		<Grid RowDefinitions="Auto, Auto, Auto" Margin="10">
 	  <StackPanel Grid.Row="0">
 		  <TextBlock Text="Your Addresses (Select An Address For More Information)" FontWeight="ExtraBold"/>
           <ProgressBar IsIndeterminate="True" IsVisible="{Binding IsLoading}"/>
@@ -38,5 +39,9 @@
           </TextBlock>
           <Button Content="Next" Command="{Binding NextPageCommand}" IsEnabled="{Binding HasNextPage}"/>
       </StackPanel>
+      <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" Spacing="10">
+		  <Button Content="Add Another Address" Command="{Binding AddNewAddressCommand}"/>
+      </StackPanel>
   </Grid>
+    </ScrollViewer>
 </UserControl>

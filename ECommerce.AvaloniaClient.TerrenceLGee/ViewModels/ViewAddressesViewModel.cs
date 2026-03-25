@@ -91,6 +91,12 @@ public partial class ViewAddressesViewModel : ObservableObject
         await LoadAddressesAsync();
     }
 
+    [RelayCommand]
+    private void AddNewAddress()
+    {
+        _messenger.Send(new AddAddressMessage());
+    }
+
     partial void OnSelectedAddressChanged(AddressData? value)
     {
         if (value is not null)

@@ -43,6 +43,7 @@
                   <TextBlock Text="{Binding Address.IsShippingAddress}" FontWeight="ExtraBold" FontSize="24" TextWrapping="Wrap"/>
               </WrapPanel>
               <Button Content="Add Another Address" Command="{Binding GoBackCommand}" HorizontalAlignment="Center" Margin="0,0,0,15"/>
+              <Button Content="Back To All Addresses" Command="{Binding GoBackToAllAddressesCommand}" HorizontalAlignment="Center" Margin="0,0,0,15"/>
           </StackPanel>
       </Border>
   </StackPanel>

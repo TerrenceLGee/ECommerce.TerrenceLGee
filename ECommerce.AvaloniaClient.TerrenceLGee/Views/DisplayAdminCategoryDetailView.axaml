@@ -49,17 +49,5 @@
 				</DataGrid.Columns>
 			</DataGrid>
 		</DockPanel>
-		<StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" Spacing="10" Margin="0,0,0,10">
-			<Button Content="Previous" Command="{Binding PreviousPageCommand}" IsEnabled="{Binding HasPreviousPage}"/>
-			<TextBlock>
-				<Run Text="{Binding Page}"/>
-				<Run Text=" of "/>
-				<Run Text="{Binding TotalPages}"/>
-			</TextBlock>
-			<Button Content="Next" Command="{Binding NextPageCommand}" IsEnabled="{Binding HasNextPage}"/>
-		</StackPanel>
-		<StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Center" Spacing="10">
-			<Button Content="Go Back To All Categories" Command="{Binding GoBackCommand}"/>
-		</StackPanel>
 	</Grid>
 </UserControl>

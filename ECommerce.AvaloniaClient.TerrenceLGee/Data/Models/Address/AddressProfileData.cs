@@ -13,6 +13,9 @@ public class AddressProfileData
     [JsonPropertyName("city")]
     public string City { get; set; } = string.Empty;
 
+    [JsonPropertyName("state")]
+    public string State { get; set; } = string.Empty;
+
     [JsonPropertyName("postalCode")]
     public string PostalCode { get; set; } = string.Empty;
 

@@ -11,6 +11,7 @@ using ECommerce.AvaloniaClient.TerrenceLGee.Services.Interfaces;
 using ECommerce.AvaloniaClient.TerrenceLGee.Services.Interfaces.Address;
 using ECommerce.AvaloniaClient.TerrenceLGee.Services.Interfaces.Auth;
 using ECommerce.AvaloniaClient.TerrenceLGee.Services.Interfaces.Category;
+using ECommerce.AvaloniaClient.TerrenceLGee.Services.Interfaces.Customer;
 using ECommerce.AvaloniaClient.TerrenceLGee.Services.Interfaces.Product;
 using ECommerce.AvaloniaClient.TerrenceLGee.Services.Interfaces.Sale;
 using ECommerce.AvaloniaClient.TerrenceLGee.ViewModels;
@@ -51,6 +52,7 @@ public partial class App : Application
 
         services.AddSingleton<IAuthService, AuthService>();
         services.AddSingleton<ICategoryService, CategoryService>();
+        services.AddSingleton<ICustomerService, CustomerService>();
         services.AddSingleton<IProductService, ProductService>();
         services.AddSingleton<IAddressService, AddressService>();
         services.AddSingleton<ISaleService, SaleService>();
@@ -83,7 +85,6 @@ public partial class App : Application
 
         services.AddTransient<AddAddressViewModel>();
         services.AddTransient<UpdateAddressViewModel>();
-        services.AddTransient<DeleteAddressViewModel>();
         services.AddTransient<CustomerChooseAddressForUpdateViewModel>();
         services.AddTransient<ViewAddressesViewModel>();
         services.AddTransient<ViewCustomerAddressesForAdminViewModel>();
@@ -98,7 +99,9 @@ public partial class App : Application
         services.AddTransient<CheckoutViewModel>();
         services.AddTransient<DisplayOrderDetailsViewModel>();
         services.AddTransient<ViewOrdersViewModel>();
-        
+        services.AddTransient<DisplayCustomerOrderDetailViewModel>();
+
+        services.AddTransient<DisplayCustomerProfileViewModel>();
 
         var serviceProvider = services.BuildServiceProvider();
 

@@ -1,49 +1,73 @@
 <UserControl xmlns="https://github.com/avaloniaui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="ECommerce.AvaloniaClient.TerrenceLGee.DisplayAddressView"
-             xmlns:vm="using:ECommerce.AvaloniaClient.TerrenceLGee.ViewModels"
-             x:DataType="vm:DisplayAddressViewModel">
-  <StackPanel>
-	  <TextBlock Text="Address Information" FontSize="36" FontWeight="ExtraBold" Margin="0,0,0,15"/>
-      <Border Padding="15" CornerRadius="5" Background="#3a3a3a">
-		  <StackPanel>
-			  <WrapPanel>
-				  <TextBlock Text="Address Line 1: " FontSize="24"/>
-                  <TextBlock Text="{Binding Address.AddressLine1}" FontWeight="ExtraBold" FontSize="24" TextWrapping="Wrap"/>
-              </WrapPanel>
-              <WrapPanel>
-				  <TextBlock Text="Address Line 2: " FontSize="24"/>
-                  <TextBlock Text="{Binding Address.AddressLine2}" FontWeight="ExtraBold" FontSize="24" TextWrapping="Wrap"/>
-              </WrapPanel>
-              <WrapPanel>
-				  <TextBlock Text="City: " FontSize="24"/>
-                  <TextBlock Text="{Binding Address.City}" FontWeight="ExtraBold" FontSize="24" TextWrapping="Wrap"/>
-              </WrapPanel>
-              <WrapPanel>
-				  <TextBlock Text="State: " FontSize="24"/>
-                  <TextBlock Text="{Binding Address.State}" FontWeight="ExtraBold" FontSize="24" TextWrapping="Wrap"/>
-              </WrapPanel>
-              <WrapPanel>
-				  <TextBlock Text="Postal Code: " FontSize="24"/>
-                  <TextBlock Text="{Binding Address.PostalCode}" FontWeight="ExtraBold" FontSize="24" TextWrapping="Wrap"/>
-              </WrapPanel>
-              <WrapPanel>
-				  <TextBlock Text="Country: " FontSize="24"/>
-                  <TextBlock Text="{Binding Address.Country}" FontWeight="ExtraBold" FontSize="24" TextWrapping="Wrap"/>
-              </WrapPanel>
-              <WrapPanel>
-				  <TextBlock Text="Is Billing Address?: " FontSize="24"/>
-                  <TextBlock Text="{Binding Address.IsBillingAddress}" FontWeight="ExtraBold" FontSize="24" TextWrapping="Wrap"/>
-              </WrapPanel>
-              <WrapPanel>
-				  <TextBlock Text="Is Shipping Address?: " FontSize="24"/>
-                  <TextBlock Text="{Binding Address.IsShippingAddress}" FontWeight="ExtraBold" FontSize="24" TextWrapping="Wrap"/>
-              </WrapPanel>
-              <Button Content="Back To All Addresses" Command="{Binding GoBackCommand}" HorizontalAlignment="Center" Margin="0,0,0,15"/>
-          </StackPanel>
-      </Border>
-  </StackPanel>
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+			 x:Class="ECommerce.AvaloniaClient.TerrenceLGee.DisplayAddressView"
+			 xmlns:vm="using:ECommerce.AvaloniaClient.TerrenceLGee.ViewModels"
+			 x:DataType="vm:DisplayAddressViewModel">
+	<UserControl.Styles>
+		<Style Selector="TextBlock.Error">
+			<Setter Property="Foreground" Value="Red"/>
+			<Setter Property="FontSize" Value="12"/>
+			<Setter Property="Margin" Value="0,0,0,5"/>
+		</Style>
+	</UserControl.Styles>
+
+	<ScrollViewer>
+		<Grid RowDefinitions="Auto, Auto, Auto, Auto" Margin="10">
+			<StackPanel Grid.Row="0">
+				<TextBlock Text="Address Information" FontSize="36" FontWeight="ExtraBold" Margin="0,0,0,15"/>
+				<Border Padding="15" CornerRadius="5" Background="#3a3a3a">
+					<StackPanel>
+						<WrapPanel>
+							<TextBlock Text="Address Line 1: " FontSize="24"/>
+							<TextBlock Text="{Binding Address.AddressLine1}" FontWeight="ExtraBold" FontSize="24" TextWrapping="Wrap"/>
+						</WrapPanel>
+						<WrapPanel>
+							<TextBlock Text="Address Line 2: " FontSize="24"/>
+							<TextBlock Text="{Binding Address.AddressLine2}" FontWeight="ExtraBold" FontSize="24" TextWrapping="Wrap"/>
+						</WrapPanel>
+						<WrapPanel>
+							<TextBlock Text="City: " FontSize="24"/>
+							<TextBlock Text="{Binding Address.City}" FontWeight="ExtraBold" FontSize="24" TextWrapping="Wrap"/>
+						</WrapPanel>
+						<WrapPanel>
+							<TextBlock Text="State: " FontSize="24"/>
+							<TextBlock Text="{Binding Address.State}" FontWeight="ExtraBold" FontSize="24" TextWrapping="Wrap"/>
+						</WrapPanel>
+						<WrapPanel>
+							<TextBlock Text="Postal Code: " FontSize="24"/>
+							<TextBlock Text="{Binding Address.PostalCode}" FontWeight="ExtraBold" FontSize="24" TextWrapping="Wrap"/>
+						</WrapPanel>
+						<WrapPanel>
+							<TextBlock Text="Country: " FontSize="24"/>
+							<TextBlock Text="{Binding Address.Country}" FontWeight="ExtraBold" FontSize="24" TextWrapping="Wrap"/>
+						</WrapPanel>
+						<WrapPanel>
+							<TextBlock Text="Is Billing Address?: " FontSize="24"/>
+							<TextBlock Text="{Binding Address.IsBillingAddress}" FontWeight="ExtraBold" FontSize="24" TextWrapping="Wrap"/>
+						</WrapPanel>
+						<WrapPanel>
+							<TextBlock Text="Is Shipping Address?: " FontSize="24"/>
+							<TextBlock Text="{Binding Address.IsShippingAddress}" FontWeight="ExtraBold" FontSize="24" TextWrapping="Wrap"/>
+						</WrapPanel>
+					</StackPanel>
+				</Border>
+			</StackPanel>
+			<StackPanel Grid.Row="1">
+				<Button Content="Update Address" Command="{Binding UpdateAddressCommand}" HorizontalAlignment="Center" Margin="0,0,0,15"/>
+			</StackPanel>
+			<StackPanel Grid.Row="2">
+				<Button Content="Delete Address" Command="{Binding DeleteAddressCommand}" HorizontalAlignment="Center" Margin="0,0,0,15"/>
+				<TextBlock Text="{Binding SuccessMessage}" Foreground="Gold" IsVisible="{Binding !!SuccessMessage}"
+						   HorizontalAlignment="Center"/>
+				<TextBlock Text="{Binding ErrorMessage}" Classes="Error" IsVisible="{Binding !!ErrorMessage}"
+						   HorizontalAlignment="Center"/>
+			</StackPanel>
+			<StackPanel Grid.Row="3">
+				<Button Content="Back To All Addresses" Command="{Binding GoBackCommand}" HorizontalAlignment="Center" Margin="0,0,0,15"/>
+			</StackPanel>
+		</Grid>
+	</ScrollViewer>
 </UserControl>

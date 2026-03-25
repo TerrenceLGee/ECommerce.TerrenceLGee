@@ -146,6 +146,12 @@ public partial class UpdateAddressViewModel : ObservableValidator
         }
     }
 
+    [RelayCommand]
+    private void GoBackToAllAddresses()
+    {
+        _messenger.Send(new NavigateBackToAllAddressesMessage());
+    }
+
     private void ClearAddressUpdate()
     {
         AddressLine1 = string.Empty;

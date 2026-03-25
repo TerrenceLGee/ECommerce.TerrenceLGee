@@ -54,6 +54,10 @@
                             <TextBlock Text="{Binding ErrorMessage}" Classes="Error" IsVisible="{Binding !!ErrorMessage}"
                                        HorizontalAlignment="Center"/>
                         </StackPanel>
+                        <StackPanel>
+							<Button Content="Back To Addresses" Command="{Binding GoBackToAllAddressesCommand}"
+                                    HorizontalAlignment="Center" Margin="0,10,0,0"/>
+                        </StackPanel>
                     </StackPanel>
                 </ScrollViewer>
             </TabItem>

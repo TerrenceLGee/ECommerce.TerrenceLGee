@@ -91,9 +91,6 @@
         <DataTemplate DataType="{x:Type vm:DisplayUpdatedAddressViewModel}">
 			<local:DisplayUpdatedAddressView/>
         </DataTemplate>
-        <DataTemplate DataType="{x:Type vm:DeleteAddressViewModel}">
-			<local:DeleteAddressView/>
-        </DataTemplate>
         <DataTemplate DataType="{x:Type vm:DisplayAddressViewModel}">
 			<local:DisplayAddressView/>
         </DataTemplate>
@@ -114,6 +111,12 @@
         </DataTemplate>
         <DataTemplate DataType="{x:Type vm:ViewOrdersViewModel}">
 			<local:ViewOrdersView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:DisplayCustomerOrderDetailViewModel}">
+			<local:DisplayCustomerOrderDetailView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:DisplayCustomerProfileViewModel}">
+			<local:DisplayCustomerProfileView/>
         </DataTemplate>
     </Application.DataTemplates>
 

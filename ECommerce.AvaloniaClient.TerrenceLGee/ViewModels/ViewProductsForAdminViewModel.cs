@@ -69,7 +69,7 @@ public partial class ViewProductsForAdminViewModel : ObservableObject
     }
 
     [RelayCommand]
-    private async Task NextPageAsymc()
+    private async Task NextPageAsync()
     {
         if (!HasNextPage) return;
         Page++;
@@ -132,8 +132,8 @@ public partial class ViewProductsForAdminViewModel : ObservableObject
         MaxStockQuantity = null;
         MinDiscountPercentage = null;
         MaxDiscountPercentage = null;
-        CategoryName = string.Empty;
-        Description = string.Empty;
+        CategoryName = null;
+        Description = null;
         InStock = false;
         IsDeleted = false;
     }

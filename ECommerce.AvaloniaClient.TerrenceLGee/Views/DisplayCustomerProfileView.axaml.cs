@@ -4,9 +4,9 @@ using Avalonia.Markup.Xaml;
 
 namespace ECommerce.AvaloniaClient.TerrenceLGee;
 
-public partial class DeleteAddressView : UserControl
+public partial class DisplayCustomerProfileView : UserControl
 {
-    public DeleteAddressView()
+    public DisplayCustomerProfileView()
     {
         InitializeComponent();
     }
