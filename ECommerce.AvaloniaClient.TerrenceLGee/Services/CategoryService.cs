@@ -40,12 +40,6 @@ public class CategoryService : ICategoryService
 
             var response = await httpClient.PostAsync(url, content);
 
-            if (!response.IsSuccessStatusCode)
-            {
-                categoryAdminDataForError.ErrorMessage = $"Unable to add new category\n Reason: {response.ReasonPhrase}";
-                return categoryAdminDataForError;
-            }
-
             var responseContent = await response.Content.ReadAsStringAsync();
             var categoryAddedResponse = JsonSerializer.Deserialize<CategoryAdminRoot>(responseContent, options);
 
@@ -95,12 +89,6 @@ public class CategoryService : ICategoryService
 
             var response = await httpClient.PutAsync(url, content);
 
-            if (!response.IsSuccessStatusCode)
-            {
-                categoryAdminDataForError.ErrorMessage = $"Unable to update category {category.Id}\nReason: {response.ReasonPhrase}.";
-                return categoryAdminDataForError;
-            }
-
             var responseContent = await response.Content.ReadAsStringAsync();
             var categoryUpdatedResponse = JsonSerializer.Deserialize<CategoryAdminRoot>(responseContent, options);
 
@@ -148,12 +136,6 @@ public class CategoryService : ICategoryService
 
             var response = await httpClient.GetAsync(url);
 
-            if (!response.IsSuccessStatusCode)
-            {
-                categoryDataForError.ErrorMessage = $"Unable to retrieve category {id}\nReason: {response.ReasonPhrase}";
-                return categoryDataForError;
-            }
-
             var responseContent = await response.Content.ReadAsStringAsync();
             var categoryResponse = JsonSerializer.Deserialize<CategoryRoot>(responseContent, options);
 
@@ -200,12 +182,6 @@ public class CategoryService : ICategoryService
             var url = $"{Urls.BaseUrl}{Urls.AdminGetCategoryByIdUrl}{id}";
 
             var response = await httpClient.GetAsync(url);
-
-            if (!response.IsSuccessStatusCode)
-            {
-                categoryAdminDataForError.ErrorMessage = $"Unable to retrieve category {id}\nReason: {response.ReasonPhrase}";
-                return categoryAdminDataForError;
-            }
 
             var responseContent = await response.Content.ReadAsStringAsync();
             var categoryResponse = JsonSerializer.Deserialize<CategoryAdminRoot>(responseContent, options);

@@ -3,4 +3,4 @@ using System.Collections.Generic;
 
 namespace ECommerce.AvaloniaClient.TerrenceLGee.Messages.SaleMessages;
 
-public record CheckoutFromProductDetail(List<CartItemDto> ShoppingCart);
+public record CheckoutMessage(List<CartItemDto> ShoppingCart);

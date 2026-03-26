@@ -46,12 +46,12 @@ public class SaleService : ISaleService
 
             if (!product.IsInStock)
             {
-                return Result<RetrievedSaleDto?>.Fail($"Product {item.ProductId} not in stock.", ErrorType.NotFound);
+                return Result<RetrievedSaleDto?>.Fail($"{product.Name} is not in stock.", ErrorType.NotFound);
             }
 
             if (item.Quantity > product.StockQuantity)
             {
-                return Result<RetrievedSaleDto?>.Fail($"You order {item.Quantity} of {product.Name}, but currently " +
+                return Result<RetrievedSaleDto?>.Fail($"You ordered {item.Quantity} of {product.Name}, but currently " +
                     $"there are only {product.StockQuantity} of this product in stock.", ErrorType.BadRequest);
             }
 
@@ -181,11 +181,12 @@ public class SaleService : ISaleService
 
     public async Task<Result> CustomerCancelSaleAsync(CancelSaleDto cancel)
     {
-        var saleCanceled = await _saleRepository.CustomerCancelSaleAsync(cancel.SaleId, cancel.CustomerId);
+        var (saleCanceled, status) = await _saleRepository.CustomerCancelSaleAsync(cancel.SaleId, cancel.CustomerId);
 
         if (!saleCanceled)
         {
-            return Result.Fail("Sale cancellation failed.", ErrorType.BadRequest);
+            return Result.Fail($"Sale cancellation failed because this sale's status is " +
+                $"{status} and not eligible to canceled", ErrorType.BadRequest);
         }
 
         return Result.Ok();

@@ -7,7 +7,7 @@
              xmlns:vm="using:ECommerce.AvaloniaClient.TerrenceLGee.ViewModels"
              x:DataType="vm:DisplayProductDetailForSaleViewModel">
     <ScrollViewer>
-		<Grid RowDefinitions="Auto, Auto, Auto, Auto, Auto, Auto" Margin="10">
+		<Grid RowDefinitions="Auto, Auto, Auto, Auto, Auto, Auto, Auto" Margin="10">
 	  <StackPanel Grid.Row="0">
 		  <TextBlock Text="{Binding Product.Name}" FontSize="36" FontWeight="ExtraBold" Margin="0,0,0,15"/>
           <Border Padding="15" CornerRadius="5" Background="#3a3a3a">
@@ -45,15 +45,18 @@
                          Minimum="1" Maximum="{Binding MaxQuantity}" Width="150"/>
       </StackPanel>
       <StackPanel Grid.Row="2">
-		  <Button Content="Add To Cart" HorizontalAlignment="Left" Command="{Binding AddToCartCommand}"/>
+		  <Button Content="View Cart" HorizontalAlignment="Left" Command="{Binding ViewCartCommand}"/>
       </StackPanel>
       <StackPanel Grid.Row="3">
-		  <Button Content="Back To Products" HorizontalAlignment="Left" Command="{Binding GoBackToProductsCommand}"/>
+		  <Button Content="Add To Cart" HorizontalAlignment="Left" Command="{Binding AddToCartCommand}"/>
       </StackPanel>
       <StackPanel Grid.Row="4">
-		  <Button Content="Empty Cart" HorizontalAlignment="Left" Command="{Binding RemoveFromCartCommand}"/>
+		  <Button Content="Back To Products" HorizontalAlignment="Left" Command="{Binding GoBackToProductsCommand}"/>
       </StackPanel>
       <StackPanel Grid.Row="5">
+		  <Button Content="Remove Item" HorizontalAlignment="Left" Command="{Binding RemoveFromCartCommand}"/>
+      </StackPanel>
+      <StackPanel Grid.Row="6">
 		  <Button Content="Checkout" HorizontalAlignment="Left" Command="{Binding CheckoutCommand}"/>
       </StackPanel>
   </Grid>

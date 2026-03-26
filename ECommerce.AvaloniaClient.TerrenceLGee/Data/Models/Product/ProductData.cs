@@ -20,7 +20,7 @@ public class ProductData
     public int StockQuantity { get; set; }
 
     [JsonPropertyName("unitPrice")]
-    public double UnitPrice { get; set; }
+    public decimal UnitPrice { get; set; }
 
     [JsonPropertyName("discountPercentage")]
     public int DiscountPercentage { get; set; }

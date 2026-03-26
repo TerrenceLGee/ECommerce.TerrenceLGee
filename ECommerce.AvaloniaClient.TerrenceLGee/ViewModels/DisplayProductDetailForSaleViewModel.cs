@@ -49,7 +49,39 @@ public partial class DisplayProductDetailForSaleViewModel : ObservableObject
     [RelayCommand]
     private async Task AddToCartAsync()
     {
-        ShoppingCart.Add(new CartItemDto { ProductId = Product.Id, Quantity = (int)Quantity, ProductName = Product.Name });
+        var item = ShoppingCart
+            .FirstOrDefault(ci => ci.ProductId == Product.Id);
+
+        if (item is null)
+        {
+            ShoppingCart.Add(new CartItemDto
+            {
+                ProductId =
+                Product.Id,
+                Quantity = (int)Quantity,
+                ProductName = Product.Name,
+                TotalAmount = ((int)Quantity * Product.UnitPrice),
+                ProductPrice = Product.UnitPrice
+            });
+        }
+        else
+        {
+            ShoppingCart.Remove(item);
+            var quantity = item.Quantity + (int)Quantity;
+            var id = item.ProductId;
+            var name = item.ProductName;
+            var totalPrice = quantity * Product.UnitPrice;
+            ShoppingCart.Add(new CartItemDto
+            {
+                ProductId = id,
+                Quantity = quantity,
+                ProductName = name,
+                TotalAmount = totalPrice,
+                ProductPrice = item.ProductPrice
+            });
+        }
+
+
         SuccessMessage = $"Successfully added item to your shopping cart";
     }
 
@@ -77,8 +109,14 @@ public partial class DisplayProductDetailForSaleViewModel : ObservableObject
     }
 
     [RelayCommand]
+    private void ViewCart()
+    {
+        _messenger.Send(new ViewCartMessage(ShoppingCart));
+    }
+
+    [RelayCommand]
     private void Checkout()
     {
-        _messenger.Send(new CheckoutFromProductDetail(ShoppingCart));
+        _messenger.Send(new CheckoutMessage(ShoppingCart));
     }
 }

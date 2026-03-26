@@ -7,11 +7,12 @@
              xmlns:vm="using:ECommerce.AvaloniaClient.TerrenceLGee.ViewModels"
              x:DataType="vm:DisplayCustomerProfileViewModel">
   <ScrollViewer>
-	  <Grid RowDefinitions="Auto, Auto, Auto" Margin="10">
+	  <Grid RowDefinitions="Auto, Auto, Auto, Auto, Auto" Margin="10">
 		  <StackPanel Grid.Row="0">
 			  <WrapPanel>
 				  <TextBlock Text="Profile For:  " FontSize="36" FontWeight="ExtraBold" Margin="0,0,0,15"/>
                   <TextBlock Text="{Binding Profile.FirstName}" FontSize="36" FontWeight="ExtraBold" Margin="0,0,0,15"/>
+                  <TextBlock Text=" " Margin="0,0,0,15"/>
                   <TextBlock Text="{Binding Profile.LastName}" FontSize="36" FontWeight="ExtraBold" Margin="0,0,0,15"/>
               </WrapPanel>
               <Border Padding="15" CornerRadius="5" Background="#3a3a3a">
@@ -37,7 +38,7 @@
           </StackPanel>
           <StackPanel Grid.Row="1">
 			  <TextBlock Text="Addresses On File" FontSize="20" FontWeight="Bold" Margin="0,0,0,10"/>
-              <DataGrid ItemsSource="{Binding Addresses}"
+              <DataGrid ItemsSource="{Binding AddressesForDisplay}"
                         IsReadOnly="True"
                         GridLinesVisibility="All"
                         BorderThickness="1"
@@ -54,9 +55,19 @@
                   </DataGrid.Columns>
               </DataGrid>
           </StackPanel>
-          <StackPanel Grid.Row="2">
+          <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" Spacing="10" Margin="0,0,0,10">
+			  <Button Content="Previous" Command="{Binding PreviousAddressPageCommand}" IsEnabled="{Binding AddressHasPreviousPage}"/>
+              <TextBlock>
+				  <Run Text="{Binding AddressPage}"/>
+                  <Run Text=" of "/>
+                  <Run Text="{Binding AddressTotalPages}"/>
+              </TextBlock>
+              <Button Content="Next" Command="{Binding NextAddressPageCommand}" IsEnabled="{Binding AddressHasNextPage}"/>
+          </StackPanel>
+          <StackPanel Grid.Row="3">
 			  <TextBlock Text="All Orders" FontSize="20" FontWeight="Bold" Margin="0,0,0,10"/>
-              <DataGrid ItemsSource="{Binding Orders}"
+              <DataGrid ItemsSource="{Binding OrdersForDisplay}"
+                        SelectedItem="{Binding SelectedOrder}"
                         IsReadOnly="True"
                         GridLinesVisibility="All"
                         BorderThickness="1"
@@ -70,6 +81,15 @@
                       <DataGridTextColumn Header="Status" Binding="{Binding SaleStatus}" Width="Auto"/>
                   </DataGrid.Columns>
               </DataGrid>
+          </StackPanel>
+          <StackPanel Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Center" Spacing="10" Margin="0,0,0,10">
+			  <Button Content="Previous" Command="{Binding PreviousOrderPageCommand}" IsEnabled="{Binding OrderHasPreviousPage}"/>
+              <TextBlock>
+				  <Run Text="{Binding OrderPage}"/>
+                  <Run Text=" of "/>
+                  <Run Text="{Binding OrderTotalPages}"/>
+              </TextBlock>
+              <Button Content="Next" Command="{Binding NextOrderPageCommand}" IsEnabled="{Binding OrderHasNextPage}"/>
           </StackPanel>
       </Grid>
   </ScrollViewer>

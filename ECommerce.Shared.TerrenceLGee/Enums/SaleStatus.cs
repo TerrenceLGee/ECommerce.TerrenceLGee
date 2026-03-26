@@ -9,5 +9,6 @@ public enum SaleStatus
     Processing = 2,
     Shipped = 3,
     Delivered = 4,
-    Canceled = 5
+    Canceled = 5,
+    None
 }

@@ -100,6 +100,7 @@ public partial class App : Application
         services.AddTransient<DisplayOrderDetailsViewModel>();
         services.AddTransient<ViewOrdersViewModel>();
         services.AddTransient<DisplayCustomerOrderDetailViewModel>();
+        services.AddTransient<ViewCartViewModel>();
 
         services.AddTransient<DisplayCustomerProfileViewModel>();
 

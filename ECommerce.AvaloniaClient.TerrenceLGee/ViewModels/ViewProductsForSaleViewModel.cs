@@ -117,8 +117,14 @@ public partial class ViewProductsForSaleViewModel : ObservableObject
     }
 
     [RelayCommand]
+    private void ViewCart()
+    {
+        _messenger.Send(new ViewCartMessage(ShoppingCart));
+    }
+
+    [RelayCommand]
     private void Checkout()
     {
-        _messenger.Send(new CheckoutFromProducts(ShoppingCart));
+        _messenger.Send(new CheckoutMessage(ShoppingCart));
     }
 }

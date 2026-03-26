@@ -38,12 +38,6 @@ public class CustomerService : ICustomerService
 
             var response = await httpClient.GetAsync(url);
 
-            if (!response.IsSuccessStatusCode)
-            {
-                customerDataForError.ErrorMessage = $"Unable to retrieve customer profile\nReason: {response.ReasonPhrase}";
-                return customerDataForError;
-            }
-
             var responseContent = await response.Content.ReadAsStringAsync();
             var customerResponse = JsonSerializer.Deserialize<CustomerRoot>(responseContent, options);
 

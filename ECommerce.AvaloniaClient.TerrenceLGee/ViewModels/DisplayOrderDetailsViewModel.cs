@@ -15,6 +15,10 @@ public partial class DisplayOrderDetailsViewModel : ViewModelBase
     [ObservableProperty]
     private SaleData _sale;
     public ObservableCollection<SaleProductData> OrderItems { get; } = [];
+
+    [ObservableProperty]
+    private List<SaleProductData> _orderItemsForDisplay;
+
     private readonly IMessenger _messenger;
 
     [ObservableProperty]
@@ -32,39 +36,47 @@ public partial class DisplayOrderDetailsViewModel : ViewModelBase
     {
         _sale = sale;
         _messenger = messenger;
+        _orderItemsForDisplay = new List<SaleProductData>();
         LoadOrderItems(sale.SaleProducts);
     }
 
-    [RelayCommand]
     private void LoadOrderItems(List<SaleProductData> items)
     {
-        var pagedItems = items.Skip((Page - 1) * PageSize)
-            .Take(PageSize);
-
-        foreach (var item in pagedItems)
+        foreach (var item in items)
         {
             OrderItems.Add(item);
         }
+        FetchOrderItems();
+    }
 
-        TotalPages = (int)Math.Ceiling(items.Count / (double)PageSize);
+    [RelayCommand]
+    private void FetchOrderItems()
+    {
+        var pagedItems = OrderItems.Skip((Page - 1) * PageSize)
+            .Take(PageSize)
+            .ToList();
+
+        OrderItemsForDisplay = pagedItems;
+
+        TotalPages = (int)Math.Ceiling(OrderItems.Count / (double)PageSize);
         HasNextPage = Page < TotalPages;
         HasPreviousPage = Page > 1;
     }
 
     [RelayCommand]
-    private void NextPage(List<SaleProductData> items)
+    private void NextPage()
     {
         if (!HasNextPage) return;
         Page++;
-        LoadOrderItems(items);
+        FetchOrderItems();
     }
 
     [RelayCommand]
-    private void PreviousPage(List<SaleProductData> items)
+    private void PreviousPage()
     {
         if (!HasPreviousPage) return;
         Page--;
-        LoadOrderItems(items);
+        FetchOrderItems();
     }
 
     [RelayCommand]

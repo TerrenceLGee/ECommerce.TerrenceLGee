@@ -109,6 +109,12 @@ public partial class ViewCategoriesForSaleViewModel : ObservableObject
     [RelayCommand]
     private void Checkout()
     {
-        _messenger.Send(new CheckoutFromCategories(ShoppingCart));
+        _messenger.Send(new CheckoutMessage(ShoppingCart));
+    }
+
+    [RelayCommand]
+    private void ViewCart()
+    {
+        _messenger.Send(new ViewCartMessage(ShoppingCart));
     }
 }

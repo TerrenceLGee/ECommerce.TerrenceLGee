@@ -41,12 +41,6 @@ public class SaleService : ISaleService
 
             var response = await httpClient.PostAsync(url, content);
 
-            if (!response.IsSuccessStatusCode)
-            {
-                saleDataForError.ErrorMessage = $"Unable to complete sale\nReason: {response.ReasonPhrase}";
-                return saleDataForError;
-            }
-
             var responseContent = await response.Content.ReadAsStringAsync();
             var saleCreatedResponse = JsonSerializer.Deserialize<SaleRoot>(responseContent, options);
 
@@ -95,12 +89,6 @@ public class SaleService : ISaleService
 
             var response = await httpClient.GetAsync(url);
 
-            if (!response.IsSuccessStatusCode)
-            {
-                saleDataForError.ErrorMessage = $"Unable to retrieve sale {saleId}\nReason: {response.ReasonPhrase}";
-                return saleDataForError;
-            }
-
             var responseContent = await response.Content.ReadAsStringAsync();
             var saleResponse = JsonSerializer.Deserialize<SaleRoot>(responseContent, options);
 
@@ -148,12 +136,6 @@ public class SaleService : ISaleService
             var url = $"{Urls.BaseUrl}{Urls.AdminGetSaleByIdUrl}{saleId}";
 
             var response = await httpClient.GetAsync(url);
-
-            if (!response.IsSuccessStatusCode)
-            {
-                saleDataForError.ErrorMessage = $"Unable to retrieve sale {saleId}\nReason: {response.ReasonPhrase}";
-                return saleDataForError;
-            }
 
             var responseContent = await response.Content.ReadAsStringAsync();
             var saleResponse = JsonSerializer.Deserialize<SaleRoot>(responseContent, options);
@@ -274,11 +256,6 @@ public class SaleService : ISaleService
             var content = new StringContent(JsonSerializer.Serialize(saleStatus), Encoding.UTF8, MediaType);
             var response = await httpClient.PutAsync(url, content);
 
-            if (!response.IsSuccessStatusCode)
-            {
-                return (false, $"Unable to update the status for sale {saleId}\nReason: {response.ReasonPhrase}");
-            }
-
             var responseContent = await response.Content.ReadAsStringAsync();
             var saleStatusUpdatedResponse = JsonSerializer.Deserialize<SaleAdminUpdateRoot>(responseContent, options);
 
@@ -320,11 +297,6 @@ public class SaleService : ISaleService
             var url = $"{Urls.BaseUrl}{Urls.CustomerCancelSaleUrl}{saleId}";
 
             var response = await httpClient.PostAsync(url, null);
-
-            if (!response.IsSuccessStatusCode)
-            {
-                return (false, $"Unable to cancel sale {saleId}\nReason: {response.ReasonPhrase}");
-            }
 
             var responseContent = await response.Content.ReadAsStringAsync();
             var saleCanceledResponse = JsonSerializer.Deserialize<SaleCustomerCancelRoot>(responseContent, options);

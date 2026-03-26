@@ -34,6 +34,7 @@
 			<Button Content="Next" Command="{Binding NextPageCommand}" IsEnabled="{Binding HasNextPage}"/>
 		</StackPanel>
 		<StackPanel>
+			<Button Content="View Cart" Command="{Binding ViewCartCommand}" HorizontalAlignment="Center"/>
 			<Button Content="Checkout" Command="{Binding CheckoutCommand}" HorizontalAlignment="Center"/>
 		</StackPanel>
 		<StackPanel>

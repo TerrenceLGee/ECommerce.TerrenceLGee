@@ -41,12 +41,6 @@ public class AddressService : IAddressService
 
             var response = await httpClient.PostAsync(url, content);
 
-            if (!response.IsSuccessStatusCode)
-            {
-                addressDataForError.ErrorMessage = $"Unable to add address\nReason: {response.ReasonPhrase}";
-                return addressDataForError;
-            }
-
             var responseContent = await response.Content.ReadAsStringAsync();
             var addressAddedResponse = JsonSerializer.Deserialize<AddressRoot>(responseContent, options);
 
@@ -96,12 +90,6 @@ public class AddressService : IAddressService
             var content = new StringContent(JsonSerializer.Serialize(address), Encoding.UTF8, MediaType);
             var response = await httpClient.PutAsync(url, content);
 
-            if (!response.IsSuccessStatusCode)
-            {
-                addressDataForError.ErrorMessage = $"Unable to update address {address.Id}\nReason: {response.ReasonPhrase}";
-                return addressDataForError;
-            }
-
             var responseContent = await response.Content.ReadAsStringAsync();
             var addressUpdatedResponse = JsonSerializer.Deserialize<AddressRoot>(responseContent, options);
 
@@ -148,11 +136,6 @@ public class AddressService : IAddressService
 
             var response = await httpClient.DeleteAsync(url);
 
-            if (!response.IsSuccessStatusCode)
-            {
-                return (false, $"Unable to delete address {addressId}\nReason: {response.ReasonPhrase}");
-            }
-
             var responseContent = await response.Content.ReadAsStringAsync();
             var addressDeletedResponse = JsonSerializer.Deserialize<AddressDeletionRoot>(responseContent, options);
 
@@ -196,12 +179,6 @@ public class AddressService : IAddressService
             var url = $"{Urls.BaseUrl}{Urls.GetAddressForCustomerUrl}{addressId}";
 
             var response = await httpClient.GetAsync(url);
-
-            if (!response.IsSuccessStatusCode)
-            {
-                addressDataForError.ErrorMessage = $"Unable to retrieve address {addressId}\nReason: {response.ReasonPhrase}";
-                return addressDataForError;
-            }
 
             var responseContent = await response.Content.ReadAsStringAsync();
             var addressResponse = JsonSerializer.Deserialize<AddressRoot>(responseContent, options);
@@ -254,12 +231,6 @@ public class AddressService : IAddressService
             var content = new StringContent(JsonSerializer.Serialize(addressIdDto), Encoding.UTF8, MediaType);
 
             var response = await httpClient.PostAsync(url, content);
-
-            if (!response.IsSuccessStatusCode)
-            {
-                addressDataForError.ErrorMessage = $"Unable to retrieve address {addressId}\nReason: {response.ReasonPhrase}";
-                return addressDataForError;
-            }
 
             var responseContent = await response.Content.ReadAsStringAsync();
             var addressResponse = JsonSerializer.Deserialize<AddressRoot>(responseContent, options);

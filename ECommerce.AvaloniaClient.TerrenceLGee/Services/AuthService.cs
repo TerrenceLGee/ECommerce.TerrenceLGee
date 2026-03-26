@@ -41,11 +41,6 @@ public class AuthService : IAuthService
 
             var response = await httpClient.PostAsync(url, content);
 
-            if (!response.IsSuccessStatusCode)
-            {
-                return (false, $"Unable to register new user:\nReason: {response.ReasonPhrase}.");
-            }
-
             var responseContent = await response.Content.ReadAsStringAsync();
             var registrationResponse = JsonSerializer.Deserialize<RegistrationRoot>(responseContent, options);
 
@@ -150,11 +145,6 @@ public class AuthService : IAuthService
             var content = new StringContent(JsonSerializer.Serialize(userDto), Encoding.UTF8, MediaType);
 
             var response = await httpClient.PostAsync(url, content);
-
-            if (!response.IsSuccessStatusCode)
-            {
-                return (false, $"Unable to reset password for {userDto.Email}\nReason: {response.ReasonPhrase}");
-            }
 
             var responseContent = await response.Content.ReadAsStringAsync();
             var resetResponse = JsonSerializer.Deserialize<PasswordResetRoot>(responseContent, options);

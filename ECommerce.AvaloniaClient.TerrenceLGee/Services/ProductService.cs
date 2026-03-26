@@ -41,13 +41,6 @@ public class ProductService : IProductService
 
             var response = await httpClient.PostAsync(url, content);
 
-            if (!response.IsSuccessStatusCode)
-            {
-                productAdminDataForError.ErrorMessage = $"Unable to add new product in category {product.CategoryId}\n" +
-                    $"Reason: {response.ReasonPhrase}";
-                return productAdminDataForError;
-            }
-
             var responseContent = await response.Content.ReadAsStringAsync();
             var productAddedResponse = JsonSerializer.Deserialize<ProductAdminRoot>(responseContent, options);
 
@@ -99,13 +92,6 @@ public class ProductService : IProductService
             var content = new StringContent(JsonSerializer.Serialize(product), Encoding.UTF8, MediaType);
             var response = await httpClient.PutAsync(url, content);
 
-            if (!response.IsSuccessStatusCode)
-            {
-                productAdminDataForError.ErrorMessage = $"Unable to update product {product.Id} in category " +
-                    $"{product.CategoryId}\nReason: {response.ReasonPhrase}";
-                return productAdminDataForError;
-            }
-
             var responseContent = await response.Content.ReadAsStringAsync();
             var productUpdatedResponse = JsonSerializer.Deserialize<ProductAdminRoot>(responseContent, options);
 
@@ -156,11 +142,6 @@ public class ProductService : IProductService
 
             var response = await httpClient.DeleteAsync(url);
 
-            if (!response.IsSuccessStatusCode)
-            {
-                return (false, $"Unable to delete product {productId}\nReason: {response.ReasonPhrase}");
-            }
-
             var responseContent = await response.Content.ReadAsStringAsync();
             var productDeletedResponse = JsonSerializer.Deserialize<ProductDeletionRoot>(responseContent, options);
 
@@ -202,11 +183,6 @@ public class ProductService : IProductService
             var url = $"{Urls.BaseUrl}{Urls.AdminRestoreProductUrl}{productId}";
 
             var response = await httpClient.PostAsync(url, null);
-
-            if (!response.IsSuccessStatusCode)
-            {
-                return (false, $"Unable to restore product {productId}\nReason: {response.ReasonPhrase}");
-            }
 
             var responseContent = await response.Content.ReadAsStringAsync();
             var productRestoredResponse = JsonSerializer.Deserialize<ProductRestorationRoot>(responseContent, options);
@@ -251,12 +227,6 @@ public class ProductService : IProductService
             var url = $"{Urls.BaseUrl}{Urls.AdminGetProductByIdUrl}{productId}";
 
             var response = await httpClient.GetAsync(url);
-
-            if (!response.IsSuccessStatusCode)
-            {
-                productAdminDataForError.ErrorMessage = $"Unable to retrieve product {productId}\nReason: {response.ReasonPhrase}";
-                return productAdminDataForError;
-            }
 
             var responseContent = await response.Content.ReadAsStringAsync();
             var productResponse = JsonSerializer.Deserialize<ProductAdminRoot>(responseContent, options);
@@ -305,12 +275,6 @@ public class ProductService : IProductService
             var url = $"{Urls.BaseUrl}{Urls.CustomerGetProductByIdUrl}{productId}";
 
             var response = await httpClient.GetAsync(url);
-
-            if (!response.IsSuccessStatusCode)
-            {
-                productDataForError.ErrorMessage = $"Unable to retrieve product {productId}\nReason: {response.ReasonPhrase}";
-                return productDataForError;
-            }
 
             var responseContent = await response.Content.ReadAsStringAsync();
             var productResponse = JsonSerializer.Deserialize<ProductRoot>(responseContent, options);

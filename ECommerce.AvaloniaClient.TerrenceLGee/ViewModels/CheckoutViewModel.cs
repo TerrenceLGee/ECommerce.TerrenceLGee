@@ -9,6 +9,8 @@ using MsBox.Avalonia;
 using MsBox.Avalonia.Enums;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace ECommerce.AvaloniaClient.TerrenceLGee.ViewModels;
@@ -29,6 +31,17 @@ public partial class CheckoutViewModel : ObservableObject
     [ObservableProperty]
     private CartItemDto? _selectedItem;
 
+    [ObservableProperty]
+    private int _page = 1;
+    [ObservableProperty]
+    private int _pageSize = 10;
+    [ObservableProperty]
+    private int _totalPages;
+    [ObservableProperty]
+    private bool _hasNextPage;
+    [ObservableProperty]
+    private bool _hasPreviousPage;
+
     public CheckoutViewModel(ISaleService saleService, List<CartItemDto> shoppingCart, IMessenger messenger)
     {
         _saleService = saleService;
@@ -41,7 +54,31 @@ public partial class CheckoutViewModel : ObservableObject
     [RelayCommand]
     private void LoadCart()
     {
-        ShoppingCartForDisplay = ShoppingCart;
+        var pagedCart = ShoppingCart.Skip((Page - 1) * PageSize)
+            .Take(PageSize)
+            .ToList();
+
+        ShoppingCartForDisplay = pagedCart;
+
+        TotalPages = (int)Math.Ceiling(ShoppingCart.Count / (double)PageSize);
+        HasNextPage = Page < TotalPages;
+        HasPreviousPage = Page > 1;
+    }
+
+    [RelayCommand]
+    private void NextPage()
+    {
+        if (!HasNextPage) return;
+        Page++;
+        LoadCart();
+    }
+
+    [RelayCommand]
+    private void PreviousPage()
+    {
+        if (!HasPreviousPage) return;
+        Page--;
+        LoadCart();
     }
 
     [RelayCommand]
@@ -66,6 +103,7 @@ public partial class CheckoutViewModel : ObservableObject
         if (string.IsNullOrEmpty(result.ErrorMessage))
         {
             SuccessMessage = "Order completed successfully";
+            ShoppingCart.Clear();
             _messenger.Send(new OrderCompletedMessage(result));
         }
         else
@@ -77,12 +115,14 @@ public partial class CheckoutViewModel : ObservableObject
     [RelayCommand]
     private void CancelOrder()
     {
+        ShoppingCart.Clear();
         _messenger.Send(new NavigateBackToAllCategoriesOrderCanceledMessage());
     }
 
-    async partial void OnSelectedItemChanged(CartItemDto? value)
+    [RelayCommand]
+    private async Task RemoveItemAsync()
     {
-        if (value is not null)
+        if (SelectedItem is not null)
         {
             var box = MessageBoxManager
                 .GetMessageBoxStandard("Delete", "Delete this item?", ButtonEnum.YesNo, Icon.Warning, null, WindowStartupLocation.CenterOwner);
@@ -91,7 +131,7 @@ public partial class CheckoutViewModel : ObservableObject
 
             if (result == ButtonResult.Yes)
             {
-                ShoppingCart.Remove(value);
+                ShoppingCart.Remove(SelectedItem);
                 LoadCart();
             }
         }

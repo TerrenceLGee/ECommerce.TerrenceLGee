@@ -106,6 +106,9 @@
         <DataTemplate DataType="{x:Type vm:CheckoutViewModel}">
 			<local:CheckoutView/>
         </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:ViewCartViewModel}">
+			<local:ViewCartView/>
+        </DataTemplate>
         <DataTemplate DataType="{x:Type vm:DisplayOrderDetailsViewModel}">
 			<local:DisplayOrderDetailsView/>
         </DataTemplate>

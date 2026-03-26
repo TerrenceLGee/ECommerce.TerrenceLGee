@@ -32,6 +32,9 @@ public partial class MainUserViewModel : ObservableObject
     private ObservableObject? _currentSubView;
 
     [ObservableProperty]
+    private ObservableObject? _previousSubView;
+
+    [ObservableProperty]
     private MenuItemViewModel? _selectedMenuItem;
 
     public event Action? LogoutRequested;
@@ -338,19 +341,7 @@ public partial class MainUserViewModel : ObservableObject
             CurrentSubView = new DisplayProductDetailForSaleViewModel(productService, m.ShoppingCart, m.Data, m.CategoryId, _messenger);
         });
 
-        _messenger.Register<CheckoutFromCategories>(this, (r, m) =>
-        {
-            var saleService = _serviceProvider.GetRequiredService<ISaleService>();
-            CurrentSubView = new CheckoutViewModel(saleService, m.ShoppingCart, _messenger);
-        });
-
-        _messenger.Register<CheckoutFromProducts>(this, (r, m) =>
-        {
-            var saleService = _serviceProvider.GetRequiredService<ISaleService>();
-            CurrentSubView = new CheckoutViewModel(saleService, m.ShoppingCart, _messenger);
-        });
-
-        _messenger.Register<CheckoutFromProductDetail>(this, (r, m) =>
+        _messenger.Register<CheckoutMessage>(this, (r, m) =>
         {
             var saleService = _serviceProvider.GetRequiredService<ISaleService>();
             CurrentSubView = new CheckoutViewModel(saleService, m.ShoppingCart, _messenger);
@@ -382,6 +373,17 @@ public partial class MainUserViewModel : ObservableObject
         _messenger.Register<NavigateBackToAllCustomerOrdersMessage>(this, (r, m) =>
         {
             CurrentSubView = _serviceProvider.GetRequiredService<ViewOrdersViewModel>();
+        });
+
+        _messenger.Register<ViewCartMessage>(this, (r, m) =>
+        {
+            PreviousSubView = CurrentSubView;
+            CurrentSubView = new ViewCartViewModel(m.ShoppingCart, _messenger);
+        });
+
+        _messenger.Register<NavigateBackFromViewCart>(this, (r, m) =>
+        {
+            CurrentSubView = PreviousSubView;
         });
     }
 

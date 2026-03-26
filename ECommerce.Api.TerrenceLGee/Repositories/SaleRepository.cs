@@ -134,7 +134,7 @@ public class SaleRepository : ISaleRepository
         }
     }
 
-    public async Task<bool> CustomerCancelSaleAsync(int saleId, string? customerId)
+    public async Task<(bool, SaleStatus)> CustomerCancelSaleAsync(int saleId, string? customerId)
     {
         try
         {
@@ -142,11 +142,11 @@ public class SaleRepository : ISaleRepository
                 .Include(s => s.SaleProducts)
                 .FirstOrDefaultAsync(s => s.Id == saleId && s.Customer != null && s.CustomerId.Equals(customerId));
 
-            if (saleToCancel is null) return false;
+            if (saleToCancel is null) return (false, SaleStatus.None);
 
             if (saleToCancel.SaleStatus == SaleStatus.Shipped
                 || saleToCancel.SaleStatus == SaleStatus.Delivered
-                || saleToCancel.SaleStatus == SaleStatus.Canceled) return false;
+                || saleToCancel.SaleStatus == SaleStatus.Canceled) return (false, saleToCancel.SaleStatus);
 
             var result = await RestockAsync(saleToCancel.SaleProducts);
 
@@ -157,7 +157,7 @@ public class SaleRepository : ISaleRepository
                 await _context.SaveChangesAsync();
             }
 
-            return result;
+            return (result, SaleStatus.None);
         }
         catch (Exception ex)
         {
@@ -165,7 +165,7 @@ public class SaleRepository : ISaleRepository
                 $"Method: {nameof(CustomerCancelSaleAsync)}\n" +
                 $"There was an unexpected error cancelling sale {saleId} for customer {customerId}: {ex.Message}";
             _logger.LogError(ex, "{msg}\n\n", _errorMessage);
-            return false;
+            return (false, SaleStatus.None);
         }
     }
 
