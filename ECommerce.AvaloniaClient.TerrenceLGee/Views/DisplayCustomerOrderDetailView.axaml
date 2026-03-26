@@ -98,7 +98,7 @@
                          HorizontalAlignment="Center"/>
           </StackPanel>
           <StackPanel Grid.Row="5" Orientation="Horizontal" HorizontalAlignment="Center" Spacing="10" Margin="0,0,0,10">
-			  <Button Content="Back To Orders" Command="{Binding GoBackCommand}"/>
+			  <Button Content="Back Previous Page" Command="{Binding GoBackCommand}"/>
           </StackPanel>
        </Grid>
   </ScrollViewer>

@@ -15,7 +15,6 @@ using ECommerce.AvaloniaClient.TerrenceLGee.Services.Interfaces.Sale;
 using ECommerce.Shared.TerrenceLGee.Enums.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 
@@ -364,6 +363,7 @@ public partial class MainUserViewModel : ObservableObject
 
         _messenger.Register<SaleSelectedForCustomerDetailMessage>(this, async (r, m) =>
         {
+            PreviousSubView = CurrentSubView;
             var saleService = _serviceProvider.GetRequiredService<ISaleService>();
             var detailVM = new DisplayCustomerOrderDetailViewModel(saleService, m.SaleId, _messenger);
             await detailVM.GetSaleAsync();
@@ -395,6 +395,11 @@ public partial class MainUserViewModel : ObservableObject
             var profileVM = new DisplayCustomerProfileViewModel(customerService, _messenger);
             await profileVM.GetProfileAsync();
             CurrentSubView = profileVM;
+        });
+
+        _messenger.Register<NavigateBackToPreviousPageMessage>(this, (r, m) =>
+        {
+            CurrentSubView = PreviousSubView;
         });
     }
 }

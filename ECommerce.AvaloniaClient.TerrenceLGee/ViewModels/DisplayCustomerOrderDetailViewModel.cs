@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using ECommerce.AvaloniaClient.TerrenceLGee.Data.Models.Sale;
+using ECommerce.AvaloniaClient.TerrenceLGee.Messages.Customer;
 using ECommerce.AvaloniaClient.TerrenceLGee.Messages.SaleMessages;
 using ECommerce.AvaloniaClient.TerrenceLGee.Services.Interfaces.Sale;
 using MsBox.Avalonia;
@@ -92,7 +93,7 @@ public partial class DisplayCustomerOrderDetailViewModel : ObservableObject
     [RelayCommand]
     private void GoBack()
     {
-        _messenger.Send(new NavigateBackToAllCustomerOrdersMessage());
+        _messenger.Send(new NavigateBackToPreviousPageMessage());
     }
 
     [RelayCommand]
