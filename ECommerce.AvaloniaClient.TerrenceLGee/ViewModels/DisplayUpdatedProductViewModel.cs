@@ -21,4 +21,10 @@ public partial class DisplayUpdatedProductViewModel : ViewModelBase
     {
         _messenger.Send(new NavigateBackToUpdateProductMessage());
     }
+
+    [RelayCommand]
+    private void GoBackToProductPage()
+    {
+        _messenger.Send(new NavigateBackToProductPageMessage());
+    }
 }

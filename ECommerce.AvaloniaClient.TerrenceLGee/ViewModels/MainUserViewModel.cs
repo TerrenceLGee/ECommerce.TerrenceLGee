@@ -4,6 +4,7 @@ using ECommerce.AvaloniaClient.TerrenceLGee.Enums;
 using ECommerce.AvaloniaClient.TerrenceLGee.Messages.AddressMessages;
 using ECommerce.AvaloniaClient.TerrenceLGee.Messages.CategoryMessages;
 using ECommerce.AvaloniaClient.TerrenceLGee.Messages.Customer;
+using ECommerce.AvaloniaClient.TerrenceLGee.Messages.OtherMessages;
 using ECommerce.AvaloniaClient.TerrenceLGee.Messages.ProductMessages;
 using ECommerce.AvaloniaClient.TerrenceLGee.Messages.SaleMessages;
 using ECommerce.AvaloniaClient.TerrenceLGee.Services.Interfaces.Address;
@@ -76,38 +77,14 @@ public partial class MainUserViewModel : ObservableObject
 
         switch (value.Value)
         {
-            case AdminMenu.AddCategory:
-                CurrentSubView = _serviceProvider.GetRequiredService<AddCategoryViewModel>();
+            case AdminMenu.Categories:
+                CurrentSubView = _serviceProvider.GetRequiredService<CategoryOperationsViewModel>();
                 break;
-            case AdminMenu.UpdateCategory:
-                CurrentSubView = _serviceProvider.GetRequiredService<AdminChooseCategoryForUpdateViewModel>();
+            case AdminMenu.Products:
+                CurrentSubView = _serviceProvider.GetRequiredService<ProductOperationsViewModel>();
                 break;
-            case AdminMenu.ViewCategories:
-                CurrentSubView = _serviceProvider.GetRequiredService<ViewCategoriesForAdminViewModel>();
-                break;
-            case AdminMenu.AddProduct:
-                CurrentSubView = _serviceProvider.GetRequiredService<AddProductViewModel>();
-                break;
-            case AdminMenu.UpdateProduct:
-                CurrentSubView = _serviceProvider.GetRequiredService<AdminChooseProductForUpdateViewModel>();
-                break;
-            case AdminMenu.DeleteProduct:
-                CurrentSubView = _serviceProvider.GetRequiredService<DeleteProductViewModel>();
-                break;
-            case AdminMenu.RestoreProduct:
-                CurrentSubView = _serviceProvider.GetRequiredService<RestoreProductViewModel>();
-                break;
-            case AdminMenu.ViewProducts:
-                CurrentSubView = _serviceProvider.GetRequiredService<ViewProductsForAdminViewModel>();
-                break;
-            case AdminMenu.ViewCustomers:
-                break;
-            case AdminMenu.ViewAllSales:
-                break;
-            case AdminMenu.UpdateSaleStatus:
-                break;
-            case AdminMenu.ViewAddresses:
-                CurrentSubView = _serviceProvider.GetRequiredService<ViewCustomerAddressesForAdminViewModel>();
+            case AdminMenu.Customers:
+                CurrentSubView = _serviceProvider.GetRequiredService<CustomerOperationsViewModel>();
                 break;
             case CustomerMenu.ViewProfile:
                 _messenger.Send(new DisplayCustomerProfileMessage());
@@ -137,13 +114,34 @@ public partial class MainUserViewModel : ObservableObject
         AddressMessageRegistration();
         SaleMessageRegistration();
         CustomerMessageRegistration();
+        OtherMessageRegistration();
     }
 
     private void CategoryMessageRegistration()
     {
-        _messenger.Register<CategoryAddedMessage>(this, (r, m) =>
+        _messenger.Register<AddCategoryMessage>(this, (r, m) =>
         {
-            CurrentSubView = new DisplayAddedCategoryViewModel(m.Data, _messenger);
+            PreviousSubView = CurrentSubView;
+            CurrentSubView = _serviceProvider.GetRequiredService<AddCategoryViewModel>();
+        });
+
+        _messenger.Register<UpdateCategoryMessage>(this, (r, m) =>
+        {
+            PreviousSubView = CurrentSubView;
+            CurrentSubView = _serviceProvider.GetRequiredService<AdminChooseCategoryForUpdateViewModel>();
+        });
+
+        _messenger.Register<NavigateBackToViewCategoriesForUpdateCategoryMessage>(this, (r, m) =>
+        {
+            CurrentSubView = _serviceProvider.GetRequiredService<AdminChooseCategoryForUpdateViewModel>();
+        });
+
+        _messenger.Register<CategoryAddedMessage>(this, async (r, m) =>
+        {
+            PreviousSubView = CurrentSubView;
+            var categoryService = _serviceProvider.GetRequiredService<ICategoryService>();
+            var detailVM = new DisplayAddedCategoryViewModel(m.Data, _messenger);
+            CurrentSubView = detailVM;
         });
 
         _messenger.Register<NavigateBackToAddCategoryMessage>(this, (r, m) =>
@@ -162,11 +160,6 @@ public partial class MainUserViewModel : ObservableObject
             CurrentSubView = new UpdateCategoryViewModel(categoryService, m.Data, _messenger);
         });
 
-        _messenger.Register<NavigateBackToUpdateCategoryMessage>(this, (r, m) =>
-        {
-            CurrentSubView = _serviceProvider.GetRequiredService<AdminChooseCategoryForUpdateViewModel>();
-        });
-
         _messenger.Register<CategorySelectedForAdminMessage>(this, async (r, m) =>
         {
             var categoryService = _serviceProvider.GetRequiredService<ICategoryService>();
@@ -181,12 +174,6 @@ public partial class MainUserViewModel : ObservableObject
             CurrentSubView = _serviceProvider.GetRequiredService<ViewCategoriesForAdminViewModel>();
         });
 
-
-        _messenger.Register<NavigateBackToAllAdminCategoriesFromUpdateView>(this, (r, m) =>
-        {
-            CurrentSubView = _serviceProvider.GetRequiredService<AdminChooseCategoryForUpdateViewModel>();
-        });
-
         _messenger.Register<NavigateBackToAdminCategoryDetailView>(this, async (r, m) =>
         {
             var categoryService = _serviceProvider.GetRequiredService<ICategoryService>();
@@ -194,10 +181,39 @@ public partial class MainUserViewModel : ObservableObject
             await detailVM.GetCategoryAsync();
             CurrentSubView = detailVM;
         });
+
+        _messenger.Register<NavigateBackToCategoryPageMessage>(this, (r, m) =>
+        {
+            CurrentSubView = _serviceProvider.GetRequiredService<CategoryOperationsViewModel>();
+        });
     }
 
     private void ProductMessageRegistration()
     {
+        _messenger.Register<AddProductMessage>(this, (r, m) =>
+        {
+            PreviousSubView = CurrentSubView;
+            CurrentSubView = _serviceProvider.GetRequiredService<AddProductViewModel>();
+        });
+
+        _messenger.Register<UpdateProductMessage>(this, (r, m) =>
+        {
+            PreviousSubView = CurrentSubView;
+            CurrentSubView = _serviceProvider.GetRequiredService<AdminChooseProductForUpdateViewModel>();
+        });
+
+        _messenger.Register<RestoreProductMessage>(this, (r, m) =>
+        {
+            PreviousSubView = CurrentSubView;
+            CurrentSubView = _serviceProvider.GetRequiredService<RestoreProductViewModel>();
+        });
+
+        _messenger.Register<DeleteProductMessage>(this, (r, m) =>
+        {
+            PreviousSubView = CurrentSubView;
+            CurrentSubView = _serviceProvider.GetRequiredService<DeleteProductViewModel>();
+        });
+
         _messenger.Register<ProductAddedMessage>(this, (r, m) =>
         {
             CurrentSubView = new DisplayAddedProductViewModel(m.Data, _messenger);
@@ -237,6 +253,10 @@ public partial class MainUserViewModel : ObservableObject
             CurrentSubView = detailVM;
         });
 
+        _messenger.Register<NavigateBackToProductPageMessage>(this, (r, m) =>
+        {
+            CurrentSubView = _serviceProvider.GetRequiredService<ProductOperationsViewModel>();
+        });
 
         _messenger.Register<NavigateBackToAllAdminProductsFromUpdateView>(this, (r, m) =>
         {
@@ -295,6 +315,7 @@ public partial class MainUserViewModel : ObservableObject
 
         _messenger.Register<AddressSelectedForDetailMessage>(this, (r, m) =>
         {
+            PreviousSubView = CurrentSubView;
             var addressService = _serviceProvider.GetRequiredService<IAddressService>();
             CurrentSubView = new DisplayAddressViewModel(addressService, m.Data, _messenger);
         });
@@ -397,6 +418,25 @@ public partial class MainUserViewModel : ObservableObject
             CurrentSubView = profileVM;
         });
 
+        _messenger.Register<ViewCustomerAddressesForAdminMessage>(this, (r, m) =>
+        {
+            PreviousSubView = CurrentSubView;
+            CurrentSubView = _serviceProvider.GetRequiredService<ViewCustomerAddressesForAdminViewModel>();
+        });
+
+        _messenger.Register<NavigateBackToCustomerPageMessage>(this, (r, m) =>
+        {
+            CurrentSubView = _serviceProvider.GetRequiredService<CustomerOperationsViewModel>();
+        });
+
+        _messenger.Register<ViewCustomersForAdminMessage>(this, (r, m) =>
+        {
+            CurrentSubView = _serviceProvider.GetRequiredService<ViewCustomersForAdminViewModel>();
+        });
+    }
+
+    private void OtherMessageRegistration()
+    {
         _messenger.Register<NavigateBackToPreviousPageMessage>(this, (r, m) =>
         {
             CurrentSubView = PreviousSubView;

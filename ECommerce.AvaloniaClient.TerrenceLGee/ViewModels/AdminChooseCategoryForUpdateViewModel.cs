@@ -32,7 +32,7 @@ public partial class AdminChooseCategoryForUpdateViewModel : ObservableObject
     private bool _hasPreviousPage;
     [ObservableProperty]
     private bool _hasNextPage;
-    
+
     public AdminChooseCategoryForUpdateViewModel(ICategoryService categoryService, IMessenger messenger)
     {
         _categoryService = categoryService;
@@ -86,6 +86,11 @@ public partial class AdminChooseCategoryForUpdateViewModel : ObservableObject
         await LoadCategoriesAsync();
     }
 
+    [RelayCommand]
+    private void GoBack()
+    {
+        _messenger.Send(new NavigateBackToCategoryPageMessage());
+    }
 
     partial void OnSelectedCategoryForUpdateChanged(CategoryAdminSummaryData? value)
     {

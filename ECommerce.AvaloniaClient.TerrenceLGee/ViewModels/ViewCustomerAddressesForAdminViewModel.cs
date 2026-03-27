@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using ECommerce.AvaloniaClient.TerrenceLGee.Data.Models.Address;
 using ECommerce.AvaloniaClient.TerrenceLGee.Messages.AddressMessages;
+using ECommerce.AvaloniaClient.TerrenceLGee.Messages.Customer;
 using ECommerce.AvaloniaClient.TerrenceLGee.Services.Interfaces.Address;
 using ECommerce.Shared.TerrenceLGee.Parameters.AddressParameters;
 using System.Collections.ObjectModel;
@@ -107,6 +108,12 @@ public partial class ViewCustomerAddressesForAdminViewModel : ObservableObject
         City = string.Empty;
         State = string.Empty;
         Country = string.Empty;
+    }
+
+    [RelayCommand]
+    private void GoBack()
+    {
+        _messenger.Send(new NavigateBackToCustomerPageMessage());
     }
 
     partial void OnSelectedAddressChanged(AddressData? value)

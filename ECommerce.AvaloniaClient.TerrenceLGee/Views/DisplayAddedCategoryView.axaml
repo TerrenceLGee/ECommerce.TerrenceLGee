@@ -22,9 +22,12 @@
 				  <TextBlock Text="Created At: " FontSize="24"/>
                   <TextBlock Text="{Binding Category.CreatedAt}" FontWeight="ExtraBold" FontSize="24" TextWrapping="Wrap"/>
               </WrapPanel>
-
-              <Button Content="Add Another Category" Command="{Binding GoBackCommand}"
+              <StackPanel>
+				  <Button Content="Add Another Category" Command="{Binding GoBackCommand}"
                       HorizontalAlignment="Center" Margin="0,0,0,15"/>
+                  <Button Content="Back To Category Page" Command="{Binding GoBackToPreviousPageCommand}"
+                          HorizontalAlignment="Center" Margin="0,0,0,15"/>
+              </StackPanel>
           </StackPanel>
       </Border>
   </StackPanel>

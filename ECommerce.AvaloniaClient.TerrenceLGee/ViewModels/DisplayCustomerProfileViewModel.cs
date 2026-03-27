@@ -4,6 +4,7 @@ using CommunityToolkit.Mvvm.Messaging;
 using ECommerce.AvaloniaClient.TerrenceLGee.Data.Models.Address;
 using ECommerce.AvaloniaClient.TerrenceLGee.Data.Models.Customer;
 using ECommerce.AvaloniaClient.TerrenceLGee.Data.Models.Sale;
+using ECommerce.AvaloniaClient.TerrenceLGee.Messages.AddressMessages;
 using ECommerce.AvaloniaClient.TerrenceLGee.Messages.SaleMessages;
 using ECommerce.AvaloniaClient.TerrenceLGee.Services.Interfaces.Customer;
 using System;

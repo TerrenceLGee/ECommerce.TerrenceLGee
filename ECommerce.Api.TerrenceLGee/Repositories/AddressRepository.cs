@@ -107,6 +107,7 @@ public class AddressRepository : IAddressRepository
         try
         {
             var address = await _context.Addresses
+                .Include(a => a.Customer)
                 .AsNoTracking()
                 .FirstOrDefaultAsync(a => a.Id == addressId &&
                 !string.IsNullOrEmpty(a.CustomerId) &&
@@ -136,6 +137,7 @@ public class AddressRepository : IAddressRepository
             var addresses = _context.Addresses
                 .Where(a => a.CustomerId != null &&
                 a.CustomerId.Equals(addressQueryParams.CustomerId))
+                .Include(a => a.Customer)
                 .AsNoTracking();
 
             SetFilteringAndSorting(ref addresses, addressQueryParams);
@@ -162,6 +164,7 @@ public class AddressRepository : IAddressRepository
             if (count == 0) return [];
 
             var addresses = _context.Addresses
+                .Include(a => a.Customer)
                 .AsNoTracking();
 
             SetFilteringAndSorting(ref addresses, addressQueryParams);

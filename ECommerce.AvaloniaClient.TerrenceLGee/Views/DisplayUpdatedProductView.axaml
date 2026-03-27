@@ -1,68 +1,73 @@
 <UserControl xmlns="https://github.com/avaloniaui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="ECommerce.AvaloniaClient.TerrenceLGee.DisplayUpdatedProductView"
-             xmlns:vm="using:ECommerce.AvaloniaClient.TerrenceLGee.ViewModels"
-             x:DataType="vm:DisplayUpdatedProductViewModel">
-  <StackPanel>
-	  <TextBlock Text="Updated Category" FontSize="36" FontWeight="ExtraBold" Margin="0,0,0,15"/>
-      <Border Padding="15" CornerRadius="5" Background="#3a3a3a">
-		  <StackPanel Spacing="10">
-              <WrapPanel>
-				  <TextBlock Text="Category Name: " FontSize="24"/>
-                  <TextBlock Text="{Binding Product.CategoryName}" FontWeight="ExtraBold" FontSize="24" TextWrapping="Wrap"/>
-              </WrapPanel>
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+			 x:Class="ECommerce.AvaloniaClient.TerrenceLGee.DisplayUpdatedProductView"
+			 xmlns:vm="using:ECommerce.AvaloniaClient.TerrenceLGee.ViewModels"
+			 x:DataType="vm:DisplayUpdatedProductViewModel">
+	<ScrollViewer>
+		<StackPanel>
+			<TextBlock Text="Updated Product" FontSize="36" FontWeight="ExtraBold" Margin="0,0,0,15"/>
+			<Border Padding="15" CornerRadius="5" Background="#3a3a3a">
+				<StackPanel Spacing="10">
+					<WrapPanel>
+						<TextBlock Text="Category Name: " FontSize="24"/>
+						<TextBlock Text="{Binding Product.CategoryName}" FontWeight="ExtraBold" FontSize="24" TextWrapping="Wrap"/>
+					</WrapPanel>
 
-              <WrapPanel>
-				  <TextBlock Text="Name: " FontSize="24"/>
-                  <TextBlock Text="{Binding Product.Name}" FontWeight="ExtraBold" FontSize="24" TextWrapping="Wrap"/>
-              </WrapPanel>
+					<WrapPanel>
+						<TextBlock Text="Name: " FontSize="24"/>
+						<TextBlock Text="{Binding Product.Name}" FontWeight="ExtraBold" FontSize="24" TextWrapping="Wrap"/>
+					</WrapPanel>
 
-              <WrapPanel>
-				  <TextBlock Text="Description: " FontSize="24"/>
-                  <TextBlock Text="{Binding Product.Description}" FontWeight="ExtraBold" FontSize="24" TextWrapping="Wrap"/>
-              </WrapPanel>
+					<WrapPanel>
+						<TextBlock Text="Description: " FontSize="24"/>
+						<TextBlock Text="{Binding Product.Description}" FontWeight="ExtraBold" FontSize="24" TextWrapping="Wrap"/>
+					</WrapPanel>
 
-              <WrapPanel>
-				  <TextBlock Text="Stock Quantity: " FontSize="24"/>
-                  <TextBlock Text="{Binding Product.StockQuantity}" FontWeight="ExtraBold" FontSize="24" TextWrapping="Wrap"/>
-              </WrapPanel>
+					<WrapPanel>
+						<TextBlock Text="Stock Quantity: " FontSize="24"/>
+						<TextBlock Text="{Binding Product.StockQuantity}" FontWeight="ExtraBold" FontSize="24" TextWrapping="Wrap"/>
+					</WrapPanel>
 
-              <WrapPanel>
-				  <TextBlock Text="Unit Price: " FontSize="24"/>
-                  <TextBlock Text="{Binding Product.UnitPrice, StringFormat={}{0:C}}" FontWeight="ExtraBold" FontSize="24" TextWrapping="Wrap"/>
-              </WrapPanel>
+					<WrapPanel>
+						<TextBlock Text="Unit Price: " FontSize="24"/>
+						<TextBlock Text="{Binding Product.UnitPrice, StringFormat={}{0:C}}" FontWeight="ExtraBold" FontSize="24" TextWrapping="Wrap"/>
+					</WrapPanel>
 
-              <WrapPanel>
-				  <TextBlock Text="Discount Pecentage: " FontSize="24"/>
-                  <TextBlock Text="{Binding Product.DiscountPercentage}" FontWeight="ExtraBold" FontSize="24" TextWrapping="Wrap"/>
-              </WrapPanel>
+					<WrapPanel>
+						<TextBlock Text="Discount Pecentage: " FontSize="24"/>
+						<TextBlock Text="{Binding Product.DiscountPercentage}" FontWeight="ExtraBold" FontSize="24" TextWrapping="Wrap"/>
+					</WrapPanel>
 
-              <WrapPanel>
-				  <TextBlock Text="In Stock?: " FontSize="24"/>
-                  <TextBlock Text="{Binding Product.IsInStock}" FontWeight="ExtraBold" FontSize="24" TextWrapping="Wrap"/>
-              </WrapPanel>
+					<WrapPanel>
+						<TextBlock Text="In Stock?: " FontSize="24"/>
+						<TextBlock Text="{Binding Product.IsInStock}" FontWeight="ExtraBold" FontSize="24" TextWrapping="Wrap"/>
+					</WrapPanel>
 
-              <WrapPanel>
-				  <TextBlock Text="Is Deleted?: " FontSize="24"/>
-                  <TextBlock Text="{Binding Product.IsDeleted}" FontWeight="ExtraBold" FontSize="24" TextWrapping="Wrap"/>
-              </WrapPanel>
+					<WrapPanel>
+						<TextBlock Text="Is Deleted?: " FontSize="24"/>
+						<TextBlock Text="{Binding Product.IsDeleted}" FontWeight="ExtraBold" FontSize="24" TextWrapping="Wrap"/>
+					</WrapPanel>
 
-              <WrapPanel>
-				  <TextBlock Text="Created At: " FontSize="24"/>
-                  <TextBlock Text="{Binding Product.CreatedAt}" FontWeight="ExtraBold" FontSize="24" TextWrapping="Wrap"/>
-              </WrapPanel>
+					<WrapPanel>
+						<TextBlock Text="Created At: " FontSize="24"/>
+						<TextBlock Text="{Binding Product.CreatedAt}" FontWeight="ExtraBold" FontSize="24" TextWrapping="Wrap"/>
+					</WrapPanel>
 
-              <WrapPanel>
-				  <TextBlock Text="Updated At: " FontSize="24"/>
-                  <TextBlock Text="{Binding Product.UpdatedAt}" FontWeight="ExtraBold" FontSize="24" TextWrapping="Wrap"/>
-              </WrapPanel>
-
-              <Button Content="Update Another Product" Command="{Binding GoBackCommand}"
-                      HorizontalAlignment="Center" Margin="0,0,0,15"/>
-          </StackPanel>
-      </Border>
-  </StackPanel>
+					<WrapPanel>
+						<TextBlock Text="Updated At: " FontSize="24"/>
+						<TextBlock Text="{Binding Product.UpdatedAt}" FontWeight="ExtraBold" FontSize="24" TextWrapping="Wrap"/>
+					</WrapPanel>
+				</StackPanel>
+			</Border>
+			<StackPanel>
+				<Button Content="Update Another Product" Command="{Binding GoBackCommand}"
+						HorizontalAlignment="Center" Margin="0,0,0,15"/>
+				<Button Content="Back To Product Page" Command="{Binding GoBackToProductPageCommand}"
+						HorizontalAlignment="Center" Margin="0,0,0,15"/>
+			</StackPanel>
+		</StackPanel>
+	</ScrollViewer>
 </UserControl>

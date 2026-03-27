@@ -20,6 +20,12 @@ public partial class DisplayUpdatedCategoryViewModel : ViewModelBase
     [RelayCommand]
     private void GoBack()
     {
-        _messenger.Send(new NavigateBackToUpdateCategoryMessage());
+        _messenger.Send(new NavigateBackToViewCategoriesForUpdateCategoryMessage());
+    }
+
+    [RelayCommand]
+    private void GoBackToCategoryPage()
+    {
+        _messenger.Send(new NavigateBackToCategoryPageMessage());
     }
 }

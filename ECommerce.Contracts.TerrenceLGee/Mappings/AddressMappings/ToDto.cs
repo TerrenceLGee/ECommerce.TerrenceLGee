@@ -13,6 +13,9 @@ public static class ToDto
             {
                 Id = address.Id,
                 CustomerId = address.CustomerId,
+                CustomerName = (address.Customer is not null) 
+                ? $"{address.Customer.FirstName} {address.Customer.LastName}"
+                : "N/A",
                 AddressLine1 = address.AddressLine1,
                 AddressLine2 = address.AddressLine2,
                 City = address.City,

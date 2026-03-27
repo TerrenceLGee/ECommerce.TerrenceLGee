@@ -4,10 +4,10 @@ using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using ECommerce.AvaloniaClient.TerrenceLGee.Data.Models.Address;
 using ECommerce.AvaloniaClient.TerrenceLGee.Messages.AddressMessages;
+using ECommerce.AvaloniaClient.TerrenceLGee.Messages.OtherMessages;
 using ECommerce.AvaloniaClient.TerrenceLGee.Services.Interfaces.Address;
 using MsBox.Avalonia;
 using MsBox.Avalonia.Enums;
-using System;
 using System.Threading.Tasks;
 
 namespace ECommerce.AvaloniaClient.TerrenceLGee.ViewModels;
@@ -33,7 +33,7 @@ public partial class DisplayAddressViewModel : ViewModelBase
     [RelayCommand]
     private async Task GoBack()
     {
-        _messenger.Send(new NavigateBackToAllAddressesMessage());
+        _messenger.Send(new NavigateBackToPreviousPageMessage());
     }
 
     [RelayCommand]

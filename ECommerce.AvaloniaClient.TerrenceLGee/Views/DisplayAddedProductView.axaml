@@ -49,6 +49,8 @@
               
               <Button Content="Add Another Product" Command="{Binding GoBackCommand}"
                       HorizontalAlignment="Center" Margin="0,0,0,15"/>
+              <Button Content="Back To Products" Command="{Binding GoBackToProductsCommand}"
+                      HorizontalAlignment="Center" Margin="0,0,0,15"/>
           </StackPanel>
       </Border>
   </StackPanel>

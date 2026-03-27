@@ -1,61 +1,64 @@
 <UserControl xmlns="https://github.com/avaloniaui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="ECommerce.AvaloniaClient.TerrenceLGee.ViewCustomerAddressesForAdminView"
-             xmlns:vm="using:ECommerce.AvaloniaClient.TerrenceLGee.ViewModels"
-             x:DataType="vm:ViewCustomerAddressesForAdminViewModel">
-  <ScrollViewer>
-	  <Grid RowDefinitions="Auto, Auto, Auto" Margin="10">
-		  <StackPanel Grid.Row="0">
-			  <TextBlock Text="Filter By City" FontWeight="ExtraBold"/>
-              <StackPanel Orientation="Horizontal" Spacing="10">
-				  <TextBox Text="{Binding City}" Watermark="City..." Width="150"/>
-              </StackPanel>
-              <TextBlock Text="Filter By State" FontWeight="ExtraBold"/>
-              <StackPanel Orientation="Horizontal" Spacing="10">
-                  <TextBox Text="{Binding State}" Watermark="State..." Width="150"/>
-              </StackPanel>
-              <TextBlock Text="Filter By Country" FontWeight="ExtraBold"/>
-              <StackPanel Orientation="Horizontal" Spacing="10">
-				  <TextBox Text="{Binding Country}" Watermark="Country..." Width="150"/>
-              </StackPanel>
-              <Button Content="Apply Filters" Command="{Binding LoadAddressesCommand}"/>
-              <Button Content="Clear Filters" Command="{Binding ClearFiltersCommand}"/>
-          </StackPanel>
-          <StackPanel Grid.Row="1">
-			  <TextBlock Text="Customer Addresses (Select an address to see more information)" FontWeight="ExtraBold"/>
-              <ProgressBar IsIndeterminate="True" IsVisible="{Binding IsLoading}"/>
-              <StackPanel>
-				  <DataGrid ItemsSource="{Binding Addresses}"
-                            SelectedItem="{Binding SelectedAddress}"
-                            IsReadOnly="True"
-                            GridLinesVisibility="All"
-                            BorderThickness="1"
-                            BorderBrush="Gray">
-                      <DataGrid.Columns>
-                          <DataGridTextColumn Header="Customer Id" Binding="{Binding CustomerId}" Width="Auto"/>
-                          <DataGridTextColumn Header="Address Line 1" Binding="{Binding AddressLine1}" Width="Auto"/>
-                          <DataGridTextColumn Header="Address Line 2" Binding="{Binding AddressLine2}" Width="Auto"/>
-                          <DataGridTextColumn Header="City" Binding="{Binding City}" Width="Auto"/>
-                          <DataGridTextColumn Header="Postal Code" Binding="{Binding PostalCode}" Width="Auto"/>
-                          <DataGridTextColumn Header="Country" Binding="{Binding Country}" Width="Auto"/>
-                          <DataGridTextColumn Header="Billing Address" Binding="{Binding IsBillingAddress}" Width="Auto"/>
-                          <DataGridTextColumn Header="Shipping Address" Binding="{Binding IsShippingAddress}" Width="Auto"/>
-                      </DataGrid.Columns>
-                  </DataGrid>
-              </StackPanel>
-              <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" Spacing="10">
-				  <Button Content="Previous" Command="{Binding PreviousPageCommand}" IsEnabled="{Binding HasPreviousPage}"/>
-                  <TextBlock>
-					  <Run Text="{Binding Page}"/>
-                      <Run Text=" of "/>
-                      <Run Text="{Binding TotalPages}"/>
-                  </TextBlock>
-                  <Button Content="Next" Command="{Binding NextPageCommand}" IsEnabled="{Binding HasNextPage}"/>
-              </StackPanel>
-          </StackPanel>
-      </Grid>
-  </ScrollViewer>
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+			 x:Class="ECommerce.AvaloniaClient.TerrenceLGee.ViewCustomerAddressesForAdminView"
+			 xmlns:vm="using:ECommerce.AvaloniaClient.TerrenceLGee.ViewModels"
+			 x:DataType="vm:ViewCustomerAddressesForAdminViewModel">
+	<ScrollViewer>
+		<Grid RowDefinitions="Auto, Auto, Auto, Auto" Margin="10">
+			<StackPanel Grid.Row="0">
+				<TextBlock Text="Filter By City" FontWeight="ExtraBold"/>
+				<StackPanel Orientation="Horizontal" Spacing="10">
+					<TextBox Text="{Binding City}" Watermark="City..." Width="150"/>
+				</StackPanel>
+				<TextBlock Text="Filter By State" FontWeight="ExtraBold"/>
+				<StackPanel Orientation="Horizontal" Spacing="10">
+					<TextBox Text="{Binding State}" Watermark="State..." Width="150"/>
+				</StackPanel>
+				<TextBlock Text="Filter By Country" FontWeight="ExtraBold"/>
+				<StackPanel Orientation="Horizontal" Spacing="10">
+					<TextBox Text="{Binding Country}" Watermark="Country..." Width="150"/>
+				</StackPanel>
+				<Button Content="Apply Filters" Command="{Binding LoadAddressesCommand}"/>
+				<Button Content="Clear Filters" Command="{Binding ClearFiltersCommand}"/>
+			</StackPanel>
+			<StackPanel Grid.Row="1">
+				<TextBlock Text="Customer Addresses (Select an address to see more information)" FontWeight="ExtraBold"/>
+				<ProgressBar IsIndeterminate="True" IsVisible="{Binding IsLoading}"/>
+				<StackPanel>
+					<DataGrid ItemsSource="{Binding Addresses}"
+							  SelectedItem="{Binding SelectedAddress}"
+							  IsReadOnly="True"
+							  GridLinesVisibility="All"
+							  BorderThickness="1"
+							  BorderBrush="Gray">
+						<DataGrid.Columns>
+							<DataGridTextColumn Header="Name" Binding="{Binding CustomerName}" Width="Auto"/>
+							<DataGridTextColumn Header="Address Line 1" Binding="{Binding AddressLine1}" Width="Auto"/>
+							<DataGridTextColumn Header="Address Line 2" Binding="{Binding AddressLine2}" Width="Auto"/>
+							<DataGridTextColumn Header="City" Binding="{Binding City}" Width="Auto"/>
+							<DataGridTextColumn Header="Postal Code" Binding="{Binding PostalCode}" Width="Auto"/>
+							<DataGridTextColumn Header="Country" Binding="{Binding Country}" Width="Auto"/>
+							<DataGridTextColumn Header="Billing Address" Binding="{Binding IsBillingAddress}" Width="Auto"/>
+							<DataGridTextColumn Header="Shipping Address" Binding="{Binding IsShippingAddress}" Width="Auto"/>
+						</DataGrid.Columns>
+					</DataGrid>
+				</StackPanel>
+			</StackPanel>
+			<StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" Spacing="10">
+				<Button Content="Previous" Command="{Binding PreviousPageCommand}" IsEnabled="{Binding HasPreviousPage}"/>
+				<TextBlock>
+					<Run Text="{Binding Page}"/>
+					<Run Text=" of "/>
+					<Run Text="{Binding TotalPages}"/>
+				</TextBlock>
+				<Button Content="Next" Command="{Binding NextPageCommand}" IsEnabled="{Binding HasNextPage}"/>
+			</StackPanel>
+			<StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Center" Spacing="10">
+				<Button Content="Back To Customer Page" Command="{Binding GoBackCommand}"/>
+			</StackPanel>
+		</Grid>
+	</ScrollViewer>
 </UserControl>

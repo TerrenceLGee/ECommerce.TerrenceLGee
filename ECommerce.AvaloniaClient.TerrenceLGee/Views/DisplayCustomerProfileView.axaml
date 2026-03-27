@@ -65,7 +65,7 @@
               <Button Content="Next" Command="{Binding NextAddressPageCommand}" IsEnabled="{Binding AddressHasNextPage}"/>
           </StackPanel>
           <StackPanel Grid.Row="3">
-			  <TextBlock Text="All Orders" FontSize="20" FontWeight="Bold" Margin="0,0,0,10"/>
+			  <TextBlock Text="All Orders (Select an order for more information)" FontSize="20" FontWeight="Bold" Margin="0,0,0,10"/>
               <DataGrid ItemsSource="{Binding OrdersForDisplay}"
                         SelectedItem="{Binding SelectedOrder}"
                         IsReadOnly="True"

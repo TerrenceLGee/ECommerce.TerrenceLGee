@@ -13,7 +13,7 @@
           <Setter Property="Margin" Value="0,0,0,5"/>
       </Style>
   </UserControl.Styles>
-    <Grid RowDefinitions="Auto, Auto, Auto, Auto" Margin="10">
+    <Grid RowDefinitions="Auto, Auto, Auto, Auto, Auto" Margin="10">
 		<StackPanel Grid.Row="0">
 			<TextBlock Text="Filter Products On Category Name" FontWeight="ExtraBold"/>
             <StackPanel Orientation="Horizontal" Spacing="10">
@@ -64,6 +64,9 @@
                 <TextBlock Text="{Binding ErrorMessage}" Classes="Error" IsVisible="{Binding !!ErrorMessage}"
                            HorizontalAlignment="Center"/>
             </StackPanel>
+        </StackPanel>
+        <StackPanel Grid.Row="4" Spacing="10">
+			<Button Content="Back To Product Page" Command="{Binding GoBackCommand}"/>
         </StackPanel>
     </Grid>
 </UserControl>

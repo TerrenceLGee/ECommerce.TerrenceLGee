@@ -10,6 +10,9 @@ public class AddressData
     [JsonPropertyName("customerId")]
     public string? CustomerId { get; set; }
 
+    [JsonPropertyName("customerName")]
+    public string? CustomerName { get; set; }
+
     [JsonPropertyName("addressLine1")]
     public string AddressLine1 { get; set; } = string.Empty;
 

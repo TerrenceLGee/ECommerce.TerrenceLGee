@@ -1,3 +1,3 @@
 ﻿namespace ECommerce.AvaloniaClient.TerrenceLGee.Messages.CategoryMessages;
 
-public record NavigateBackToUpdateCategoryMessage;
+public record NavigateBackToViewCategoriesForUpdateCategoryMessage;

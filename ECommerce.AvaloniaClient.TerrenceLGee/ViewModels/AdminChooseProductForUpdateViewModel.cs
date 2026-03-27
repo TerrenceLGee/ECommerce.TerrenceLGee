@@ -2,13 +2,10 @@
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using ECommerce.AvaloniaClient.TerrenceLGee.Data.Models.Product;
+using ECommerce.AvaloniaClient.TerrenceLGee.Messages.OtherMessages;
 using ECommerce.AvaloniaClient.TerrenceLGee.Messages.ProductMessages;
-using ECommerce.AvaloniaClient.TerrenceLGee.Services;
-using ECommerce.AvaloniaClient.TerrenceLGee.Services.Interfaces.Category;
 using ECommerce.AvaloniaClient.TerrenceLGee.Services.Interfaces.Product;
-using ECommerce.Shared.TerrenceLGee.Parameters.CategoryParameters;
 using ECommerce.Shared.TerrenceLGee.Parameters.ProductParameters;
-using System;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 
@@ -91,6 +88,12 @@ public partial class AdminChooseProductForUpdateViewModel : ObservableObject
         if (!HasPreviousPage) return;
         Page--;
         await LoadProductsAsync();
+    }
+
+    [RelayCommand]
+    private void GoBack()
+    {
+        _messenger.Send(new NavigateBackToPreviousPageMessage());
     }
 
     partial void OnSelectedProductForUpdateChanged(ProductAdminData? value)

@@ -88,6 +88,12 @@ public partial class AddCategoryViewModel : ObservableValidator
         }
     }
 
+    [RelayCommand]
+    private void GoBack()
+    {
+        _messenger.Send(new NavigateBackToCategoryPageMessage());
+    }
+
     private void ClearCategoryAdd()
     {
         Name = string.Empty;

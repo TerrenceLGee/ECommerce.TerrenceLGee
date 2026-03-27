@@ -1,7 +1,9 @@
 ﻿using Avalonia.Controls;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 using ECommerce.AvaloniaClient.TerrenceLGee.Data.Models.Product;
+using ECommerce.AvaloniaClient.TerrenceLGee.Messages.OtherMessages;
 using ECommerce.AvaloniaClient.TerrenceLGee.Services.Interfaces.Product;
 using ECommerce.Shared.TerrenceLGee.Parameters.ProductParameters;
 using MsBox.Avalonia;
@@ -14,6 +16,7 @@ namespace ECommerce.AvaloniaClient.TerrenceLGee.ViewModels;
 public partial class DeleteProductViewModel : ObservableObject
 {
     private readonly IProductService _productService;
+    private readonly IMessenger _messenger;
     public ObservableCollection<ProductAdminData> Products { get; } = [];
 
     [ObservableProperty]
@@ -41,9 +44,10 @@ public partial class DeleteProductViewModel : ObservableObject
     [ObservableProperty]
     private string? _errorMessage;
 
-    public DeleteProductViewModel(IProductService productService)
+    public DeleteProductViewModel(IProductService productService, IMessenger messenger)
     {
         _productService = productService;
+        _messenger = messenger;
         LoadProductsCommand.Execute(null);
     }
 
@@ -68,6 +72,12 @@ public partial class DeleteProductViewModel : ObservableObject
         if (!HasPreviousPage) return;
         Page--;
         await FetchProductsAsync();
+    }
+
+    [RelayCommand]
+    private void GoBack()
+    {
+        _messenger.Send(new NavigateBackToPreviousPageMessage());
     }
 
     private async Task FetchProductsAsync()

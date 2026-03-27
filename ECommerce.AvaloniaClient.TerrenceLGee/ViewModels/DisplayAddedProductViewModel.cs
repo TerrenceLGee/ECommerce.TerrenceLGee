@@ -21,4 +21,10 @@ public partial class DisplayAddedProductViewModel : ViewModelBase
     {
         _messenger.Send(new NavigateBackToAddProductMessage());
     }
+
+    [RelayCommand]
+    private void GoBackToProducts()
+    {
+        _messenger.Send(new NavigateBackToAllAdminProductsMessage());
+    }
 }

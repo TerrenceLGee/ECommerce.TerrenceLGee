@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using ECommerce.AvaloniaClient.TerrenceLGee.Data.Models.Category;
+using ECommerce.AvaloniaClient.TerrenceLGee.Messages.OtherMessages;
 using ECommerce.AvaloniaClient.TerrenceLGee.Messages.ProductMessages;
 using ECommerce.AvaloniaClient.TerrenceLGee.Services.Interfaces.Category;
 using ECommerce.AvaloniaClient.TerrenceLGee.Services.Interfaces.Product;
@@ -220,6 +221,12 @@ public partial class AddProductViewModel : ObservableValidator
         {
             CategoryId = value.Id;
         }
+    }
+
+    [RelayCommand]
+    private void GoBack()
+    {
+        _messenger.Send(new NavigateBackToPreviousPageMessage());
     }
 
 }

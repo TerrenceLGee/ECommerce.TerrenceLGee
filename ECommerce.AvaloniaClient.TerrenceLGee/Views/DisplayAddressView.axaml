@@ -66,7 +66,7 @@
 						   HorizontalAlignment="Center"/>
 			</StackPanel>
 			<StackPanel Grid.Row="3">
-				<Button Content="Back To All Addresses" Command="{Binding GoBackCommand}" HorizontalAlignment="Center" Margin="0,0,0,15"/>
+				<Button Content="Back To Previous Page" Command="{Binding GoBackCommand}" HorizontalAlignment="Center" Margin="0,0,0,15"/>
 			</StackPanel>
 		</Grid>
 	</ScrollViewer>

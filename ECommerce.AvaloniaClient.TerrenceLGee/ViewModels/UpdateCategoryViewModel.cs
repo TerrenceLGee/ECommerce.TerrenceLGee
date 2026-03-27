@@ -99,7 +99,7 @@ public partial class UpdateCategoryViewModel : ObservableValidator
     [RelayCommand]
     private async Task GoBack()
     {
-        _messenger.Send(new NavigateBackToAllAdminCategoriesFromUpdateView());
+        _messenger.Send(new NavigateBackToViewCategoriesForUpdateCategoryMessage());
     }
 
     private void ClearCategoryUpdate()

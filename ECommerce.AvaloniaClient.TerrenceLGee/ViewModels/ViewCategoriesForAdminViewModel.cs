@@ -90,6 +90,12 @@ public partial class ViewCategoriesForAdminViewModel : ObservableObject
         await LoadCategoriesAsync();
     }
 
+    [RelayCommand]
+    private void GoBack()
+    {
+        _messenger.Send(new NavigateBackToCategoryPageMessage());
+    }
+
     partial void OnSelectedCategoryChanged(CategoryAdminSummaryData? value)
     {
         if (value is not null)

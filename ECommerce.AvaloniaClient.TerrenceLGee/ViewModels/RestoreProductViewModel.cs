@@ -1,7 +1,9 @@
 ﻿using Avalonia.Controls;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 using ECommerce.AvaloniaClient.TerrenceLGee.Data.Models.Product;
+using ECommerce.AvaloniaClient.TerrenceLGee.Messages.OtherMessages;
 using ECommerce.AvaloniaClient.TerrenceLGee.Services.Interfaces.Product;
 using ECommerce.Shared.TerrenceLGee.Parameters.ProductParameters;
 using MsBox.Avalonia;
@@ -14,6 +16,7 @@ namespace ECommerce.AvaloniaClient.TerrenceLGee.ViewModels;
 public partial class RestoreProductViewModel : ObservableObject
 {
     private readonly IProductService _productService;
+    private readonly IMessenger _messenger;
     public ObservableCollection<ProductAdminData> Products { get; } = [];
 
     [ObservableProperty]
@@ -41,10 +44,11 @@ public partial class RestoreProductViewModel : ObservableObject
     [ObservableProperty]
     private string? _errorMessage;
 
-    public RestoreProductViewModel(IProductService productService)
+    public RestoreProductViewModel(IProductService productService, IMessenger messenger)
     {
         _productService = productService;
         LoadProductsCommand.Execute(null);
+        _messenger = messenger;
     }
 
     [RelayCommand]
@@ -106,6 +110,12 @@ public partial class RestoreProductViewModel : ObservableObject
     {
         CategoryName = string.Empty;
         IsDeleted = false;
+    }
+
+    [RelayCommand]
+    private async Task GoBack()
+    {
+        _messenger.Send(new NavigateBackToPreviousPageMessage());
     }
 
     async partial void OnSelectedProductChanged(ProductAdminData? value)

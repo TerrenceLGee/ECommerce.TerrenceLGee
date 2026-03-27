@@ -64,6 +64,7 @@ public partial class App : Application
 
         services.AddTransient<HomeScreenViewModel>();
 
+        services.AddTransient<CategoryOperationsViewModel>();
         services.AddTransient<AddCategoryViewModel>();
         services.AddTransient<DisplayAddedCategoryViewModel>();
         services.AddTransient<DisplayUpdatedCategoryViewModel>();
@@ -73,6 +74,7 @@ public partial class App : Application
         services.AddTransient<AdminChooseCategoryForUpdateViewModel>();
         services.AddTransient<UpdateCategoryViewModel>();
 
+        services.AddTransient<ProductOperationsViewModel>();
         services.AddTransient<AddProductViewModel>();
         services.AddTransient<DisplayAddedProductViewModel>();
         services.AddTransient<DisplayUpdatedProductViewModel>();
@@ -101,6 +103,9 @@ public partial class App : Application
         services.AddTransient<ViewOrdersViewModel>();
         services.AddTransient<DisplayCustomerOrderDetailViewModel>();
         services.AddTransient<ViewCartViewModel>();
+
+        services.AddTransient<CustomerOperationsViewModel>();
+        services.AddTransient<ViewCustomersForAdminViewModel>();
 
         services.AddTransient<DisplayCustomerProfileViewModel>();
 
