@@ -1,96 +1,200 @@
 <UserControl xmlns="https://github.com/avaloniaui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="ECommerce.AvaloniaClient.TerrenceLGee.DisplayCustomerProfileView"
-             xmlns:vm="using:ECommerce.AvaloniaClient.TerrenceLGee.ViewModels"
-             x:DataType="vm:DisplayCustomerProfileViewModel">
-  <ScrollViewer>
-	  <Grid RowDefinitions="Auto, Auto, Auto, Auto, Auto" Margin="10">
-		  <StackPanel Grid.Row="0">
-			  <WrapPanel>
-				  <TextBlock Text="Profile For:  " FontSize="36" FontWeight="ExtraBold" Margin="0,0,0,15"/>
-                  <TextBlock Text="{Binding Profile.FirstName}" FontSize="36" FontWeight="ExtraBold" Margin="0,0,0,15"/>
-                  <TextBlock Text=" " Margin="0,0,0,15"/>
-                  <TextBlock Text="{Binding Profile.LastName}" FontSize="36" FontWeight="ExtraBold" Margin="0,0,0,15"/>
-              </WrapPanel>
-              <Border Padding="15" CornerRadius="5" Background="#3a3a3a">
-				  <StackPanel Spacing="10">
-					  <WrapPanel>
-						  <TextBlock Text="Email Address: " FontSize="24" FontWeight="ExtraBold"/>
-                          <TextBlock Text="{Binding Profile.EmailAddress}" FontSize="24" FontWeight="ExtraBold" TextWrapping="Wrap"/>
-                      </WrapPanel>
-                      <WrapPanel>
-						  <TextBlock Text="Date Of Birth: " FontSize="24" FontWeight="ExtraBold"/>
-                          <TextBlock Text="{Binding Profile.DateOfBirth}" FontSize="24" FontWeight="ExtraBold" TextWrapping="Wrap"/>
-                      </WrapPanel>
-                      <WrapPanel>
-						  <TextBlock Text="Registration Date: " FontSize="24" FontWeight="ExtraBold"/>
-                          <TextBlock Text="{Binding Profile.RegistrationDate}" FontSize="24" FontWeight="ExtraBold" TextWrapping="Wrap"/>
-                      </WrapPanel>
-                      <WrapPanel>
-						  <TextBlock Text="Total Amount Spent So Far: " FontSize="24" FontWeight="ExtraBold"/>
-                          <TextBlock Text="{Binding Profile.TotalAmountOfAllSales, StringFormat={}{0:C}}" FontSize="24" FontWeight="ExtraBold" TextWrapping="Wrap"/>
-                      </WrapPanel>
-                  </StackPanel>
-              </Border>
-          </StackPanel>
-          <StackPanel Grid.Row="1">
-			  <TextBlock Text="Addresses On File" FontSize="20" FontWeight="Bold" Margin="0,0,0,10"/>
-              <DataGrid ItemsSource="{Binding AddressesForDisplay}"
-                        IsReadOnly="True"
-                        GridLinesVisibility="All"
-                        BorderThickness="1"
-                        BorderBrush="Gray">
-                  <DataGrid.Columns>
-					  <DataGridTextColumn Header="Address Line 1" Binding="{Binding AddressLine1}" Width="Auto"/>
-                      <DataGridTextColumn Header="Address Line 2" Binding="{Binding AddressLine2}" Width="Auto"/>
-                      <DataGridTextColumn Header="City" Binding="{Binding City}" Width="Auto"/>
-                      <DataGridTextColumn Header="State" Binding="{Binding State}" Width="Auto"/>
-                      <DataGridTextColumn Header="Postal Code" Binding="{Binding PostalCode}" Width="Auto"/>
-                      <DataGridTextColumn Header="Country" Binding="{Binding Country}" Width="Auto"/>
-                      <DataGridTextColumn Header="Billing Address" Binding="{Binding IsBillingAddress}" Width="Auto"/>
-                      <DataGridTextColumn Header="Shipping Address" Binding="{Binding IsShippingAddress}" Width="Auto"/>
-                  </DataGrid.Columns>
-              </DataGrid>
-          </StackPanel>
-          <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" Spacing="10" Margin="0,0,0,10">
-			  <Button Content="Previous" Command="{Binding PreviousAddressPageCommand}" IsEnabled="{Binding AddressHasPreviousPage}"/>
-              <TextBlock>
-				  <Run Text="{Binding AddressPage}"/>
-                  <Run Text=" of "/>
-                  <Run Text="{Binding AddressTotalPages}"/>
-              </TextBlock>
-              <Button Content="Next" Command="{Binding NextAddressPageCommand}" IsEnabled="{Binding AddressHasNextPage}"/>
-          </StackPanel>
-          <StackPanel Grid.Row="3">
-			  <TextBlock Text="All Orders (Select an order for more information)" FontSize="20" FontWeight="Bold" Margin="0,0,0,10"/>
-              <DataGrid ItemsSource="{Binding OrdersForDisplay}"
-                        SelectedItem="{Binding SelectedOrder}"
-                        IsReadOnly="True"
-                        GridLinesVisibility="All"
-                        BorderThickness="1"
-                        BorderBrush="Gray">
-                  <DataGrid.Columns>
-					  <DataGridTextColumn Header="Order Id" Binding="{Binding Id}" Width="Auto"/>
-                      <DataGridTextColumn Header="Items In Order" Binding="{Binding SaleProductCount}" Width="Auto"/>
-                      <DataGridTextColumn Header="Subtotal " Binding="{Binding TotalBaseAmount, StringFormat={}{0:C}}" Width="Auto"/>
-                      <DataGridTextColumn Header="Total Discount " Binding="{Binding TotalDiscountAmount, StringFormat={}{0:C}}" Width="Auto"/>
-                      <DataGridTextColumn Header="Total" Binding="{Binding TotalAmount, StringFormat={}{0:C}}" Width="Auto"/>
-                      <DataGridTextColumn Header="Status" Binding="{Binding SaleStatus}" Width="Auto"/>
-                  </DataGrid.Columns>
-              </DataGrid>
-          </StackPanel>
-          <StackPanel Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Center" Spacing="10" Margin="0,0,0,10">
-			  <Button Content="Previous" Command="{Binding PreviousOrderPageCommand}" IsEnabled="{Binding OrderHasPreviousPage}"/>
-              <TextBlock>
-				  <Run Text="{Binding OrderPage}"/>
-                  <Run Text=" of "/>
-                  <Run Text="{Binding OrderTotalPages}"/>
-              </TextBlock>
-              <Button Content="Next" Command="{Binding NextOrderPageCommand}" IsEnabled="{Binding OrderHasNextPage}"/>
-          </StackPanel>
-      </Grid>
-  </ScrollViewer>
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+			 x:Class="ECommerce.AvaloniaClient.TerrenceLGee.DisplayCustomerProfileView"
+			 xmlns:vm="using:ECommerce.AvaloniaClient.TerrenceLGee.ViewModels"
+			 x:DataType="vm:DisplayCustomerProfileViewModel">
+	<ScrollViewer>
+		<Grid RowDefinitions="Auto, Auto, Auto, Auto, Auto"
+			  Margin="10">
+			<StackPanel Grid.Row="0">
+				<WrapPanel>
+					<TextBlock Text="Profile For:  "
+							   Foreground="Goldenrod"
+							   TextDecorations="Underline"
+							   FontSize="24"
+							   FontWeight="ExtraBold"
+							   Margin="0,0,0,15"/>
+					<TextBlock Text="{Binding Profile.FirstName}"
+							   Foreground="Goldenrod"
+							   TextDecorations="Underline"
+							   FontSize="24"
+							   FontWeight="ExtraBold"
+							   Margin="0,0,0,15"/>
+					<TextBlock Text=" "
+							   Margin="0,0,0,15"/>
+					<TextBlock Text="{Binding Profile.LastName}"
+							   Foreground="Goldenrod"
+							   TextDecorations="Underline"
+							   FontSize="24"
+							   FontWeight="ExtraBold"
+							   Margin="0,0,0,15"/>
+				</WrapPanel>
+				<Border Padding="15"
+						CornerRadius="5">
+					<StackPanel Spacing="10">
+						<WrapPanel>
+							<TextBlock Text="Email Address: "
+									   Foreground="LightCyan"
+									   FontStyle="Italic"
+									   FontSize="15"
+									   FontWeight="ExtraBold"/>
+							<TextBlock Text="{Binding Profile.EmailAddress}"
+									   Foreground="LightGoldenrodYellow"
+									   FontSize="15"
+									   FontWeight="ExtraBold"
+									   TextWrapping="Wrap"/>
+						</WrapPanel>
+						<WrapPanel>
+							<TextBlock Text="Date Of Birth: "
+									   Foreground="LightCyan"
+									   FontStyle="Italic"
+									   FontSize="15"
+									   FontWeight="ExtraBold"/>
+							<TextBlock Text="{Binding Profile.DateOfBirth}"
+									   Foreground="LightGoldenrodYellow"
+									   FontSize="15"
+									   FontWeight="ExtraBold"
+									   TextWrapping="Wrap"/>
+						</WrapPanel>
+						<WrapPanel>
+							<TextBlock Text="Registration Date: "
+									   Foreground="LightCyan"
+									   FontStyle="Italic"
+									   FontSize="15"
+									   FontWeight="ExtraBold"/>
+							<TextBlock Text="{Binding Profile.RegistrationDate}"
+									   Foreground="LightGoldenrodYellow"
+									   FontSize="15"
+									   FontWeight="ExtraBold"
+									   TextWrapping="Wrap"/>
+						</WrapPanel>
+						<WrapPanel>
+							<TextBlock Text="Total Amount Spent So Far: "
+									   Foreground="LightCyan"
+									   FontStyle="Italic"
+									   FontSize="15"
+									   FontWeight="ExtraBold"/>
+							<TextBlock Text="{Binding Profile.TotalAmountOfAllSales, StringFormat={}{0:C}}"
+									   Foreground="LightGoldenrodYellow"
+									   FontSize="15"
+									   FontWeight="ExtraBold"
+									   TextWrapping="Wrap"/>
+						</WrapPanel>
+					</StackPanel>
+				</Border>
+			</StackPanel>
+			<StackPanel Grid.Row="1">
+				<TextBlock Text="Addresses On File"
+						   Foreground="Goldenrod"
+						   TextDecorations="Underline"
+						   FontSize="20"
+						   FontWeight="Bold"
+						   Margin="0,0,0,10"/>
+				<DataGrid ItemsSource="{Binding AddressesForDisplay}"
+						  IsReadOnly="True"
+						  GridLinesVisibility="All"
+						  BorderThickness="1"
+						  BorderBrush="Gray">
+					<DataGrid.Columns>
+						<DataGridTextColumn Header="Address Line 1"
+											Binding="{Binding AddressLine1}"
+											Width="Auto"/>
+						<DataGridTextColumn Header="Address Line 2"
+											Binding="{Binding AddressLine2}"
+											Width="Auto"/>
+						<DataGridTextColumn Header="City"
+											Binding="{Binding City}"
+											Width="Auto"/>
+						<DataGridTextColumn Header="State"
+											Binding="{Binding State}"
+											Width="Auto"/>
+						<DataGridTextColumn Header="Postal Code"
+											Binding="{Binding PostalCode}"
+											Width="Auto"/>
+						<DataGridTextColumn Header="Country"
+											Binding="{Binding Country}"
+											Width="Auto"/>
+						<DataGridTextColumn Header="Billing Address"
+											Binding="{Binding IsBillingAddress}"
+											Width="Auto"/>
+						<DataGridTextColumn Header="Shipping Address"
+											Binding="{Binding IsShippingAddress}"
+											Width="Auto"/>
+					</DataGrid.Columns>
+				</DataGrid>
+			</StackPanel>
+			<StackPanel Grid.Row="2"
+						Orientation="Horizontal"
+						HorizontalAlignment="Center"
+						Spacing="10"
+						Margin="0,0,0,10">
+				<Button Content="Previous"
+						Command="{Binding PreviousAddressPageCommand}"
+						IsEnabled="{Binding AddressHasPreviousPage}"/>
+				<TextBlock>
+					<Run Text="{Binding AddressPage}"/>
+					<Run Text=" of "/>
+					<Run Text="{Binding AddressTotalPages}"/>
+				</TextBlock>
+				<Button Content="Next"
+						Command="{Binding NextAddressPageCommand}"
+						IsEnabled="{Binding AddressHasNextPage}"/>
+			</StackPanel>
+			<StackPanel Grid.Row="3">
+				<TextBlock Text="All Orders (Select an order for more information)"
+						   Foreground="Goldenrod"
+						   TextDecorations="Underline"
+						   FontSize="20"
+						   FontWeight="Bold"
+						   Margin="0,0,0,10"/>
+				<DataGrid ItemsSource="{Binding OrdersForDisplay}"
+						  SelectedItem="{Binding SelectedOrder}"
+						  IsReadOnly="True"
+						  GridLinesVisibility="All"
+						  BorderThickness="1"
+						  BorderBrush="Gray">
+					<DataGrid.Columns>
+						<DataGridTextColumn Header="Order Id"
+											Binding="{Binding Id}"
+											Width="Auto"/>
+						<DataGridTextColumn Header="Items In Order"
+											Binding="{Binding SaleProductCount}"
+											Width="Auto"/>
+						<DataGridTextColumn Header="Subtotal "
+											Binding="{Binding TotalBaseAmount, StringFormat={}{0:C}}"
+											Width="Auto"/>
+						<DataGridTextColumn Header="Total Discount "
+											Binding="{Binding TotalDiscountAmount, StringFormat={}{0:C}}"
+											Width="Auto"/>
+						<DataGridTextColumn Header="Total"
+											Binding="{Binding TotalAmount, StringFormat={}{0:C}}"
+											Width="Auto"/>
+						<DataGridTextColumn Header="Status"
+											Binding="{Binding SaleStatus}"
+											Width="Auto"/>
+					</DataGrid.Columns>
+				</DataGrid>
+			</StackPanel>
+			<StackPanel Grid.Row="4"
+						Orientation="Horizontal"
+						HorizontalAlignment="Center"
+						Spacing="10"
+						Margin="0,0,0,10">
+				<Button Content="Previous"
+						Command="{Binding PreviousOrderPageCommand}"
+						IsEnabled="{Binding OrderHasPreviousPage}"/>
+				<TextBlock>
+					<Run Text="{Binding OrderPage}"/>
+					<Run Text=" of "/>
+					<Run Text="{Binding OrderTotalPages}"/>
+				</TextBlock>
+				<Button Content="Next"
+						Command="{Binding NextOrderPageCommand}"
+						IsEnabled="{Binding OrderHasNextPage}"/>
+			</StackPanel>
+		</Grid>
+	</ScrollViewer>
 </UserControl>

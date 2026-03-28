@@ -1,64 +1,127 @@
 <UserControl xmlns="https://github.com/avaloniaui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="ECommerce.AvaloniaClient.TerrenceLGee.DisplayProductDetailForSaleView"
-             xmlns:vm="using:ECommerce.AvaloniaClient.TerrenceLGee.ViewModels"
-             x:DataType="vm:DisplayProductDetailForSaleViewModel">
-    <ScrollViewer>
-		<Grid RowDefinitions="Auto, Auto, Auto, Auto, Auto, Auto, Auto" Margin="10">
-	  <StackPanel Grid.Row="0">
-		  <TextBlock Text="{Binding Product.Name}" FontSize="36" FontWeight="ExtraBold" Margin="0,0,0,15"/>
-          <Border Padding="15" CornerRadius="5" Background="#3a3a3a">
-			  <StackPanel Spacing="10">
-				  <WrapPanel>
-					  <TextBlock Text="In Category: " FontSize="24"/>
-                      <TextBlock Text="{Binding Product.CategoryName}" FontWeight="ExtraBold" FontSize="24" TextWrapping="Wrap"/>
-                  </WrapPanel>
-                  <WrapPanel>
-					  <TextBlock Text="Description: " FontSize="24"/>
-                      <TextBlock Text="{Binding Product.Description}" FontWeight="ExtraBold" FontSize="24" TextWrapping="Wrap"/>
-                  </WrapPanel>
-                  <WrapPanel>
-					  <TextBlock Text="Quantity In Stock: " FontSize="24"/>
-                      <TextBlock Text="{Binding Product.StockQuantity}" FontWeight="ExtraBold" FontSize="24" TextWrapping="Wrap"/>
-                  </WrapPanel>
-                  <WrapPanel>
-					  <TextBlock Text="Unit Price: " FontSize="24"/>
-                      <TextBlock Text="{Binding Product.UnitPrice, StringFormat={}{0:C}}" FontWeight="ExtraBold" FontSize="24" TextWrapping="Wrap"/>
-                  </WrapPanel>
-                  <WrapPanel>
-					  <TextBlock Text="Discount Percentage: " FontSize="24"/>
-                      <TextBlock Text="{Binding Product.DiscountPercentage}" FontWeight="ExtraBold" FontSize="24" TextWrapping="Wrap"/>
-                  </WrapPanel>
-                  <WrapPanel>
-					  <TextBlock Text="In Stock?: " FontSize="24"/>
-                      <TextBlock Text="{Binding Product.IsInStock}" FontWeight="ExtraBold" FontSize="24" TextWrapping="Wrap"/>
-                  </WrapPanel>
-              </StackPanel>
-          </Border>
-      </StackPanel>
-      <StackPanel Grid.Row="1">
-          <TextBlock Text="Enter quantity to purchase" HorizontalAlignment="Center"/>
-		  <NumericUpDown Value="{Binding Quantity}"
-                         Minimum="1" Maximum="{Binding MaxQuantity}" Width="150"/>
-      </StackPanel>
-      <StackPanel Grid.Row="2">
-		  <Button Content="View Cart" HorizontalAlignment="Left" Command="{Binding ViewCartCommand}"/>
-      </StackPanel>
-      <StackPanel Grid.Row="3">
-		  <Button Content="Add To Cart" HorizontalAlignment="Left" Command="{Binding AddToCartCommand}"/>
-      </StackPanel>
-      <StackPanel Grid.Row="4">
-		  <Button Content="Back To Products" HorizontalAlignment="Left" Command="{Binding GoBackToProductsCommand}"/>
-      </StackPanel>
-      <StackPanel Grid.Row="5">
-		  <Button Content="Remove Item" HorizontalAlignment="Left" Command="{Binding RemoveFromCartCommand}"/>
-      </StackPanel>
-      <StackPanel Grid.Row="6">
-		  <Button Content="Checkout" HorizontalAlignment="Left" Command="{Binding CheckoutCommand}"/>
-      </StackPanel>
-  </Grid>
-    </ScrollViewer>
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+			 x:Class="ECommerce.AvaloniaClient.TerrenceLGee.DisplayProductDetailForSaleView"
+			 xmlns:vm="using:ECommerce.AvaloniaClient.TerrenceLGee.ViewModels"
+			 x:DataType="vm:DisplayProductDetailForSaleViewModel">
+	<ScrollViewer>
+		<Grid RowDefinitions="Auto, Auto, Auto, Auto, Auto, Auto, Auto"
+			  Margin="10">
+			<StackPanel Grid.Row="0">
+				<TextBlock Text="{Binding Product.Name}"
+						   FontSize="24"
+						   FontWeight="ExtraBold"
+						   Foreground="Goldenrod"
+						   TextDecorations="Underline"
+						   Margin="0,0,0,15"/>
+				<Border Padding="15"
+						CornerRadius="5"
+						Background="#3a3a3a">
+					<StackPanel Spacing="10">
+						<WrapPanel>
+							<TextBlock Text="In Category: "
+									   Foreground="LightCyan"
+									   FontStyle="Italic"
+									   FontSize="15"/>
+							<TextBlock Text="{Binding Product.CategoryName}"
+									   Foreground="LightGoldenrodYellow"
+									   FontWeight="ExtraBold"
+									   FontSize="15"
+									   TextWrapping="Wrap"/>
+						</WrapPanel>
+						<WrapPanel>
+							<TextBlock Text="Description: "
+									   Foreground="LightCyan"
+									   FontStyle="Italic"
+									   FontSize="15"/>
+							<TextBlock Text="{Binding Product.Description}"
+									   Foreground="LightGoldenrodYellow"
+									   FontWeight="ExtraBold"
+									   FontSize="15"
+									   TextWrapping="Wrap"/>
+						</WrapPanel>
+						<WrapPanel>
+							<TextBlock Text="Quantity In Stock: "
+									   Foreground="LightCyan"
+									   FontStyle="Italic"
+									   FontSize="15"/>
+							<TextBlock Text="{Binding Product.StockQuantity}"
+									   Foreground="LightGoldenrodYellow"
+									   FontWeight="ExtraBold"
+									   FontSize="15"
+									   TextWrapping="Wrap"/>
+						</WrapPanel>
+						<WrapPanel>
+							<TextBlock Text="Unit Price: "
+									   Foreground="LightCyan"
+									   FontStyle="Italic"
+									   FontSize="15"/>
+							<TextBlock Text="{Binding Product.UnitPrice, StringFormat={}{0:C}}"
+									   Foreground="LightGoldenrodYellow"
+									   FontWeight="ExtraBold"
+									   FontSize="15"
+									   TextWrapping="Wrap"/>
+						</WrapPanel>
+						<WrapPanel>
+							<TextBlock Text="Discount Percentage: "
+									   Foreground="LightCyan"
+									   FontStyle="Italic"
+									   FontSize="15"/>
+							<TextBlock Text="{Binding Product.DiscountPercentage}"
+									   Foreground="LightGoldenrodYellow"
+									   FontWeight="ExtraBold"
+									   FontSize="15"
+									   TextWrapping="Wrap"/>
+						</WrapPanel>
+						<WrapPanel>
+							<TextBlock Text="In Stock?: "
+									   Foreground="LightCyan"
+									   FontStyle="Italic"
+									   FontSize="15"/>
+							<TextBlock Text="{Binding Product.IsInStock}"
+									   Foreground="LightGoldenrodYellow"
+									   FontWeight="ExtraBold"
+									   FontSize="15"
+									   TextWrapping="Wrap"/>
+						</WrapPanel>
+					</StackPanel>
+				</Border>
+			</StackPanel>
+			<StackPanel Grid.Row="1">
+				<TextBlock Text="Enter quantity to purchase"
+						   HorizontalAlignment="Center"/>
+				<NumericUpDown Value="{Binding Quantity}"
+							   Minimum="1"
+							   Maximum="{Binding MaxQuantity}"
+							   Width="150"/>
+			</StackPanel>
+			<StackPanel Grid.Row="2">
+				<Button Content="View Cart"
+						HorizontalAlignment="Left"
+						Command="{Binding ViewCartCommand}"/>
+			</StackPanel>
+			<StackPanel Grid.Row="3">
+				<Button Content="Add To Cart"
+						HorizontalAlignment="Left"
+						Command="{Binding AddToCartCommand}"/>
+			</StackPanel>
+			<StackPanel Grid.Row="4">
+				<Button Content="Back To Products"
+						HorizontalAlignment="Left"
+						Command="{Binding GoBackToProductsCommand}"/>
+			</StackPanel>
+			<StackPanel Grid.Row="5">
+				<Button Content="Remove Item"
+						HorizontalAlignment="Left"
+						Command="{Binding RemoveFromCartCommand}"/>
+			</StackPanel>
+			<StackPanel Grid.Row="6">
+				<Button Content="Checkout"
+						HorizontalAlignment="Left"
+						Command="{Binding CheckoutCommand}"/>
+			</StackPanel>
+		</Grid>
+	</ScrollViewer>
 </UserControl>

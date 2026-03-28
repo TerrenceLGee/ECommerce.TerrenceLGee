@@ -42,7 +42,7 @@
           <Button Content="Next" Command="{Binding NextPageCommand}" IsEnabled="{Binding HasNextPage}"/>
       </StackPanel>
       <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="10">
-		  <Button Content="Back To Category Page" Command="{Binding GoBackCommand}"/>
+		  <Button Content="Back" Command="{Binding GoBackCommand}"/>
       </StackPanel>
   </StackPanel>
 </UserControl>

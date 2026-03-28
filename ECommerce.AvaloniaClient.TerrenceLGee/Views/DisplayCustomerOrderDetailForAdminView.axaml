@@ -1,112 +1,228 @@
 <UserControl xmlns="https://github.com/avaloniaui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="ECommerce.AvaloniaClient.TerrenceLGee.DisplayCustomerOrderDetailForAdminView"
-             xmlns:vm="using:ECommerce.AvaloniaClient.TerrenceLGee.ViewModels"
-             x:DataType="vm:DisplayCustomerOrderDetailForAdminViewModel">
-  <UserControl.Styles>
-	  <Style Selector="TextBlock.Error">
-		  <Setter Property="Foreground" Value="Red"/>
-          <Setter Property="FontSize" Value="12"/>
-          <Setter Property="Margin" Value="0,0,0,5"/>
-      </Style>
-  </UserControl.Styles>
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+			 x:Class="ECommerce.AvaloniaClient.TerrenceLGee.DisplayCustomerOrderDetailForAdminView"
+			 xmlns:vm="using:ECommerce.AvaloniaClient.TerrenceLGee.ViewModels"
+			 x:DataType="vm:DisplayCustomerOrderDetailForAdminViewModel">
+	<UserControl.Styles>
+		<Style Selector="TextBlock.Error">
+			<Setter Property="Foreground"
+					Value="Red"/>
+			<Setter Property="FontSize"
+					Value="12"/>
+			<Setter Property="Margin"
+					Value="0,0,0,5"/>
+		</Style>
+	</UserControl.Styles>
 
-    <ScrollViewer>
-		<Grid RowDefinitions="Auto, Auto, Auto, Auto, Auto, Auto" Margin="10">
+	<ScrollViewer>
+		<Grid RowDefinitions="Auto, Auto, Auto, Auto, Auto, Auto"
+			  Margin="10">
 			<StackPanel Grid.Row="0">
-				<TextBlock Text="Order Details" FontSize="36" FontWeight="ExtraBold" Margin="0,0,0,15"/>
-                <Border Padding="15" CornerRadius="5" Background="#3a3a3a">
+				<TextBlock Text="Order Details"
+						   Foreground="Goldenrod"
+						   TextDecorations="Underline"
+						   FontSize="24"
+						   FontWeight="ExtraBold"
+						   Margin="0,0,0,15"/>
+				<Border Padding="15"
+						CornerRadius="5">
 					<StackPanel Spacing="10">
 						<WrapPanel>
-							<TextBlock Text="Order Id: " FontSize="24"/>
-                            <TextBlock Text="{Binding Sale.Id}" FontWeight="ExtraBold" FontSize="24" TextWrapping="Wrap"/>
-                        </WrapPanel>
-                        <WrapPanel>
-							<TextBlock Text="Customer Id: " FontSize="24"/>
-                            <TextBlock Text="{Binding Sale.CustomerId}" FontWeight="ExtraBold" FontSize="24" TextWrapping="Wrap"/>
-                        </WrapPanel>
-                        <WrapPanel>
-							<TextBlock Text="Customer Name: " FontSize="24"/>
-                            <TextBlock Text="{Binding Sale.CustomerName}" FontWeight="ExtraBold" FontSize="24" TextWrapping="Wrap"/>
-                        </WrapPanel>
-                        <WrapPanel>
-							<TextBlock Text="Order Status: " FontSize="24"/>
-                            <TextBlock Text="{Binding Sale.SaleStatus}" FontWeight="ExtraBold" FontSize="24" TextWrapping="Wrap"/>
-                        </WrapPanel>
-                        <WrapPanel>
-							<TextBlock Text="Subtotal: " FontSize="24"/>
-                            <TextBlock Text="{Binding Sale.TotalBaseAmount, StringFormat={}{0:C}}" FontWeight="ExtraBold" FontSize="24" TextWrapping="Wrap"/>
-                        </WrapPanel>
-                        <WrapPanel>
-							<TextBlock Text="Total Discount: " FontSize="24"/>
-                            <TextBlock Text="{Binding Sale.TotalDiscountAmount, StringFormat={}{0:C}}" FontWeight="ExtraBold" FontSize="24" TextWrapping="Wrap"/>
-                        </WrapPanel>
-                        <WrapPanel>
-							<TextBlock Text="Total: " FontSize="24"/>
-                            <TextBlock Text="{Binding Sale.TotalAmount, StringFormat={}{0:C}}" FontWeight="ExtraBold" FontSize="24" TextWrapping="Wrap"/>
-                        </WrapPanel>
-                        <WrapPanel>
-							<TextBlock Text="Order Date: " FontSize="24"/>
-                            <TextBlock Text="{Binding Sale.CreatedAt}" FontWeight="ExtraBold" FontSize="24" TextWrapping="Wrap"/>
-                        </WrapPanel>
-                        <WrapPanel>
-							<TextBlock Text="Order Updated: " FontSize="24"/>
-                            <TextBlock Text="{Binding Sale.UpdatedAt}" FontWeight="ExtraBold" FontSize="24" TextWrapping="Wrap"/>
-                        </WrapPanel>
-                    </StackPanel>
-                </Border>
-            </StackPanel>
-            <StackPanel Grid.Row="1" Margin="0,20,0,0">
+							<TextBlock Text="Order Id: "
+									   Foreground="LightCyan"
+									   FontStyle="Italic"
+									   FontSize="15"/>
+							<TextBlock Text="{Binding Sale.Id}"
+									   Foreground="LightGoldenrodYellow"
+									   FontWeight="ExtraBold"
+									   FontSize="15"
+									   TextWrapping="Wrap"/>
+						</WrapPanel>
+						<WrapPanel>
+							<TextBlock Text="Customer Id: "
+									   Foreground="LightCyan"
+									   FontStyle="Italic"
+									   FontSize="15"/>
+							<TextBlock Text="{Binding Sale.CustomerId}"
+									   Foreground="LightGoldenrodYellow"
+									   FontWeight="ExtraBold"
+									   FontSize="15"
+									   TextWrapping="Wrap"/>
+						</WrapPanel>
+						<WrapPanel>
+							<TextBlock Text="Customer Name: "
+									   Foreground="LightCyan"
+									   FontStyle="Italic"
+									   FontSize="15"/>
+							<TextBlock Text="{Binding Sale.CustomerName}"
+									   Foreground="LightGoldenrodYellow"
+									   FontWeight="ExtraBold"
+									   FontSize="15"
+									   TextWrapping="Wrap"/>
+						</WrapPanel>
+						<WrapPanel>
+							<TextBlock Text="Order Status: "
+									   Foreground="LightCyan"
+									   FontStyle="Italic"
+									   FontSize="15"/>
+							<TextBlock Text="{Binding Sale.SaleStatus}"
+									   Foreground="LightGoldenrodYellow"
+									   FontWeight="ExtraBold"
+									   FontSize="15"
+									   TextWrapping="Wrap"/>
+						</WrapPanel>
+						<WrapPanel>
+							<TextBlock Text="Subtotal: "
+									   Foreground="LightCyan"
+									   FontStyle="Italic"
+									   FontSize="15"/>
+							<TextBlock Text="{Binding Sale.TotalBaseAmount, StringFormat={}{0:C}}"
+									   Foreground="LightGoldenrodYellow"
+									   FontWeight="ExtraBold"
+									   FontSize="15"
+									   TextWrapping="Wrap"/>
+						</WrapPanel>
+						<WrapPanel>
+							<TextBlock Text="Total Discount: "
+									   Foreground="LightCyan"
+									   FontStyle="Italic"
+									   FontSize="15"/>
+							<TextBlock Text="{Binding Sale.TotalDiscountAmount, StringFormat={}{0:C}}"
+									   Foreground="LightGoldenrodYellow"
+									   FontWeight="ExtraBold"
+									   FontSize="15"
+									   TextWrapping="Wrap"/>
+						</WrapPanel>
+						<WrapPanel>
+							<TextBlock Text="Total: "
+									   Foreground="LightCyan"
+									   FontStyle="Italic"
+									   FontSize="15"/>
+							<TextBlock Text="{Binding Sale.TotalAmount, StringFormat={}{0:C}}"
+									   Foreground="LightGoldenrodYellow"
+									   FontWeight="ExtraBold"
+									   FontSize="15"
+									   TextWrapping="Wrap"/>
+						</WrapPanel>
+						<WrapPanel>
+							<TextBlock Text="Order Date: "
+									   Foreground="LightCyan"
+									   FontStyle="Italic"
+									   FontSize="15"/>
+							<TextBlock Text="{Binding Sale.CreatedAt}"
+									   Foreground="LightGoldenrodYellow"
+									   FontWeight="ExtraBold"
+									   FontSize="15"
+									   TextWrapping="Wrap"/>
+						</WrapPanel>
+						<WrapPanel>
+							<TextBlock Text="Order Updated: "
+									   Foreground="LightCyan"
+									   FontStyle="Italic"
+									   FontSize="15"/>
+							<TextBlock Text="{Binding Sale.UpdatedAt}"
+									   Foreground="LightGoldenrodYellow"
+									   FontWeight="ExtraBold"
+									   FontSize="15"
+									   TextWrapping="Wrap"/>
+						</WrapPanel>
+					</StackPanel>
+				</Border>
+			</StackPanel>
+			<StackPanel Grid.Row="1"
+						Margin="0,20,0,0">
 				<TextBlock Text="Items In Order"
-                           FontSize="20" FontWeight="Bold" Margin="0,0,0,10"/>
-                <StackPanel>
+						   FontSize="20"
+						   FontWeight="Bold"
+						   Margin="0,0,0,10"/>
+				<StackPanel>
 					<DataGrid ItemsSource="{Binding OrderItemsForDisplay}"
-                              SelectedItem="{Binding SelectedItem}"
-                              IsReadOnly="True"
-                              GridLinesVisibility="All"
-                              BorderThickness="1"
-                              BorderBrush="Gray">
-                        <DataGrid.Columns>
-							<DataGridTextColumn Header="Name" Binding="{Binding ProductName}" Width="Auto"/>
-							<DataGridTextColumn Header="Quantity" Binding="{Binding Quantity}" Width="Auto"/>
-							<DataGridTextColumn Header="Price" Binding="{Binding Price, StringFormat={}{0:C}}" Width="Auto"/>
-							<DataGridTextColumn Header="Discount" Binding="{Binding Discount, StringFormat={}{0:C}}" Width="Auto"/>
-							<DataGridTextColumn Header="Total" Binding="{Binding TotalPrice, StringFormat={}{0:C}}" Width="Auto"/>
-                        </DataGrid.Columns>
-                    </DataGrid>
-                </StackPanel>
-            </StackPanel>
-            <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" Spacing="10" Margin="0,0,0,10">
-				<Button Content="Previous" Command="{Binding PreviousPageCommand}" IsEnabled="{Binding HasPreviousPage}"/>
-                <TextBlock>
+							  SelectedItem="{Binding SelectedItem}"
+							  IsReadOnly="True"
+							  GridLinesVisibility="All"
+							  BorderThickness="1"
+							  BorderBrush="Gray">
+						<DataGrid.Columns>
+							<DataGridTextColumn Header="Name"
+												Binding="{Binding ProductName}"
+												Width="Auto"/>
+							<DataGridTextColumn Header="Quantity"
+												Binding="{Binding Quantity}"
+												Width="Auto"/>
+							<DataGridTextColumn Header="Price"
+												Binding="{Binding Price, StringFormat={}{0:C}}"
+												Width="Auto"/>
+							<DataGridTextColumn Header="Discount"
+												Binding="{Binding Discount, StringFormat={}{0:C}}"
+												Width="Auto"/>
+							<DataGridTextColumn Header="Total"
+												Binding="{Binding TotalPrice, StringFormat={}{0:C}}"
+												Width="Auto"/>
+						</DataGrid.Columns>
+					</DataGrid>
+				</StackPanel>
+			</StackPanel>
+			<StackPanel Grid.Row="2"
+						Orientation="Horizontal"
+						HorizontalAlignment="Center"
+						Spacing="10"
+						Margin="0,0,0,10">
+				<Button Content="Previous"
+						Command="{Binding PreviousPageCommand}"
+						IsEnabled="{Binding HasPreviousPage}"/>
+				<TextBlock>
 					<Run Text="{Binding Page}"/>
-                    <Run Text=" of "/>
-                    <Run Text="{Binding TotalPages}"/>
-                </TextBlock>
-                <Button Content="Next" Command="{Binding NextPageCommand}" IsEnabled="{Binding HasNextPage}"/>
-            </StackPanel>
-            <StackPanel Grid.Row="3" Orientation="Vertical" HorizontalAlignment="Center" Spacing="10" Margin="0,0,0,10">
-				<TextBlock Text="Update Order Status" FontWeight="Bold" FontSize="20"/>
-                <ComboBox IsEditable="True"
-                          ItemsSource="{Binding Statuses}"
-                          SelectedItem="{Binding SelectedStatus}"
-                          PlaceholderText="Update Status..."/>
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,10">
-                    <Button Content="Update Order Status" Command="{Binding UpdateOrderCommand}"/>
-                </StackPanel>
-            </StackPanel>
-            <StackPanel Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Center" Spacing="10" Margin="0,0,0,10">
-				<TextBlock Text="{Binding SuccessMessage}" Foreground="Gold" IsVisible="{Binding !!SuccessMessage}"
-                           HorizontalAlignment="Center"/>
-                <TextBlock Text="{Binding ErrorMessage}" Classes="Error" IsVisible="{Binding !!ErrorMessage}" 
-                           HorizontalAlignment="Center"/>
-            </StackPanel>
-            <StackPanel Grid.Row="5" Orientation="Horizontal" HorizontalAlignment="Center" Spacing="20" Margin="0,0,0,10">
-				<Button Content="Back" Command="{Binding GoBackCommand}"/>
-            </StackPanel>
-        </Grid>
-    </ScrollViewer>
+					<Run Text=" of "/>
+					<Run Text="{Binding TotalPages}"/>
+				</TextBlock>
+				<Button Content="Next"
+						Command="{Binding NextPageCommand}"
+						IsEnabled="{Binding HasNextPage}"/>
+			</StackPanel>
+			<StackPanel Grid.Row="3"
+						Orientation="Vertical"
+						HorizontalAlignment="Center"
+						Spacing="10"
+						Margin="0,0,0,10">
+				<TextBlock Text="Update Order Status"
+						   FontWeight="Bold"
+						   FontSize="20"/>
+				<ComboBox IsEditable="True"
+						  ItemsSource="{Binding Statuses}"
+						  SelectedItem="{Binding SelectedStatus}"
+						  PlaceholderText="Update Status..."/>
+				<StackPanel Orientation="Horizontal"
+							HorizontalAlignment="Center"
+							Margin="0,0,0,10">
+					<Button Content="Update Order Status"
+							Command="{Binding UpdateOrderCommand}"/>
+				</StackPanel>
+			</StackPanel>
+			<StackPanel Grid.Row="4"
+						Orientation="Horizontal"
+						HorizontalAlignment="Center"
+						Spacing="10"
+						Margin="0,0,0,10">
+				<TextBlock Text="{Binding SuccessMessage}"
+						   Foreground="Gold"
+						   IsVisible="{Binding !!SuccessMessage}"
+						   HorizontalAlignment="Center"/>
+				<TextBlock Text="{Binding ErrorMessage}"
+						   Classes="Error"
+						   IsVisible="{Binding !!ErrorMessage}"
+						   HorizontalAlignment="Center"/>
+			</StackPanel>
+			<StackPanel Grid.Row="5"
+						Orientation="Horizontal"
+						HorizontalAlignment="Center"
+						Spacing="20"
+						Margin="0,0,0,10">
+				<Button Content="Back"
+						Command="{Binding GoBackCommand}"/>
+			</StackPanel>
+		</Grid>
+	</ScrollViewer>
 </UserControl>
