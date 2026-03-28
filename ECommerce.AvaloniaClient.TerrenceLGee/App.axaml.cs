@@ -118,6 +118,7 @@ public partial class App : Application
             var mainWindowViewModel = serviceProvider
                 .GetRequiredService<MainWindowViewModel>();
 
+
             ShowAuthView();
 
             void ShowAuthView()

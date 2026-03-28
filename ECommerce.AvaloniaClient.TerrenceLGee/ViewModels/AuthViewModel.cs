@@ -8,8 +8,6 @@ using ECommerce.Shared.TerrenceLGee.DTOs.AuthDTOs;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace ECommerce.AvaloniaClient.TerrenceLGee.ViewModels;
