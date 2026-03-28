@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using ECommerce.AvaloniaClient.TerrenceLGee.Data.Models.Address;
 using ECommerce.AvaloniaClient.TerrenceLGee.Messages.AddressMessages;
+using ECommerce.AvaloniaClient.TerrenceLGee.Messages.OtherMessages;
 using ECommerce.AvaloniaClient.TerrenceLGee.Services.Interfaces.Address;
 using System.Threading.Tasks;
 
@@ -39,6 +40,6 @@ public partial class DisplayCustomerAddressForAdminViewModel : ObservableObject
     [RelayCommand]
     private void GoBack()
     {
-        _messenger.Send(new NavigateBackToAllCustomerAddressesForAdminMessage());
+        _messenger.Send(new NavigateBackToPreviousPageMessage());
     }
 }

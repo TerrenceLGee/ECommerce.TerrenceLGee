@@ -99,30 +99,30 @@ public class SaleRepository : ISaleRepository
         }
     }
 
-    public async Task<bool> AdminUpdateSaleStatusAsync(int saleId, SaleStatus status)
+    public async Task<(bool, SaleStatus)> AdminUpdateSaleStatusAsync(int saleId, SaleStatus status)
     {
         try
         {
             var saleToUpdate = await _context.Sales
                 .FirstOrDefaultAsync(s => s.Id == saleId);
 
-            if (saleToUpdate is null) return false;
+            if (saleToUpdate is null) return (false, SaleStatus.None);
 
-            if (saleToUpdate.SaleStatus == SaleStatus.Delivered || saleToUpdate.SaleStatus == SaleStatus.Canceled) return false;
-            if (saleToUpdate.SaleStatus == SaleStatus.Processing && status == SaleStatus.Pending) return false;
-            if (saleToUpdate.SaleStatus == SaleStatus.Shipped && status == SaleStatus.Processing) return false;
+            if (saleToUpdate.SaleStatus == SaleStatus.Delivered || saleToUpdate.SaleStatus == SaleStatus.Canceled) return (false, saleToUpdate.SaleStatus);
+            if (saleToUpdate.SaleStatus == SaleStatus.Processing && status == SaleStatus.Pending) return (false, saleToUpdate.SaleStatus);
+            if (saleToUpdate.SaleStatus == SaleStatus.Shipped && status == SaleStatus.Processing) return (false, saleToUpdate.SaleStatus);
 
             if (status == SaleStatus.Canceled)
             {
                 var result = await RestockAsync(saleToUpdate.SaleProducts);
-                if (!result) return false;
+                if (!result) return (false, SaleStatus.None);
             }
 
             saleToUpdate.SaleStatus = status;
             saleToUpdate.UpdatedAt = DateTime.UtcNow;
             await _context.SaveChangesAsync();
 
-            return true;
+            return (true, saleToUpdate.SaleStatus);
         }
         catch (Exception ex)
         {
@@ -130,7 +130,7 @@ public class SaleRepository : ISaleRepository
                 $"Method: {nameof(AdminUpdateSaleStatusAsync)}\n" +
                 $"There was an unexpected error updating the status of sale {saleId}: {ex.Message}";
             _logger.LogError(ex, "{msg}\n\n", _errorMessage);
-            return false;
+            return (false, SaleStatus.None);
         }
     }
 

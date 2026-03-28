@@ -69,6 +69,10 @@ public class ProductRepository : IProductRepository
             {
                 productToUpdate.IsInStock = false;
             }
+            else
+            {
+                productToUpdate.IsInStock = true;
+            }
 
             productToUpdate.UpdatedAt = DateTime.UtcNow;
             await _context.SaveChangesAsync();

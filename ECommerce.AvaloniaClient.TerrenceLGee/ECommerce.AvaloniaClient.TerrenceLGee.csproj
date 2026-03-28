@@ -44,5 +44,8 @@
     <Compile Update="Views\DisplayAddedCategoryView.axaml.cs">
       <DependentUpon>DisplayAddedCategoryView.axaml</DependentUpon>
     </Compile>
+    <Compile Update="Views\DisplayCustomerOrderDetailForAdminView.axaml.cs">
+      <DependentUpon>DisplayCustomerOrderDetailForAdminView.axaml</DependentUpon>
+    </Compile>
   </ItemGroup>
 </Project>

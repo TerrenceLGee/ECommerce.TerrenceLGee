@@ -46,7 +46,7 @@
 				  <TextBlock Text="Is Shipping Address? " FontSize="24"/>
                   <TextBlock Text="{Binding Address.IsShippingAddress}" FontWeight="ExtraBold" FontSize="24" TextWrapping="Wrap"/>
               </WrapPanel>
-              <Button Content="Go Back To Customer Addresses" Command="{Binding GoBackCommand}" 
+              <Button Content="Back" Command="{Binding GoBackCommand}" 
                       HorizontalAlignment="Center" Margin="0,0,0,15"/>
           </StackPanel>
       </Border>

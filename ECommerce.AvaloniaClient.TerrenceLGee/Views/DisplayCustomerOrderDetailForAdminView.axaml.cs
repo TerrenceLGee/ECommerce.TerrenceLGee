@@ -4,9 +4,9 @@ using Avalonia.Markup.Xaml;
 
 namespace ECommerce.AvaloniaClient.TerrenceLGee;
 
-public partial class ViewCustomerAddressesForAdminView : UserControl
+public partial class DisplayCustomerOrderDetailForAdminView : UserControl
 {
-    public ViewCustomerAddressesForAdminView()
+    public DisplayCustomerOrderDetailForAdminView()
     {
         InitializeComponent();
     }

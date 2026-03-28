@@ -2,7 +2,7 @@
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using ECommerce.AvaloniaClient.TerrenceLGee.Data.Models.Product;
-using ECommerce.AvaloniaClient.TerrenceLGee.Messages.ProductMessages;
+using ECommerce.AvaloniaClient.TerrenceLGee.Messages.OtherMessages;
 using ECommerce.AvaloniaClient.TerrenceLGee.Services.Interfaces.Product;
 using System.Threading.Tasks;
 
@@ -33,6 +33,6 @@ public partial class DisplayAdminProductViewModel : ObservableObject
     [RelayCommand]
     private void GoBack()
     {
-        _messenger.Send(new NavigateBackToAllAdminProductsMessage());
+        _messenger.Send(new NavigateBackToPreviousPageMessage());
     }
 }

@@ -4,36 +4,33 @@ using CommunityToolkit.Mvvm.Messaging;
 using ECommerce.AvaloniaClient.TerrenceLGee.Data.Models.Address;
 using ECommerce.AvaloniaClient.TerrenceLGee.Data.Models.Customer;
 using ECommerce.AvaloniaClient.TerrenceLGee.Data.Models.Sale;
-using ECommerce.AvaloniaClient.TerrenceLGee.Messages.SaleMessages;
-using ECommerce.AvaloniaClient.TerrenceLGee.Services.Interfaces.Customer;
+using ECommerce.AvaloniaClient.TerrenceLGee.Messages.Customer;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace ECommerce.AvaloniaClient.TerrenceLGee.ViewModels;
 
-public partial class DisplayCustomerProfileViewModel : ObservableObject
+public partial class DisplayCustomerDetailsForAdminViewModel : ObservableObject
 {
-    private readonly ICustomerService _customerService;
+    [ObservableProperty]
+    private CustomerData _customer;
     private readonly IMessenger _messenger;
 
     public ObservableCollection<AddressProfileData> Addresses { get; } = [];
     public ObservableCollection<SaleForCustomerProfileData> Orders { get; } = [];
 
-
     [ObservableProperty]
     private List<AddressProfileData> _addressesForDisplay;
-
     [ObservableProperty]
     private List<SaleForCustomerProfileData> _ordersForDisplay;
 
     [ObservableProperty]
-    private SaleForCustomerProfileData? _selectedOrder;
+    private AddressProfileData? _selectedAddress;
 
     [ObservableProperty]
-    private CustomerData? _profile;
+    private SaleForCustomerProfileData? _selectedOrder;
 
     [ObservableProperty]
     private int _addressPage = 1;
@@ -57,26 +54,18 @@ public partial class DisplayCustomerProfileViewModel : ObservableObject
     [ObservableProperty]
     private bool _orderHasPreviousPage;
 
-    public DisplayCustomerProfileViewModel(ICustomerService customerService, IMessenger messenger)
+    public string CustomerName { get; set; }
+    public DisplayCustomerDetailsForAdminViewModel(CustomerData customer, IMessenger messenger)
     {
-        _customerService = customerService;
+        _customer = customer;
         _messenger = messenger;
         _addressesForDisplay = new List<AddressProfileData>();
         _ordersForDisplay = new List<SaleForCustomerProfileData>();
-    }
-
-
-    public async Task GetProfileAsync()
-    {
-        Profile = await _customerService.GetCustomerProfileAsync();
-
-        if (Profile is not null)
-        {
-            LoadAddresses(Profile.Addresses);
-            LoadOrders(Profile.Sales);
-            FetchAddresses();
-            FetchOrders();
-        }
+        LoadAddresses(_customer.Addresses);
+        LoadOrders(_customer.Sales);
+        FetchAddressesCommand.Execute(null);
+        FetchOrdersCommand.Execute(null);
+        CustomerName = $"{_customer.FirstName} {_customer.LastName}";
     }
 
     [RelayCommand]
@@ -147,7 +136,6 @@ public partial class DisplayCustomerProfileViewModel : ObservableObject
         }
     }
 
-
     private void LoadOrders(List<SaleForCustomerProfileData> orders)
     {
         foreach (var order in orders)
@@ -156,11 +144,25 @@ public partial class DisplayCustomerProfileViewModel : ObservableObject
         }
     }
 
+    [RelayCommand]
+    private void GoBack()
+    {
+        _messenger.Send(new ViewCustomersForAdminMessage());
+    }
+
+    partial void OnSelectedAddressChanged(AddressProfileData? value)
+    {
+        if (value is not null)
+        {
+            _messenger.Send(new DisplayCustomerAddressDetailForAdminMessage(value.AddressId, Customer.CustomerId));
+        }
+    }
+
     partial void OnSelectedOrderChanged(SaleForCustomerProfileData? value)
     {
         if (value is not null)
         {
-            _messenger.Send(new SaleSelectedForCustomerDetailMessage(value.Id));
+            _messenger.Send(new AdminSelectedCustomerOrderForDetailMessage(value.Id, Customer));
         }
     }
 }

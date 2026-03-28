@@ -1,14 +1,13 @@
-﻿using Avalonia.Controls;
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
+using ECommerce.AvaloniaClient.TerrenceLGee.Data.Models.Customer;
 using ECommerce.AvaloniaClient.TerrenceLGee.Data.Models.Sale;
+using ECommerce.AvaloniaClient.TerrenceLGee.Messages.Customer;
 using ECommerce.AvaloniaClient.TerrenceLGee.Messages.OtherMessages;
-using ECommerce.AvaloniaClient.TerrenceLGee.Messages.SaleMessages;
 using ECommerce.AvaloniaClient.TerrenceLGee.Services.Interfaces.Sale;
+using ECommerce.Shared.TerrenceLGee.DTOs.SaleDTOs;
 using ECommerce.Shared.TerrenceLGee.Enums;
-using MsBox.Avalonia;
-using MsBox.Avalonia.Enums;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -17,9 +16,10 @@ using System.Threading.Tasks;
 
 namespace ECommerce.AvaloniaClient.TerrenceLGee.ViewModels;
 
-public partial class DisplayCustomerOrderDetailViewModel : ObservableObject
+public partial class DisplayCustomerOrderDetailForAdminViewModel : ObservableObject
 {
     public int SaleId { get; }
+    private readonly CustomerData _customer;
     [ObservableProperty]
     private SaleData? _sale;
 
@@ -32,13 +32,28 @@ public partial class DisplayCustomerOrderDetailViewModel : ObservableObject
 
     [ObservableProperty]
     private SaleProductData? _selectedItem;
+   
 
-    public DisplayCustomerOrderDetailViewModel(ISaleService saleService, int saleId, IMessenger messenger)
+    [ObservableProperty]
+    private List<SaleStatus> _statuses;
+    [ObservableProperty]
+    private SaleStatus _selectedStatus;
+
+    public DisplayCustomerOrderDetailForAdminViewModel(ISaleService saleService, int saleId, CustomerData customer, IMessenger messenger)
     {
         _saleService = saleService;
         SaleId = saleId;
+        _customer = customer;
         _messenger = messenger;
         _orderItemsForDisplay = new List<SaleProductData>();
+        _statuses = new List<SaleStatus>()
+        {
+            SaleStatus.Pending,
+            SaleStatus.Processing,
+            SaleStatus.Shipped,
+            SaleStatus.Delivered,
+            SaleStatus.Canceled
+        };
     }
 
     [ObservableProperty]
@@ -58,9 +73,10 @@ public partial class DisplayCustomerOrderDetailViewModel : ObservableObject
 
     public async Task GetSaleAsync()
     {
-        Sale = await _saleService.GetSaleForCustomerAsync(SaleId);
+        Sale = await _saleService.GetSaleForAdminAsync(SaleId);
         if (Sale is null) return;
         LoadOrderItems(Sale.SaleProducts);
+        FetchOrderItems();
     }
 
     private void LoadOrderItems(List<SaleProductData> items)
@@ -69,6 +85,7 @@ public partial class DisplayCustomerOrderDetailViewModel : ObservableObject
         {
             OrderItems.Add(item);
         }
+
         FetchOrderItems();
     }
 
@@ -105,34 +122,39 @@ public partial class DisplayCustomerOrderDetailViewModel : ObservableObject
     [RelayCommand]
     private void GoBack()
     {
-        _messenger.Send(new NavigateBackToPreviousPageMessage());
+        _messenger.Send(new NavigateBackToCustomerDetailsMessage(_customer));
     }
 
     [RelayCommand]
-    private async Task CancelOrderAsync()
+    private async Task UpdateOrderAsync()
     {
         SuccessMessage = null;
         ErrorMessage = null;
 
-        var box = MessageBoxManager
-            .GetMessageBoxStandard("Cancel", $"Cancel Order?", ButtonEnum.YesNo, Icon.Question,
-            null, WindowStartupLocation.CenterOwner);
+        var updateSaleStatus = new UpdateSaleStatusDto { Status = SelectedStatus };
 
-        var result = await box.ShowAsync();
+        var (success, data) = await _saleService.AdminUpdateSaleStatusAsync(SaleId, updateSaleStatus);
 
-        if (result == ButtonResult.Yes)
+        if (success)
         {
-            var (success, data) = await _saleService.CustomerCancelSaleAsync(SaleId);
+            SuccessMessage = data;
+            Sale = await _saleService.GetSaleForAdminAsync(SaleId);
+            var saleThatWasUpdated = _customer.Sales
+                .Where(s => s.Id == SaleId)
+                .FirstOrDefault();
 
-            if (success)
+            if (saleThatWasUpdated is not null)
             {
-                SuccessMessage = data;
-                Sale = await _saleService.GetSaleForCustomerAsync(SaleId);
+                var updatedSale = saleThatWasUpdated;
+                updatedSale.SaleStatus = SelectedStatus;
+                _customer.Sales.Remove(saleThatWasUpdated);
+                _customer.Sales.Add(updatedSale);
             }
-            else
-            {
-                ErrorMessage = data;
-            }
+            _messenger.Send(new AdminUpdatedCustomerOrderMessage(_customer));
+        }
+        else
+        {
+            ErrorMessage = data;
         }
     }
 
@@ -140,7 +162,7 @@ public partial class DisplayCustomerOrderDetailViewModel : ObservableObject
     {
         if (value is not null)
         {
-            _messenger.Send(new SaleProductSelectedForCustomerDetailMessage(value.ProductId));
+            _messenger.Send(new ViewCustomerSaleProductDetailForAdminMessage(value.ProductId));
         }
     }
 }

@@ -18,10 +18,4 @@ public partial class CustomerOperationsViewModel : ViewModelBase
     {
         _messenger.Send(new ViewCustomersForAdminMessage());
     }
-
-    [RelayCommand]
-    private void ViewCustomerAddresses()
-    {
-        _messenger.Send(new ViewCustomerAddressesForAdminMessage());
-    }
 }

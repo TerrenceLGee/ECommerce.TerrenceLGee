@@ -169,11 +169,13 @@ public class SaleService : ISaleService
 
     public async Task<Result> AdminUpdateSaleStatusAsync(UpdateSaleStatusDto sale)
     {
-        var saleStatusUpdated = await _saleRepository.AdminUpdateSaleStatusAsync(sale.SaleId, sale.Status);
+        var (saleStatusUpdated, status) = await _saleRepository.AdminUpdateSaleStatusAsync(sale.SaleId, sale.Status);
 
         if (!saleStatusUpdated)
         {
-            return Result.Fail("Sale status updated failed.", ErrorType.BadRequest);
+            return Result.Fail($"Sale status update failed.\n" +
+                $"You are trying to update the status from {status} to {sale.Status} " +
+                $"which is not allowed", ErrorType.BadRequest);
         }
 
         return Result.Ok();

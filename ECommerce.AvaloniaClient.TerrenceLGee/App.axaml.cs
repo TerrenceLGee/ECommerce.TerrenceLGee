@@ -89,7 +89,6 @@ public partial class App : Application
         services.AddTransient<UpdateAddressViewModel>();
         services.AddTransient<CustomerChooseAddressForUpdateViewModel>();
         services.AddTransient<ViewAddressesViewModel>();
-        services.AddTransient<ViewCustomerAddressesForAdminViewModel>();
         services.AddTransient<DisplayCustomerAddressForAdminViewModel>();
         services.AddTransient<DisplayAddedAddressViewModel>();
         services.AddTransient<DisplayUpdatedAddressViewModel>();
@@ -106,7 +105,8 @@ public partial class App : Application
 
         services.AddTransient<CustomerOperationsViewModel>();
         services.AddTransient<ViewCustomersForAdminViewModel>();
-
+        services.AddTransient<DisplayCustomerDetailsForAdminViewModel>();
+        services.AddTransient<DisplayCustomerOrderDetailForAdminViewModel>();
         services.AddTransient<DisplayCustomerProfileViewModel>();
 
         var serviceProvider = services.BuildServiceProvider();

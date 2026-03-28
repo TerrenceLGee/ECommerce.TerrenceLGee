@@ -10,7 +10,7 @@ public interface ISaleRepository
     Task<Sale?> AddSaleAsync(Sale sale);
     Task<Sale?> GetSaleAsync(int saleId, string? customerId);
     Task<Sale?> GetSaleForAdminAsync(int saleId);
-    Task<bool> AdminUpdateSaleStatusAsync(int saleId, SaleStatus status);
+    Task<(bool, SaleStatus)> AdminUpdateSaleStatusAsync(int saleId, SaleStatus status);
     Task<(bool, SaleStatus)> CustomerCancelSaleAsync(int saleId, string? customerId);
     Task<PagedList<Sale>> GetSalesAsync(SaleQueryParams saleQueryParams);
     Task<PagedList<Sale>> GetAllSalesForAdminAsync(SaleQueryParams saleQueryParams);

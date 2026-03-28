@@ -122,6 +122,9 @@ public partial class ViewCustomersForAdminViewModel : ObservableObject
 
     partial void OnSelectedCustomerChanged(CustomerData? value)
     {
-        throw new System.NotImplementedException();
+        if (value is not null)
+        {
+            _messenger.Send(new DisplayCustomerDetailsForAdminMessage(value));
+        }
     }
 }

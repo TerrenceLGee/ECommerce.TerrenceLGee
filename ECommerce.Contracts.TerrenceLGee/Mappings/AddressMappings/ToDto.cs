@@ -31,6 +31,7 @@ public static class ToDto
         {
             return new RetrievedAddressForCustomerProfileDto
             {
+                AddressId = address.Id,
                 AddressLine1 = address.AddressLine1,
                 AddressLine2 = address.AddressLine2,
                 City = address.City,

@@ -247,6 +247,7 @@ public partial class MainUserViewModel : ObservableObject
 
         _messenger.Register<ProductSelectedForAdminMessage>(this, async (r, m) =>
         {
+            PreviousSubView = CurrentSubView;
             var productService = _serviceProvider.GetRequiredService<IProductService>();
             var detailVM = new DisplayAdminProductViewModel(productService, m.ProductId, _messenger);
             await detailVM.GetProductAsync();
@@ -280,11 +281,6 @@ public partial class MainUserViewModel : ObservableObject
             var detailVM = new DisplayCustomerAddressForAdminViewModel(addressService, m.AddressId, m.CustomerId, _messenger);
             await detailVM.GetAddressAsync();
             CurrentSubView = detailVM;
-        });
-
-        _messenger.Register<NavigateBackToAllCustomerAddressesForAdminMessage>(this, (r, m) =>
-        {
-            CurrentSubView = _serviceProvider.GetRequiredService<ViewCustomerAddressesForAdminViewModel>();
         });
 
         _messenger.Register<AddressAddedMessage>(this, (r, m) =>
@@ -418,12 +414,6 @@ public partial class MainUserViewModel : ObservableObject
             CurrentSubView = profileVM;
         });
 
-        _messenger.Register<ViewCustomerAddressesForAdminMessage>(this, (r, m) =>
-        {
-            PreviousSubView = CurrentSubView;
-            CurrentSubView = _serviceProvider.GetRequiredService<ViewCustomerAddressesForAdminViewModel>();
-        });
-
         _messenger.Register<NavigateBackToCustomerPageMessage>(this, (r, m) =>
         {
             CurrentSubView = _serviceProvider.GetRequiredService<CustomerOperationsViewModel>();
@@ -431,7 +421,46 @@ public partial class MainUserViewModel : ObservableObject
 
         _messenger.Register<ViewCustomersForAdminMessage>(this, (r, m) =>
         {
+            PreviousSubView = CurrentSubView;
             CurrentSubView = _serviceProvider.GetRequiredService<ViewCustomersForAdminViewModel>();
+        });
+
+        _messenger.Register<DisplayCustomerDetailsForAdminMessage>(this, (r, m) =>
+        {
+            PreviousSubView = CurrentSubView;
+            CurrentSubView = new DisplayCustomerDetailsForAdminViewModel(m.Data, _messenger);
+        });
+
+        _messenger.Register<AdminSelectedCustomerOrderForDetailMessage>(this, async (r, m) =>
+        {
+            PreviousSubView = CurrentSubView;
+            var saleService = _serviceProvider.GetRequiredService<ISaleService>();
+            var detailVM = new DisplayCustomerOrderDetailForAdminViewModel(saleService, m.SaleId, m.Data, _messenger);
+            await detailVM.GetSaleAsync();
+            CurrentSubView = detailVM;
+        });
+
+        _messenger.Register<ViewCustomerSaleProductDetailForAdminMessage>(this, async (r, m) =>
+        {
+            PreviousSubView = CurrentSubView;
+            var productService = _serviceProvider.GetRequiredService<IProductService>();
+            var detailVM = new DisplayAdminProductViewModel(productService, m.ProductId, _messenger);
+            await detailVM.GetProductAsync();
+            CurrentSubView = detailVM;
+        });
+
+        _messenger.Register<NavigateBackToCustomerDetailsMessage>(this, async (r, m) =>
+        {
+            CurrentSubView = new DisplayCustomerDetailsForAdminViewModel(m.Data, _messenger);
+        });
+
+        _messenger.Register<DisplayCustomerAddressDetailForAdminMessage>(this, async (r, m) =>
+        {
+            PreviousSubView = CurrentSubView;
+            var addressService = _serviceProvider.GetRequiredService<IAddressService>();
+            var detailVM = new DisplayCustomerAddressForAdminViewModel(addressService, m.AddressId, m.customerId, _messenger);
+            await detailVM.GetAddressAsync();
+            CurrentSubView = detailVM;
         });
     }
 

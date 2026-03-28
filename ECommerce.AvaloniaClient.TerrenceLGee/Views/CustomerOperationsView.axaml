@@ -13,7 +13,6 @@
           </StackPanel>
           <StackPanel Grid.Row="1" HorizontalAlignment="Center" Orientation="Horizontal" Spacing="30">
               <Button Content="View Customers" Command="{Binding ViewCustomersCommand}"/>
-			  <Button Content="View Customer Addresses" Command="{Binding ViewCustomerAddressesCommand}"/>
           </StackPanel>
       </Grid>
   </ScrollViewer>

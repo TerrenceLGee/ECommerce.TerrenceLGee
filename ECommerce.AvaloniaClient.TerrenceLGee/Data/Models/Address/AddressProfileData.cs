@@ -4,6 +4,9 @@ namespace ECommerce.AvaloniaClient.TerrenceLGee.Data.Models.Address;
 
 public class AddressProfileData
 {
+    [JsonPropertyName("addressId")]
+    public int AddressId { get; set; }
+
     [JsonPropertyName("addressLine1")]
     public string AddressLine1 { get; set; } = string.Empty;
 

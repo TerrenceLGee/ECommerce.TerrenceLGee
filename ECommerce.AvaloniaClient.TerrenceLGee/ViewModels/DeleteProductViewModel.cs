@@ -126,7 +126,7 @@ public partial class DeleteProductViewModel : ObservableObject
         if (value is not null)
         {
             var box = MessageBoxManager
-                .GetMessageBoxStandard("Delete", $"Delete Address?", ButtonEnum.YesNo, Icon.Warning,
+                .GetMessageBoxStandard("Delete", $"Delete {value.Name}?", ButtonEnum.YesNo, Icon.Warning,
                 null, WindowStartupLocation.CenterOwner);
 
             var result = await box.ShowAsync();
