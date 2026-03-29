@@ -82,6 +82,7 @@ public partial class App : Application
         services.AddTransient<DisplayAddedProductViewModel>();
         services.AddTransient<DisplayUpdatedProductViewModel>();
         services.AddTransient<DisplayAdminProductViewModel>();
+        services.AddTransient<DisplayCustomerProductViewModel>();
         services.AddTransient<AdminChooseProductForUpdateViewModel>();
         services.AddTransient<ViewProductsForAdminViewModel>();
         services.AddTransient<UpdateProductViewModel>();

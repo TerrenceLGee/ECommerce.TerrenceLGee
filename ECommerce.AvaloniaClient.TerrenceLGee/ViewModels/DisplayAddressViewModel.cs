@@ -4,6 +4,7 @@ using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using ECommerce.AvaloniaClient.TerrenceLGee.Data.Models.Address;
 using ECommerce.AvaloniaClient.TerrenceLGee.Messages.AddressMessages;
+using ECommerce.AvaloniaClient.TerrenceLGee.Messages.Customer;
 using ECommerce.AvaloniaClient.TerrenceLGee.Messages.OtherMessages;
 using ECommerce.AvaloniaClient.TerrenceLGee.Services.Interfaces.Address;
 using MsBox.Avalonia;
@@ -16,55 +17,74 @@ public partial class DisplayAddressViewModel : ViewModelBase
 {
     private readonly IAddressService _addressService;
     private readonly IMessenger _messenger;
-    public AddressData Address { get; }
+    private readonly int _addressId;
+    [ObservableProperty]
+    private AddressData? _address;
 
-    public DisplayAddressViewModel(IAddressService addressService, AddressData address, IMessenger messenger)
+    public DisplayAddressViewModel(IAddressService addressService, int addressId, IMessenger messenger)
     {
         _addressService = addressService;
-        Address = address;
+        _addressId = addressId;
         _messenger = messenger;
     }
 
-    [ObservableProperty]
-    private string? _successMessage;
-    [ObservableProperty]
-    private string? _errorMessage;
+    public async Task GetAddressAsync()
+    {
+        Address = await _addressService.GetAddressAsync(_addressId);
+
+        if (Address is null)
+        {
+            _messenger.Send(new NavigateBackToPreviousPageMessage());
+        }
+    }
 
     [RelayCommand]
     private async Task GoBack()
     {
-        _messenger.Send(new NavigateBackToPreviousPageMessage());
+        _messenger.Send(new DisplayCustomerProfileMessage());
     }
 
     [RelayCommand]
     private void UpdateAddress()
     {
-        _messenger.Send(new AddressSelectedForUpdateMessage(Address));
+        _messenger.Send(new AddressSelectedForUpdateMessage(Address!));
     }
 
     [RelayCommand]
     private async Task DeleteAddress()
     {
-        SuccessMessage = null;
-        ErrorMessage = null;
-
         var box = MessageBoxManager
-                .GetMessageBoxStandard("Delete", $"Delete Address {Address.Id}?", ButtonEnum.YesNo, Icon.Warning,
+                .GetMessageBoxStandard("Delete", $"Delete Address?", ButtonEnum.YesNo, Icon.Warning,
                 null, WindowStartupLocation.CenterOwner);
 
         var result = await box.ShowAsync();
 
         if (result == ButtonResult.Yes)
         {
-            var (success, data) = await _addressService.DeleteAddressAsync(Address.Id);
+            var (success, data) = await _addressService.DeleteAddressAsync(Address!.Id);
 
             if (success)
             {
-                SuccessMessage = data;
+                box = MessageBoxManager
+                    .GetMessageBoxStandard("Success", $"{data}", ButtonEnum.Ok, Icon.Success,
+                    null, WindowStartupLocation.CenterOwner);
+                result = await box.ShowAsync();
+                if (result == ButtonResult.Ok)
+                {
+                    _messenger.Send(new DisplayCustomerProfileMessage());
+                }
             }
             else
             {
-                ErrorMessage = data;
+                box = MessageBoxManager
+                    .GetMessageBoxStandard("Error", $"{data}", ButtonEnum.Ok, Icon.Error,
+                    null, WindowStartupLocation.CenterOwner);
+
+                result = await box.ShowAsync();
+                if (result == ButtonResult.Ok)
+                {
+                    _messenger.Send(new DisplayCustomerProfileMessage());
+                }
             }
         }
     }

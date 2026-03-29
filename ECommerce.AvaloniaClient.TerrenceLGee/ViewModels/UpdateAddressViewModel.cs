@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using ECommerce.AvaloniaClient.TerrenceLGee.Data.Models.Address;
 using ECommerce.AvaloniaClient.TerrenceLGee.Messages.AddressMessages;
+using ECommerce.AvaloniaClient.TerrenceLGee.Messages.OtherMessages;
 using ECommerce.AvaloniaClient.TerrenceLGee.Services.Interfaces.Address;
 using ECommerce.Shared.TerrenceLGee.DTOs.AddressDTOs;
 using System.ComponentModel.DataAnnotations;
@@ -147,9 +148,9 @@ public partial class UpdateAddressViewModel : ObservableValidator
     }
 
     [RelayCommand]
-    private void GoBackToAllAddresses()
+    private void GoBack()
     {
-        _messenger.Send(new NavigateBackToAllAddressesMessage());
+        _messenger.Send(new NavigateBackToPreviousPageMessage());
     }
 
     private void ClearAddressUpdate()

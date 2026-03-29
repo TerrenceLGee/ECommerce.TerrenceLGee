@@ -90,6 +90,7 @@ public partial class PasswordResetViewModel : ObservableValidator
         {
             SuccessMessage = message;
             ClearPasswordReset();
+            LoginRequested?.Invoke();
         }
         else
         {

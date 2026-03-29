@@ -101,7 +101,7 @@ public partial class ViewAddressesViewModel : ObservableObject
     {
         if (value is not null)
         {
-            _messenger.Send(new AddressSelectedForDetailMessage(value));
+            _messenger.Send(new AddressSelectedForDetailMessage(value.Id));
         }
     }
 }

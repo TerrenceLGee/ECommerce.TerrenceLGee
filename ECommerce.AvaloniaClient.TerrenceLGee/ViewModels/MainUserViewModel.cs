@@ -95,9 +95,6 @@ public partial class MainUserViewModel : ObservableObject
             case CustomerMenu.ViewOrders:
                 CurrentSubView = _serviceProvider.GetRequiredService<ViewOrdersViewModel>();
                 break;
-            case CustomerMenu.ViewAddresses:
-                CurrentSubView = _serviceProvider.GetRequiredService<ViewAddressesViewModel>();
-                break;
             case AdminMenu.Logout:
             case CustomerMenu.Logout:
                 _authService.LogoutUserAsync();
@@ -285,6 +282,7 @@ public partial class MainUserViewModel : ObservableObject
 
         _messenger.Register<AddressAddedMessage>(this, (r, m) =>
         {
+            PreviousSubView = CurrentSubView;
             CurrentSubView = new DisplayAddedAddressViewModel(m.Data, _messenger);
         });
 
@@ -295,6 +293,7 @@ public partial class MainUserViewModel : ObservableObject
 
         _messenger.Register<AddressSelectedForUpdateMessage>(this, (r, m) =>
         {
+            PreviousSubView = CurrentSubView;
             var addressService = _serviceProvider.GetRequiredService<IAddressService>();
             CurrentSubView = new UpdateAddressViewModel(addressService, m.Data, _messenger);
         });
@@ -309,11 +308,13 @@ public partial class MainUserViewModel : ObservableObject
             CurrentSubView = new DisplayUpdatedAddressViewModel(m.Data, _messenger);
         });
 
-        _messenger.Register<AddressSelectedForDetailMessage>(this, (r, m) =>
+        _messenger.Register<AddressSelectedForDetailMessage>(this, async (r, m) =>
         {
             PreviousSubView = CurrentSubView;
             var addressService = _serviceProvider.GetRequiredService<IAddressService>();
-            CurrentSubView = new DisplayAddressViewModel(addressService, m.Data, _messenger);
+            var detailVM =  new DisplayAddressViewModel(addressService, m.AddressId, _messenger);
+            await detailVM.GetAddressAsync();
+            CurrentSubView = detailVM;
         });
 
         _messenger.Register<NavigateBackToAllAddressesMessage>(this, (r, m) =>
@@ -460,6 +461,15 @@ public partial class MainUserViewModel : ObservableObject
             var addressService = _serviceProvider.GetRequiredService<IAddressService>();
             var detailVM = new DisplayCustomerAddressForAdminViewModel(addressService, m.AddressId, m.customerId, _messenger);
             await detailVM.GetAddressAsync();
+            CurrentSubView = detailVM;
+        });
+
+        _messenger.Register<SaleProductSelectedForCustomerDetailMessage>(this, async (r, m) =>
+        {
+            PreviousSubView = CurrentSubView;
+            var productService = _serviceProvider.GetRequiredService<IProductService>();
+            var detailVM = new DisplayCustomerProductViewModel(productService, m.ProductId, _messenger);
+            await detailVM.GetProductAsync();
             CurrentSubView = detailVM;
         });
     }

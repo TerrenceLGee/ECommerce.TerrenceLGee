@@ -8,17 +8,16 @@ using System.Threading.Tasks;
 
 namespace ECommerce.AvaloniaClient.TerrenceLGee.ViewModels;
 
-public partial class DisplayAdminProductViewModel : ObservableObject
+public partial class DisplayCustomerProductViewModel : ObservableObject
 {
-    private int _productId { get; }
-
-    [ObservableProperty]
-    private ProductAdminData? _product;
-
+    private readonly int _productId;
     private readonly IProductService _productService;
     private readonly IMessenger _messenger;
 
-    public DisplayAdminProductViewModel(IProductService productService, int productId, IMessenger messenger)
+    [ObservableProperty]
+    private ProductData? _product;
+
+    public DisplayCustomerProductViewModel(IProductService productService, int productId, IMessenger messenger)
     {
         _productService = productService;
         _productId = productId;
@@ -27,7 +26,7 @@ public partial class DisplayAdminProductViewModel : ObservableObject
 
     public async Task GetProductAsync()
     {
-        Product = await _productService.GetProductForAdminAsync(_productId);
+        Product = await _productService.GetProductAsync(_productId);
         if (Product is null) GoBack();
     }
 

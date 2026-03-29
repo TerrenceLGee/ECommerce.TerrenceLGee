@@ -4,6 +4,7 @@ using CommunityToolkit.Mvvm.Messaging;
 using ECommerce.AvaloniaClient.TerrenceLGee.Data.Models.Address;
 using ECommerce.AvaloniaClient.TerrenceLGee.Data.Models.Customer;
 using ECommerce.AvaloniaClient.TerrenceLGee.Data.Models.Sale;
+using ECommerce.AvaloniaClient.TerrenceLGee.Messages.AddressMessages;
 using ECommerce.AvaloniaClient.TerrenceLGee.Messages.SaleMessages;
 using ECommerce.AvaloniaClient.TerrenceLGee.Services.Interfaces.Customer;
 using System;
@@ -31,6 +32,9 @@ public partial class DisplayCustomerProfileViewModel : ObservableObject
 
     [ObservableProperty]
     private SaleForCustomerProfileData? _selectedOrder;
+
+    [ObservableProperty]
+    private AddressProfileData? _selectedAddress;
 
     [ObservableProperty]
     private CustomerData? _profile;
@@ -156,11 +160,25 @@ public partial class DisplayCustomerProfileViewModel : ObservableObject
         }
     }
 
+    [RelayCommand]
+    private void AddAddress()
+    {
+        _messenger.Send(new AddAddressMessage());
+    }
+
     partial void OnSelectedOrderChanged(SaleForCustomerProfileData? value)
     {
         if (value is not null)
         {
             _messenger.Send(new SaleSelectedForCustomerDetailMessage(value.Id));
+        }
+    }
+
+    partial void OnSelectedAddressChanged(AddressProfileData? value)
+    {
+        if (value is not null)
+        {
+            _messenger.Send(new AddressSelectedForDetailMessage(value.AddressId));
         }
     }
 }

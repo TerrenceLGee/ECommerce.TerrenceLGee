@@ -2,4 +2,4 @@
 
 namespace ECommerce.AvaloniaClient.TerrenceLGee.Messages.AddressMessages;
 
-public record AddressSelectedForDetailMessage(AddressData Data);
+public record AddressSelectedForDetailMessage(int AddressId);

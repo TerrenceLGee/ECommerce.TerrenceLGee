@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using ECommerce.AvaloniaClient.TerrenceLGee.Messages.AddressMessages;
+using ECommerce.AvaloniaClient.TerrenceLGee.Messages.Customer;
 using ECommerce.AvaloniaClient.TerrenceLGee.Services.Interfaces.Address;
 using ECommerce.Shared.TerrenceLGee.DTOs.AddressDTOs;
 using System.ComponentModel.DataAnnotations;
@@ -97,6 +98,7 @@ public partial class AddAddressViewModel : ObservableValidator
         ValidateProperty(AddressLine1, nameof(AddressLine1));
         ValidateProperty(AddressLine2, nameof(AddressLine2));
         ValidateProperty(City, nameof(City));
+        ValidateProperty(State, nameof(State));
         ValidateProperty(PostalCode, nameof(PostalCode));
         ValidateProperty(Country, nameof(Country));
 
@@ -135,6 +137,12 @@ public partial class AddAddressViewModel : ObservableValidator
         {
             ErrorMessage = data.ErrorMessage;
         }
+    }
+
+    [RelayCommand]
+    private void GoBack()
+    {
+        _messenger.Send(new DisplayCustomerProfileMessage());
     }
 
     private void ClearAddressAdd()

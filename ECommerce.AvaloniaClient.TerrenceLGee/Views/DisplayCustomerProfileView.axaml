@@ -7,7 +7,7 @@
 			 xmlns:vm="using:ECommerce.AvaloniaClient.TerrenceLGee.ViewModels"
 			 x:DataType="vm:DisplayCustomerProfileViewModel">
 	<ScrollViewer>
-		<Grid RowDefinitions="Auto, Auto, Auto, Auto, Auto"
+		<Grid RowDefinitions="Auto, Auto, Auto, Auto, Auto, Auto"
 			  Margin="10">
 			<StackPanel Grid.Row="0">
 				<WrapPanel>
@@ -94,6 +94,7 @@
 						   FontWeight="Bold"
 						   Margin="0,0,0,10"/>
 				<DataGrid ItemsSource="{Binding AddressesForDisplay}"
+						  SelectedItem="{Binding SelectedAddress}"
 						  IsReadOnly="True"
 						  GridLinesVisibility="All"
 						  BorderThickness="1"
@@ -143,7 +144,12 @@
 						Command="{Binding NextAddressPageCommand}"
 						IsEnabled="{Binding AddressHasNextPage}"/>
 			</StackPanel>
-			<StackPanel Grid.Row="3">
+			<StackPanel Grid.Row="3"
+						HorizontalAlignment="Center">
+				<Button Content="Add New Address"
+						Command="{Binding AddAddressCommand}" HorizontalAlignment="Left"/>
+			</StackPanel>
+			<StackPanel Grid.Row="4">
 				<TextBlock Text="All Orders (Select an order for more information)"
 						   Foreground="Goldenrod"
 						   TextDecorations="Underline"
@@ -178,7 +184,7 @@
 					</DataGrid.Columns>
 				</DataGrid>
 			</StackPanel>
-			<StackPanel Grid.Row="4"
+			<StackPanel Grid.Row="5"
 						Orientation="Horizontal"
 						HorizontalAlignment="Center"
 						Spacing="10"

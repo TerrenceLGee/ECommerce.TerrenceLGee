@@ -185,7 +185,9 @@ public class SaleRepository : ISaleRepository
 
             SetFilteringAndSorting(ref sales, saleQueryParams);
 
-            return await sales.ToPagedListAsync(count, saleQueryParams.Page, saleQueryParams.PageSize);
+            count = sales.Count();
+
+            return await sales.ToPagedListAsync(sales.Count(), saleQueryParams.Page, saleQueryParams.PageSize);
         }
         catch (Exception ex)
         {
@@ -213,7 +215,7 @@ public class SaleRepository : ISaleRepository
 
             SetFilteringAndSorting(ref sales, saleQueryParams);
 
-            return await sales.ToPagedListAsync(count, saleQueryParams.Page, saleQueryParams.PageSize);
+            return await sales.ToPagedListAsync(sales.Count(), saleQueryParams.Page, saleQueryParams.PageSize);
         }
         catch (Exception ex)
         {

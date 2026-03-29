@@ -8,11 +8,11 @@
              x:DataType="vm:WelcomePageViewModel">
   <ScrollViewer>
 	  <Grid RowDefinitions="Auto, Auto" Margin="10">
-		  <StackPanel Grid.Row="0">
+		  <StackPanel Grid.Row="0" >
 			  <Image Source="/Assets/welcome.jpg" Height="600" Width="600"/>
           </StackPanel>
-          <StackPanel Grid.Row="1" HorizontalAlignment="Center" Spacing="10" Orientation="Horizontal">
-			  <Button Content="Login" Command="{Binding NavigateToLoginCommand}"/>
+          <StackPanel Grid.Row="1" HorizontalAlignment="Center" Spacing="30" Orientation="Horizontal" Margin="25">
+              <Button Content="Login" Command="{Binding NavigateToLoginCommand}"/>
               <Button Content="Register" Command="{Binding NavigateToRegistrationCommand}"/>
               <Button Content="Reset Password" Command="{Binding NavigateToPasswordResetCommand}"/>
               <Button Content="Exit" Command="{Binding ExitCommand}"/>

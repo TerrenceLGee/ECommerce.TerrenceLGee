@@ -4,14 +4,12 @@ namespace ECommerce.AvaloniaClient.TerrenceLGee.Enums;
 
 public enum CustomerMenu
 {
-    [Display(Name = "View profile")]
+    [Display(Name = "My Information")]
     ViewProfile,
     [Display(Name = "Shop")]
     AddSale,
     [Display(Name = "View all orders")]
     ViewOrders,
-    [Display(Name = "View address info")]
-    ViewAddresses,
     [Display(Name = "Logout")]
     Logout
 }

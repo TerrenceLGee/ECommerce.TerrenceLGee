@@ -76,6 +76,9 @@
         <DataTemplate DataType="{x:Type vm:DisplayAdminProductViewModel}">
 			<local:DisplayAdminProductView/>
         </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:DisplayCustomerProductViewModel}">
+			<local:DisplayCustomerProductView/>
+        </DataTemplate>
         <DataTemplate DataType="{x:Type vm:DeleteProductViewModel}">
             <local:DeleteProductView/>
         </DataTemplate>

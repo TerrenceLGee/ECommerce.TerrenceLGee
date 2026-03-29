@@ -6,6 +6,7 @@ using ECommerce.AvaloniaClient.TerrenceLGee.Messages.SaleMessages;
 using ECommerce.AvaloniaClient.TerrenceLGee.Services.Interfaces.Sale;
 using ECommerce.Shared.TerrenceLGee.Enums;
 using ECommerce.Shared.TerrenceLGee.Parameters.SaleParameters;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;

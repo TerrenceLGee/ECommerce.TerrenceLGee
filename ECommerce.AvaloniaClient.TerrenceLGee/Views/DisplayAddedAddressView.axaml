@@ -100,11 +100,11 @@
 		</Border>
 		<StackPanel>
 			<Button Content="Add Another Address"
-					Command="{Binding GoBackCommand}"
+					Command="{Binding AddAnotherAddressCommand}"
 					HorizontalAlignment="Center"
 					Margin="0,0,0,15"/>
 			<Button Content="Back"
-					Command="{Binding GoBackToAllAddressesCommand}"
+					Command="{Binding GoBackCommand}"
 					HorizontalAlignment="Center"
 					Margin="0,0,0,15"/>
 		</StackPanel>
