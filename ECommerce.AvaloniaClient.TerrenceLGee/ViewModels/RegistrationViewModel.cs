@@ -1,6 +1,4 @@
-﻿using Avalonia;
-using Avalonia.Controls.ApplicationLifetimes;
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using ECommerce.AvaloniaClient.TerrenceLGee.Services.Interfaces.Auth;
 using ECommerce.Shared.TerrenceLGee.DTOs.AddressDTOs;
@@ -12,12 +10,13 @@ using System.Threading.Tasks;
 
 namespace ECommerce.AvaloniaClient.TerrenceLGee.ViewModels;
 
-public partial class AuthViewModel : ObservableValidator
+public partial class RegistrationViewModel : ObservableValidator
 {
     private readonly IAuthService _authService;
-    public event Action<bool>? LoginSuccessful;
+    public event Action? BackRequested;
+    public event Action? RegistrationSuccessful;
 
-    public AuthViewModel(IAuthService authService)
+    public RegistrationViewModel(IAuthService authService)
     {
         _authService = authService;
     }
@@ -116,7 +115,6 @@ public partial class AuthViewModel : ObservableValidator
 
     [ObservableProperty]
     private bool _isBillingAddress;
-
     [ObservableProperty]
     private bool _isShippingAddress;
 
@@ -131,7 +129,7 @@ public partial class AuthViewModel : ObservableValidator
 
     [ObservableProperty]
     [Required(ErrorMessage = "You must confirm your password.")]
-    [CustomValidation(typeof(AuthViewModel), nameof(ValidatePasswordConfirmation))]
+    [CustomValidation(typeof(RegistrationViewModel), nameof(ValidatePasswordConfirmation))]
     [NotifyPropertyChangedFor(nameof(ConfirmPasswordErrors))]
     private string _confirmPassword = string.Empty;
 
@@ -140,61 +138,11 @@ public partial class AuthViewModel : ObservableValidator
 
     [ObservableProperty]
     private string? _successMessage;
-
     [ObservableProperty]
     private string? _errorMessage;
 
-    [ObservableProperty]
-    [Required(ErrorMessage = "Email address is required.")]
-    [NotifyPropertyChangedFor(nameof(LoginEmailErrors))]
-    private string _loginEmail;
-
-    public string? LoginEmailErrors => GetErrors(nameof(LoginEmail))
-        .FirstOrDefault()?.ErrorMessage;
-
-    [ObservableProperty]
-    [Required(ErrorMessage = "Password is required.")]
-    [NotifyPropertyChangedFor(nameof(LoginPasswordErrors))]
-    private string _loginPassword;
-
-    public string? LoginPasswordErrors => GetErrors(nameof(LoginPassword))
-        .FirstOrDefault()?.ErrorMessage;
-
-    [ObservableProperty]
-    [Required(ErrorMessage = "Email address is required.")]
-    [NotifyPropertyChangedFor(nameof(ResetPasswordEmailErrors))]
-    private string _resetPasswordEmail;
-
-    public string? ResetPasswordEmailErrors => GetErrors(nameof(ResetPasswordEmail))
-        .FirstOrDefault()?.ErrorMessage;
-
-    [ObservableProperty]
-    [Required(ErrorMessage = "Old password is required.")]
-    [NotifyPropertyChangedFor(nameof(OldPasswordErrors))]
-    private string _oldPassword;
-
-    public string? OldPasswordErrors => GetErrors(nameof(OldPassword))
-        .FirstOrDefault()?.ErrorMessage;
-
-    [ObservableProperty]
-    [Required(ErrorMessage = "New password is required.")]
-    [NotifyPropertyChangedFor(nameof(NewPasswordErrors))]
-    private string _newPassword;
-
-    public string? NewPasswordErrors => GetErrors(nameof(NewPassword))
-        .FirstOrDefault()?.ErrorMessage;
-
-    [ObservableProperty]
-    [Required(ErrorMessage = "Confirmation of new password is required.")]
-    [CustomValidation(typeof(AuthViewModel), nameof(ValidatePasswordResetConfirmation))]
-    [NotifyPropertyChangedFor(nameof(ResetConfirmPasswordErrors))]
-    private string _resetConfirmPassword;
-
-    public string? ResetConfirmPasswordErrors => GetErrors(nameof(ResetConfirmPassword))
-        .FirstOrDefault()?.ErrorMessage;
-
     [RelayCommand]
-    private async Task Register()
+    private async Task RegisterAsync()
     {
         SuccessMessage = null;
         ErrorMessage = null;
@@ -204,7 +152,6 @@ public partial class AuthViewModel : ObservableValidator
         ValidateProperty(FirstName, nameof(FirstName));
         ValidateProperty(LastName, nameof(LastName));
         ValidateProperty(Email, nameof(Email));
-        ValidateProperty(DateOfBirth, nameof(DateOfBirth));
         ValidateProperty(AddressLine1, nameof(AddressLine1));
         ValidateProperty(AddressLine2, nameof(AddressLine2));
         ValidateProperty(City, nameof(City));
@@ -260,6 +207,7 @@ public partial class AuthViewModel : ObservableValidator
         {
             SuccessMessage = message;
             ClearRegistration();
+            RegistrationSuccessful?.Invoke();
         }
         else
         {
@@ -269,124 +217,9 @@ public partial class AuthViewModel : ObservableValidator
     }
 
     [RelayCommand]
-    public async Task Login()
+    private void GoBack()
     {
-        SuccessMessage = null;
-        ErrorMessage = null;
-
-        ClearErrors();
-
-        ValidateProperty(LoginEmail, nameof(LoginEmail));
-        ValidateProperty(LoginPassword, nameof(LoginPassword));
-
-        if (HasErrors)
-        {
-            return;
-        }
-
-        var login = new UserLoginDto
-        {
-            Email = LoginEmail,
-            Password = LoginPassword
-        };
-
-        var (success, data) = await _authService.LoginUserAsync(login);
-
-        if (success)
-        {
-            ClearLogin();
-            SuccessMessage = "Login successful";
-
-            var isAdmin = (data is not null)
-                ? data.Roles.Contains("admin")
-                : false;
-
-            LoginSuccessful?.Invoke(isAdmin);
-        }
-        else
-        {
-            ClearLogin();
-            ErrorMessage = (data is not null)
-                ? data.ErrorMessage
-                : "Unexpected error occurred while attempting to login";
-        }
-    }
-
-    [RelayCommand]
-    private async Task ResetPassword()
-    {
-        SuccessMessage = null;
-        ErrorMessage = null;
-
-        ClearErrors();
-
-        ValidateProperty(ResetPasswordEmail, nameof(ResetPasswordEmail));
-        ValidateProperty(OldPassword, nameof(OldPassword));
-        ValidateProperty(NewPassword, nameof(NewPassword));
-        ValidateProperty(ResetConfirmPassword, nameof(ResetConfirmPassword));
-
-        if (HasErrors)
-        {
-            return;
-        }
-
-        var reset = new UserResetPasswordDto
-        {
-            Email = ResetPasswordEmail,
-            OldPassword = OldPassword,
-            NewPassword = NewPassword,
-            ConfirmPassword = ResetConfirmPassword
-        };
-
-        var (success, message) = await _authService.ResetUserPasswordAsync(reset);
-
-        if (success)
-        {
-            SuccessMessage = message;
-            ClearPasswordReset();
-        }
-        else
-        {
-            ErrorMessage = message;
-            ClearPasswordReset();
-        }
-    }
-
-    [RelayCommand]
-    private void Exit()
-    {
-        if (Application.Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
-        {
-            desktop.Shutdown();
-        }
-    }
-
-    public static ValidationResult? ValidatePasswordConfirmation(string confirmPassword, ValidationContext context)
-    {
-        var viewModel = (AuthViewModel)context.ObjectInstance;
-
-        var password = viewModel.Password;
-
-        if (!password.Equals(confirmPassword))
-        {
-            return new ValidationResult("Passwords do not match.");
-        }
-
-        return ValidationResult.Success;
-    }
-
-    public static ValidationResult? ValidatePasswordResetConfirmation(string confirmPassword, ValidationContext context)
-    {
-        var viewModel = (AuthViewModel)context.ObjectInstance;
-
-        var password = viewModel.NewPassword;
-
-        if (!password.Equals(confirmPassword))
-        {
-            return new ValidationResult("Passwords do not match.");
-        }
-
-        return ValidationResult.Success;
+        BackRequested?.Invoke();
     }
 
     private void ClearRegistration()
@@ -407,17 +240,17 @@ public partial class AuthViewModel : ObservableValidator
         ConfirmPassword = string.Empty;
     }
 
-    private void ClearLogin()
+    public static ValidationResult? ValidatePasswordConfirmation(string confirmPassword, ValidationContext context)
     {
-        LoginEmail = string.Empty;
-        LoginPassword = string.Empty;
-    }
+        var viewModel = (RegistrationViewModel)context.ObjectInstance;
 
-    private void ClearPasswordReset()
-    {
-        ResetPasswordEmail = string.Empty;
-        OldPassword = string.Empty;
-        NewPassword = string.Empty;
-        ResetConfirmPassword = string.Empty;
+        var password = viewModel.Password;
+
+        if (!password.Equals(confirmPassword))
+        {
+            return new ValidationResult("Passwords do not match.");
+        }
+
+        return ValidationResult.Success;
     }
 }

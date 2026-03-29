@@ -4,9 +4,9 @@ using Avalonia.Markup.Xaml;
 
 namespace ECommerce.AvaloniaClient.TerrenceLGee;
 
-public partial class AuthView : UserControl
+public partial class WelcomePageView : UserControl
 {
-    public AuthView()
+    public WelcomePageView()
     {
         InitializeComponent();
     }

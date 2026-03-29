@@ -7,8 +7,17 @@
              <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
 
     <Application.DataTemplates>
-        <DataTemplate DataType="{x:Type vm:AuthViewModel}">
-			<local:AuthView/>
+        <DataTemplate DataType="{x:Type vm:WelcomePageViewModel}">
+			<local:WelcomePageView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:LoginViewModel}">
+			<local:LoginView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:RegistrationViewModel}">
+			<local:RegistrationView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:PasswordResetViewModel}">
+			<local:PasswordResetView/>
         </DataTemplate>
         <DataTemplate DataType="{x:Type vm:MainUserViewModel}">
 			<local:MainUserView/>

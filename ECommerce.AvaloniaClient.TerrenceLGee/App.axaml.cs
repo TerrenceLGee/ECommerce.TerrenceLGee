@@ -1,6 +1,5 @@
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
-using Avalonia.Data.Core;
 using Avalonia.Data.Core.Plugins;
 using Avalonia.Markup.Xaml;
 using CommunityToolkit.Mvvm.Messaging;
@@ -50,6 +49,11 @@ public partial class App : Application
 
         services.AddSingleton<IMessenger>(WeakReferenceMessenger.Default);
 
+        services.AddTransient<WelcomePageViewModel>();
+        services.AddTransient<LoginViewModel>();
+        services.AddTransient<RegistrationViewModel>();
+        services.AddTransient<PasswordResetViewModel>();
+
         services.AddSingleton<IAuthService, AuthService>();
         services.AddSingleton<ICategoryService, CategoryService>();
         services.AddSingleton<ICustomerService, CustomerService>();
@@ -59,7 +63,6 @@ public partial class App : Application
         services.AddSingleton<IShoppingCartService, ShoppingCartService>();
 
         services.AddSingleton<MainWindowViewModel>();
-        services.AddTransient<AuthViewModel>();
         services.AddTransient<MainUserViewModel>();
 
         services.AddTransient<HomeScreenViewModel>();
@@ -118,14 +121,40 @@ public partial class App : Application
             var mainWindowViewModel = serviceProvider
                 .GetRequiredService<MainWindowViewModel>();
 
+            ShowWelcomeView();
 
-            ShowAuthView();
-
-            void ShowAuthView()
+            void ShowWelcomeView()
             {
-                var authViewModel = serviceProvider.GetRequiredService<AuthViewModel>();
-                authViewModel.LoginSuccessful += OnLoginSuccessful;
-                mainWindowViewModel.CurrentView = authViewModel;
+                var welcomePageViewModel = serviceProvider.GetRequiredService<WelcomePageViewModel>();
+
+                welcomePageViewModel.LoginRequested += ShowLoginView;
+                welcomePageViewModel.RegistrationRequested += ShowRegistrationView;
+                welcomePageViewModel.PasswordResetRequested += ShowPasswordResetView;
+
+                mainWindowViewModel.CurrentView = welcomePageViewModel;
+            }
+
+            void ShowLoginView()
+            {
+                var loginViewModel = serviceProvider.GetRequiredService<LoginViewModel>();
+                loginViewModel.LoginSuccessful += OnLoginSuccessful;
+                loginViewModel.BackRequested += ShowWelcomeView;
+                mainWindowViewModel.CurrentView = loginViewModel;
+            }
+
+            void ShowRegistrationView()
+            {
+                var registrationViewModel = serviceProvider.GetRequiredService<RegistrationViewModel>();
+                registrationViewModel.RegistrationSuccessful += ShowLoginView;
+                registrationViewModel.BackRequested += ShowWelcomeView;
+                mainWindowViewModel.CurrentView = registrationViewModel;
+            }
+
+            void ShowPasswordResetView()
+            {
+                var passwordResetViewModel = serviceProvider.GetRequiredService<PasswordResetViewModel>();
+                passwordResetViewModel.BackRequested += ShowWelcomeView;
+                mainWindowViewModel.CurrentView = passwordResetViewModel;
             }
 
             void OnLoginSuccessful(bool isAdmin)
@@ -140,7 +169,7 @@ public partial class App : Application
 
             void OnLogoutRequested()
             {
-                ShowAuthView();
+                ShowWelcomeView();
             }
 
             desktop.MainWindow = new MainWindow

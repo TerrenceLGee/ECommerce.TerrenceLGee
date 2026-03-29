@@ -1,0 +1,67 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="ECommerce.AvaloniaClient.TerrenceLGee.LoginView"
+             xmlns:vm="using:ECommerce.AvaloniaClient.TerrenceLGee.ViewModels"
+             x:DataType="vm:LoginViewModel">
+    <UserControl.Styles>
+		<Style Selector="TextBlock.Error">
+			<Setter Property="Foreground" Value="Red"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Margin" Value="0,0,0,5"/>
+        </Style>
+    </UserControl.Styles>
+
+  <ScrollViewer>
+	  <Grid RowDefinitions="Auto, Auto, Auto" 
+            Margin="10">
+		  <StackPanel Grid.Row="0" 
+                      HorizontalAlignment="Center">
+			  <TextBlock Text="Login To Your Account" 
+                         FontWeight="ExtraBold" 
+                         FontSize="24" 
+                         TextDecorations="Underline" 
+                         Foreground="Goldenrod"/>
+              <StackPanel Spacing="10" 
+                          Margin="10">
+				  <TextBlock Text="Email" 
+                             FontWeight="ExtraBold" 
+                             HorizontalAlignment="Center"/>
+                  <TextBox Text="{Binding Email}" 
+                           Width="260"/>
+                  <TextBlock Classes="Error" 
+                             Text="{Binding EmailErrors}"/>
+                  <TextBlock Text="Password" 
+                             FontWeight="ExtraBold" 
+                             HorizontalAlignment="Center"/>
+                  <TextBox Text="{Binding Password}" 
+                           PasswordChar="*"
+                           Width="260"/>
+                  <TextBlock Classes="Error" 
+                             Text="{Binding PasswordErrors}"/>
+              </StackPanel>
+          </StackPanel>
+          <StackPanel Grid.Row="1" 
+                      HorizontalAlignment="Center" 
+                      Orientation="Horizontal" 
+                      Spacing="20">
+			  <Button Content="Login" 
+                      Command="{Binding LoginCommand}"/>
+              <Button Content="Back" 
+                      Command="{Binding GoBackCommand}"/>
+          </StackPanel>
+          <StackPanel Grid.Row="2">
+			  <TextBlock Text="{Binding SuccessMessage}" 
+                         Foreground="Gold" 
+                         IsVisible="{Binding !!SuccessMessage}"
+                         HorizontalAlignment="Center"/>
+              <TextBlock Classes="Error" 
+                         Text="{Binding ErrorMessage}" 
+                         IsVisible="{Binding ErrorMessage}"
+                         HorizontalAlignment="Center"/>
+          </StackPanel>
+      </Grid>
+  </ScrollViewer>
+</UserControl>
