@@ -154,6 +154,7 @@ public partial class App : Application
             {
                 var passwordResetViewModel = serviceProvider.GetRequiredService<PasswordResetViewModel>();
                 passwordResetViewModel.BackRequested += ShowWelcomeView;
+                passwordResetViewModel.LoginRequested += ShowLoginView;
                 mainWindowViewModel.CurrentView = passwordResetViewModel;
             }
 

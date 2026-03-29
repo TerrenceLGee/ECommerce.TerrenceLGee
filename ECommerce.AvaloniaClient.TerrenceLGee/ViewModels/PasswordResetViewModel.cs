@@ -54,9 +54,6 @@ public partial class PasswordResetViewModel : ObservableValidator
         .FirstOrDefault()?.ErrorMessage;
 
     [ObservableProperty]
-    private bool _success;
-
-    [ObservableProperty]
     private string? _successMessage;
     [ObservableProperty]
     private string? _errorMessage;
@@ -87,9 +84,9 @@ public partial class PasswordResetViewModel : ObservableValidator
             ConfirmPassword = ResetConfirmPassword
         };
 
-        var (Success, message) = await _authService.ResetUserPasswordAsync(reset);
+        var (success, message) = await _authService.ResetUserPasswordAsync(reset);
 
-        if (Success)
+        if (success)
         {
             SuccessMessage = message;
             ClearPasswordReset();
@@ -105,12 +102,6 @@ public partial class PasswordResetViewModel : ObservableValidator
     private void GoBack()
     {
         BackRequested?.Invoke();
-    }
-
-    [RelayCommand]
-    private void Login()
-    {
-        LoginRequested?.Invoke();
     }
 
     public static ValidationResult? ValidatePasswordResetConfirmation(string confirmPassword, ValidationContext context)
