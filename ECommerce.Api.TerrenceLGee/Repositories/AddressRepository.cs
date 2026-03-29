@@ -130,10 +130,6 @@ public class AddressRepository : IAddressRepository
     {
         try
         {
-            var count = await GetCustomerAddressCountAsync(addressQueryParams.CustomerId);
-
-            if (count == 0) return [];
-
             var addresses = _context.Addresses
                 .Where(a => a.CustomerId != null &&
                 a.CustomerId.Equals(addressQueryParams.CustomerId))
@@ -142,7 +138,7 @@ public class AddressRepository : IAddressRepository
 
             SetFilteringAndSorting(ref addresses, addressQueryParams);
 
-            return await addresses.ToPagedListAsync(count, addressQueryParams.Page, addressQueryParams.PageSize);
+            return await addresses.ToPagedListAsync(addresses.Count(), addressQueryParams.Page, addressQueryParams.PageSize);
         }
         catch (Exception ex)
         {
@@ -159,17 +155,13 @@ public class AddressRepository : IAddressRepository
     {
         try
         {
-            var count = await GetAllAddressCountForAdminAsync();
-
-            if (count == 0) return [];
-
             var addresses = _context.Addresses
                 .Include(a => a.Customer)
                 .AsNoTracking();
 
             SetFilteringAndSorting(ref addresses, addressQueryParams);
 
-            return await addresses.ToPagedListAsync(count, addressQueryParams.Page, addressQueryParams.PageSize);
+            return await addresses.ToPagedListAsync(addresses.Count(), addressQueryParams.Page, addressQueryParams.PageSize);
         }
         catch (Exception ex)
         {
@@ -178,47 +170,6 @@ public class AddressRepository : IAddressRepository
                 $"There was an unexpected error retrieving all customer addresses: {ex.Message}";
             _logger.LogError(ex, "{msg}\n\n", _errorMessage);
             return [];
-        }
-    }
-
-    public async Task<int> GetCustomerAddressCountAsync(string? customerId)
-    {
-        try
-        {
-            return await _context.Addresses
-                .AsNoTracking()
-                .Where(a => !string.IsNullOrEmpty(a.CustomerId) &&
-                a.CustomerId.Equals(customerId))
-                .CountAsync();
-        }
-        catch (Exception ex)
-        {
-            _errorMessage = $"\nClass: {nameof(AddressRepository)}\n" +
-                $"Method: {nameof(GetCustomerAddressCountAsync)}\n" +
-                $"There was an unexpected error retrieving the count of addresses for customer {customerId}: " +
-                $"{ex.Message}";
-            _logger.LogError(ex, "{msg}\n\n", _errorMessage);
-            return -1;
-        }
-
-    }
-
-    public async Task<int> GetAllAddressCountForAdminAsync()
-    {
-        try
-        {
-            return await _context.Addresses
-                .AsNoTracking()
-                .CountAsync();
-        }
-        catch (Exception ex)
-        {
-            _errorMessage = $"\nClass: {nameof(AddressRepository)}\n" +
-                $"Method: {nameof(GetAllAddressCountForAdminAsync)}\n" +
-                $"There was an unexpected error retrieving the count of all customer addresses: {ex.Message}";
-            _logger.LogError(ex, "{msg}\n\n", _errorMessage);
-            return -1;
-
         }
     }
 

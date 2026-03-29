@@ -13,8 +13,6 @@ public interface ISaleService
     Task<Result<RetrievedSaleDto?>> GetSaleForAdminAsync(RequestSaleDto request);
     Task<Result<PagedList<RetrievedSaleSummaryDto>>> GetSalesAsync(SaleQueryParams saleQueryParams);
     Task<Result<PagedList<RetrievedSaleSummaryDto>>> GetAllSalesForAdminAsync(SaleQueryParams saleQueryParams);
-    Task<Result<int>> GetSaleCountAsync(SaleParams saleParams);
-    Task<Result<int>> GetAllSalesCountForAdminAsync();
     Task<Result> AdminUpdateSaleStatusAsync(UpdateSaleStatusDto sale);
     Task<Result> CustomerCancelSaleAsync(CancelSaleDto cancel);
 }

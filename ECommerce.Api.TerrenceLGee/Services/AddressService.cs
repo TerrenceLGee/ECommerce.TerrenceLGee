@@ -86,28 +86,4 @@ public class AddressService : IAddressService
             addressQueryParams.Page,
             addressQueryParams.PageSize));
     }
-
-    public async Task<Result<int>> GetCustomerAddressCountAsync(AddressIdDto addressIdDto)
-    {
-        var count = await _addressRepository.GetCustomerAddressCountAsync(addressIdDto.CustomerId);
-
-        if (count == -1)
-        {
-            return Result<int>.Fail("Unable to retrieve address count", ErrorType.NotFound);
-        }
-
-        return Result<int>.Ok(count);
-    }
-
-    public async Task<Result<int>> GetAllAddressCountForAdminAsync()
-    {
-        var count = await _addressRepository.GetAllAddressCountForAdminAsync();
-
-        if (count == -1)
-        {
-            return Result<int>.Fail("Unable to retrieve address count", ErrorType.BadRequest);
-        }
-
-        return Result<int>.Ok(count);
-    }
 }

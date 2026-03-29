@@ -14,6 +14,4 @@ public interface ISaleRepository
     Task<(bool, SaleStatus)> CustomerCancelSaleAsync(int saleId, string? customerId);
     Task<PagedList<Sale>> GetSalesAsync(SaleQueryParams saleQueryParams);
     Task<PagedList<Sale>> GetAllSalesForAdminAsync(SaleQueryParams saleQueryParams);
-    Task<int> GetSaleCountAsync(string? customerId);
-    Task<int> GetAllSalesCountForAdminAsync();
 }

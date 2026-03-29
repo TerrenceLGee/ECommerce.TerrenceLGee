@@ -12,11 +12,7 @@ public interface IProductService
     Task<Result> DeleteProductAsync(ProductParams productParams);
     Task<Result> RestoreProductAsync(ProductParams productParams);
     Task<Result<RetrievedProductDto?>> GetProductAsync(ProductParams productParams);
-    Task<Result<RetrievedProductDto?>> GetProductByNameAsync(ProductParams productParams);
     Task<Result<RetrievedProductForAdminDto?>> GetProductForAdminAsync(ProductParams productParams);
-    Task<Result<RetrievedProductForAdminDto?>> GetProductByNameForAdminAsync(ProductParams productParams);
     Task<Result<PagedList<RetrievedProductDto>>> GetProductsAsync(ProductQueryParams productQueryParams);
     Task<Result<PagedList<RetrievedProductForAdminDto>>> GetProductsForAdminAsync(ProductQueryParams productQueryParams);
-    Task<Result<int>> GetProductCountInCategoryAsync(ProductParams productParams);
-    Task<Result<int>> GetProductCountAsync();
 }

@@ -11,8 +11,5 @@ public interface IProductRepository
     Task<bool> DeleteProductAsync(int productId);
     Task<bool> RestoreProductAsync(int productId);
     Task<Product?> GetProductAsync(int productId);
-    Task<Product?> GetProductByNameAsync(string? productName);
     Task<PagedList<Product>> GetProductsAsync(ProductQueryParams productQueryParams);
-    Task<int> GetProductCountInCategoryAsync(ProductParams productParams);
-    Task<int> GetProductCountAsync();
 }

@@ -77,26 +77,6 @@ public class CustomersController : ControllerBase
         return StatusCode(response.StatusCode, response);
     }
 
-    [HttpGet("admin/count")]
-    [Authorize(Roles = "admin")]
-    public async Task<ActionResult<ApiResponse<int>>> GetCountOfCustomersForAdmin()
-    {
-        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-
-        var (isValidUser, errorResponse) = await AuthHelper.IsValidUserAsync<int>(_userManager, userId);
-
-        if (!isValidUser)
-        {
-            return errorResponse;
-        }
-
-        var result = await _customerService.GetCountOfAllCustomersForAdminAsync();
-
-        var response = new ApiResponse<int>(200, result.Value);
-
-        return StatusCode(response.StatusCode, response);
-    }
-
     private async Task<(bool isUserValid, ActionResult<ApiResponse<T?>>)> UserValidationAsync<T>(string? userId)
     {
         var (isValidUser, errorResponse) = await AuthHelper.IsValidUserAsync<T?>(_userManager, userId);

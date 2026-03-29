@@ -229,59 +229,7 @@ public class AddressesController : ControllerBase
 
         return StatusCode(response.StatusCode, response);
     }
-
-    [HttpGet("count")]
-    [Authorize(Roles = "admin,customer")]
-    public async Task<ActionResult<ApiResponse<int>>> GetCustomerAddressCount()
-    {
-        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-
-        var (isValidUser, errorResponse) = await UserValidationAsync<int>(userId);
-
-        if (!isValidUser)
-        {
-            return errorResponse;
-        }
-
-        var addressIdDto = new AddressIdDto
-        {
-            CustomerId = userId
-        };
-
-        var result = await _addressService.GetCustomerAddressCountAsync(addressIdDto);
-
-        var response = ApiResponse<int>.GetEmptyResponse;
-
-        if (result.IsFailure)
-        {
-            response = FailureHelper.HandleFailureResult<int>(result);
-            return StatusCode(response.StatusCode, response);
-        }
-
-        response = new ApiResponse<int>(200, result.Value);
-
-        return StatusCode(response.StatusCode, response);
-    }
-
-    [HttpGet("admin/count")]
-    [Authorize(Roles = "admin")]
-    public async Task<ActionResult<ApiResponse<int>>> GetAllCustomerAddressCountForAdmin()
-    {
-        var result = await _addressService.GetAllAddressCountForAdminAsync();
-
-        var response = ApiResponse<int>.GetEmptyResponse;
-
-        if (result.IsFailure)
-        {
-            response = FailureHelper.HandleFailureResult<int>(result);
-            return StatusCode(response.StatusCode, response);
-        }
-
-        response = new ApiResponse<int>(200, result.Value);
-
-        return StatusCode(response.StatusCode, response);
-    }
-
+    
     private async Task<(bool isUserValid, ActionResult<ApiResponse<T?>> response)> UserValidationAsync<T>(string? userId)
     {
         var (isValidUser, errorResponse) = await AuthHelper.IsValidUserAsync<T?>(_userManager, userId);

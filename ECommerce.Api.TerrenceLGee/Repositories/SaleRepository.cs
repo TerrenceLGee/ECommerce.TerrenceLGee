@@ -173,10 +173,6 @@ public class SaleRepository : ISaleRepository
     {
         try
         {
-            var count = await GetSaleCountAsync(saleQueryParams.CustomerId);
-
-            if (count == 0) return [];
-
             var sales = _context.Sales
                 .Where(s => s.CustomerId.Equals(saleQueryParams.CustomerId))
                 .Include(s => s.Customer)
@@ -184,8 +180,6 @@ public class SaleRepository : ISaleRepository
                 .AsNoTracking();
 
             SetFilteringAndSorting(ref sales, saleQueryParams);
-
-            count = sales.Count();
 
             return await sales.ToPagedListAsync(sales.Count(), saleQueryParams.Page, saleQueryParams.PageSize);
         }
@@ -204,10 +198,6 @@ public class SaleRepository : ISaleRepository
     {
         try
         {
-            var count = await GetAllSalesCountForAdminAsync();
-
-            if (count == 0) return [];
-
             var sales = _context.Sales
                 .Include(s => s.Customer)
                 .Include(s => s.SaleProducts)
@@ -224,43 +214,6 @@ public class SaleRepository : ISaleRepository
                 $"There was an unexpected error retrieving all sales: {ex.Message}";
             _logger.LogError(ex, "{msg}\n\n", _errorMessage);
             return [];
-        }
-    }
-
-    public async Task<int> GetSaleCountAsync(string? customerId)
-    {
-        try
-        {
-            return await _context.Sales
-                .AsNoTracking()
-                .Where(s => s.CustomerId.Equals(customerId))
-                .CountAsync();
-        }
-        catch (Exception ex)
-        {
-            _errorMessage = $"\nClass: {nameof(SaleRepository)}\n" +
-                $"Method: {nameof(GetSaleCountAsync)}\n" +
-                $"There was an unexpected error retrieving the count of sales for {customerId}: {ex.Message}";
-            _logger.LogError(ex, "{msg}\n\n", _errorMessage);
-            return -1;
-        }
-    }
-
-    public async Task<int> GetAllSalesCountForAdminAsync()
-    {
-        try
-        {
-            return await _context.Sales
-                .AsNoTracking()
-                .CountAsync();
-        }
-        catch (Exception ex)
-        {
-            _errorMessage = $"\nClass: {nameof(SaleRepository)}\n" +
-                $"Method: {nameof(GetAllSalesCountForAdminAsync)}\n" +
-                $"There was an unexpected error retrieving the count of all sales: {ex.Message}";
-            _logger.LogError(ex, "{msg}\n\n", _errorMessage);
-            return -1;
         }
     }
 

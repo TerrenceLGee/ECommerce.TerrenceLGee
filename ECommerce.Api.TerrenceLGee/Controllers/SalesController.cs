@@ -164,64 +164,6 @@ public class SalesController : ControllerBase
         return StatusCode(response.StatusCode, response);
     }
 
-    [HttpGet("count")]
-    [Authorize(Roles = "customer")]
-    public async Task<ActionResult<ApiResponse<int>>> GetSalesCount()
-    {
-        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-
-        var (isValidUser, errorResponse) = await UserValidationAsync<int>(userId);
-
-        if (!isValidUser)
-        {
-            return errorResponse;
-        }
-
-        var saleParams = new SaleParams { CustomerId = userId };
-
-        var response = ApiResponse<int>.GetEmptyResponse;
-
-        var result = await _saleService.GetSaleCountAsync(saleParams);
-
-        if (result.IsFailure)
-        {
-            response = FailureHelper.HandleFailureResult<int>(result);
-            return StatusCode(response.StatusCode, response);
-        }
-
-        response = new ApiResponse<int>(200, result.Value);
-
-        return StatusCode(response.StatusCode, response);
-    }
-
-    [HttpGet("admin/count")]
-    [Authorize(Roles = "admin")]
-    public async Task<ActionResult<ApiResponse<int>>> GetCountOfAllSalesForAdmin()
-    {
-        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-
-        var (isValidUser, errorResponse) = await UserValidationAsync<int>(userId);
-
-        if (!isValidUser)
-        {
-            return errorResponse;
-        }
-
-        var response = ApiResponse<int>.GetEmptyResponse;
-
-        var result = await _saleService.GetAllSalesCountForAdminAsync();
-
-        if (result.IsFailure)
-        {
-            response = FailureHelper.HandleFailureResult<int>(result);
-            return StatusCode(response.StatusCode, response);
-        }
-
-        response = new ApiResponse<int>(200, result.Value);
-
-        return StatusCode(response.StatusCode, response);
-    }
-
     [HttpPut("admin/update/{id:int}")]
     [Authorize(Roles = "admin")]
     public async Task<ActionResult<ApiResponse<string?>>> AdminUpdateSaleStatus([FromRoute] int id, [FromBody] UpdateSaleStatusDto updateSaleStatus)

@@ -254,71 +254,6 @@
           "response": []
         },
         {
-          "name": "Get Count Of All Customer Addresses For Admin",
-          "request": {
-            "auth": {
-              "type": "bearer",
-              "bearer": [
-                {
-                  "key": "token",
-                  "value": "",
-                  "type": "string"
-                }
-              ]
-            },
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "https://localhost:7001/api/addresses/admin/count",
-              "protocol": "https",
-              "host": [
-                "localhost"
-              ],
-              "port": "7001",
-              "path": [
-                "api",
-                "addresses",
-                "admin",
-                "count"
-              ]
-            },
-            "description": "Allows the admin user to retrieve the count of all addresses in the database when providing the JWT token from login"
-          },
-          "response": []
-        },
-        {
-          "name": "Get Count Of All Addresses For Customer1",
-          "request": {
-            "auth": {
-              "type": "bearer",
-              "bearer": [
-                {
-                  "key": "token",
-                  "value": "",
-                  "type": "string"
-                }
-              ]
-            },
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "https://localhost:7001/api/addresses/count",
-              "protocol": "https",
-              "host": [
-                "localhost"
-              ],
-              "port": "7001",
-              "path": [
-                "api",
-                "addresses",
-                "count"
-              ]
-            },
-            "description": "Allows Customer1 to retrieve the count of all of their addresses in the database when providing the JWT token from login"
-          },
-          "response": []
-        },
-        {
           "name": "Customer1 Get Address By Id",
           "request": {
             "auth": {
@@ -770,39 +705,6 @@
           "response": []
         },
         {
-          "name": "Admin Get Category By Name",
-          "request": {
-            "auth": {
-              "type": "bearer",
-              "bearer": [
-                {
-                  "key": "token",
-                  "value": "",
-                  "type": "string"
-                }
-              ]
-            },
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "https://localhost:7001/api/categories/admin/music",
-              "protocol": "https",
-              "host": [
-                "localhost"
-              ],
-              "port": "7001",
-              "path": [
-                "api",
-                "categories",
-                "admin",
-                "music"
-              ]
-            },
-            "description": "Allows the admin to view an existing category by name must be authorized by using the JWT token from the admin login in"
-          },
-          "response": []
-        },
-        {
           "name": "Admin Get All Categories With Pagination, Filtering and Sorting",
           "request": {
             "auth": {
@@ -875,28 +777,6 @@
           "response": []
         },
         {
-          "name": "Get Category By Name",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "https://localhost:7001/api/categories/books",
-              "protocol": "https",
-              "host": [
-                "localhost"
-              ],
-              "port": "7001",
-              "path": [
-                "api",
-                "categories",
-                "books"
-              ]
-            },
-            "description": "Get a category by name, no authorization needed"
-          },
-          "response": []
-        },
-        {
           "name": "Get All Categories with Pagination and Sorting",
           "request": {
             "method": "GET",
@@ -928,28 +808,6 @@
               ]
             },
             "description": "Get All Categories with Pagination and Sorting no authorization needed"
-          },
-          "response": []
-        },
-        {
-          "name": "Get Count Of All Categories",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "https://localhost:7001/api/categories/count",
-              "protocol": "https",
-              "host": [
-                "localhost"
-              ],
-              "port": "7001",
-              "path": [
-                "api",
-                "categories",
-                "count"
-              ]
-            },
-            "description": "Get count of all categories no authorization needed"
           },
           "response": []
         }
@@ -1033,39 +891,6 @@
               ]
             },
             "description": "Login as Admin and then use the JWT token for authorization. Retrieves all customers in the database, can be used with pagination, filtering, sorting etc."
-          },
-          "response": []
-        },
-        {
-          "name": "Admin Get Count Of All Customers",
-          "request": {
-            "auth": {
-              "type": "bearer",
-              "bearer": [
-                {
-                  "key": "token",
-                  "value": "",
-                  "type": "string"
-                }
-              ]
-            },
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "https://localhost:7001/api/customers/admin/count",
-              "protocol": "https",
-              "host": [
-                "localhost"
-              ],
-              "port": "7001",
-              "path": [
-                "api",
-                "customers",
-                "admin",
-                "count"
-              ]
-            },
-            "description": "Login as Admin and then use the JWT token for authorization. Retrieves count of all customers in the database"
           },
           "response": []
         }
@@ -1250,28 +1075,6 @@
           "response": []
         },
         {
-          "name": "Get Product By Name",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "https://localhost:7001/api/products/Apple iMac",
-              "protocol": "https",
-              "host": [
-                "localhost"
-              ],
-              "port": "7001",
-              "path": [
-                "api",
-                "products",
-                "Apple iMac"
-              ]
-            },
-            "description": "Get a product by name. No authorization needed"
-          },
-          "response": []
-        },
-        {
           "name": "Get Products",
           "request": {
             "method": "GET",
@@ -1344,39 +1147,6 @@
           "response": []
         },
         {
-          "name": "Admin Get Product By Name",
-          "request": {
-            "auth": {
-              "type": "bearer",
-              "bearer": [
-                {
-                  "key": "token",
-                  "value": "",
-                  "type": "string"
-                }
-              ]
-            },
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "https://localhost:7001/api/products/admin/rope",
-              "protocol": "https",
-              "host": [
-                "localhost"
-              ],
-              "port": "7001",
-              "path": [
-                "api",
-                "products",
-                "admin",
-                "rope"
-              ]
-            },
-            "description": "Admin gets a product by name. Must use the JWT token from the admin login for authorization"
-          },
-          "response": []
-        },
-        {
           "name": "Admin Get Products",
           "request": {
             "auth": {
@@ -1423,74 +1193,6 @@
               ]
             },
             "description": "Admin can retrieve all products can use with pagination, filtering etc. Must use the JWT token from the admin login for authorization"
-          },
-          "response": []
-        },
-        {
-          "name": "Get Count Of All Products",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "https://localhost:7001/api/products/count",
-              "protocol": "https",
-              "host": [
-                "localhost"
-              ],
-              "port": "7001",
-              "path": [
-                "api",
-                "products",
-                "count"
-              ]
-            },
-            "description": "Count of all products. No authorization needed"
-          },
-          "response": []
-        },
-        {
-          "name": "Get Count Of All Products By Category Id",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "https://localhost:7001/api/products/count/2",
-              "protocol": "https",
-              "host": [
-                "localhost"
-              ],
-              "port": "7001",
-              "path": [
-                "api",
-                "products",
-                "count",
-                "2"
-              ]
-            },
-            "description": "Count of all products in a particular category by category id. No authorization needed"
-          },
-          "response": []
-        },
-        {
-          "name": "Get Count Of All Products By Category Name",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "https://localhost:7001/api/products/count/Fitness",
-              "protocol": "https",
-              "host": [
-                "localhost"
-              ],
-              "port": "7001",
-              "path": [
-                "api",
-                "products",
-                "count",
-                "Fitness"
-              ]
-            },
-            "description": "Count of all products in a particular category by category name. No authorization needed"
           },
           "response": []
         }
@@ -1763,39 +1465,6 @@
                   "key": "orderBy",
                   "value": "totalAmount desc"
                 }
-              ]
-            },
-            "description": "Login as admin. Use the JWT Token for authorization that is returned from the admin login response"
-          },
-          "response": []
-        },
-        {
-          "name": "Admin Get Count Of All Sales",
-          "request": {
-            "auth": {
-              "type": "bearer",
-              "bearer": [
-                {
-                  "key": "token",
-                  "value": "",
-                  "type": "string"
-                }
-              ]
-            },
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "https://localhost:7001/api/sales/admin/count",
-              "protocol": "https",
-              "host": [
-                "localhost"
-              ],
-              "port": "7001",
-              "path": [
-                "api",
-                "sales",
-                "admin",
-                "count"
               ]
             },
             "description": "Login as admin. Use the JWT Token for authorization that is returned from the admin login response"

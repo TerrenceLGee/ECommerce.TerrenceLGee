@@ -132,57 +132,6 @@ public class CategoriesController : ControllerBase
         return StatusCode(response.StatusCode, response);
     }
 
-    [HttpGet("{name}")]
-    [AllowAnonymous]
-    public async Task<ActionResult<ApiResponse<RetrievedCategoryDto?>>> GetCategoryByName([FromRoute] string? name)
-    {
-        var response = ApiResponse<RetrievedCategoryDto?>.GetEmptyResponse;
-
-        var categoryParams = new CategoryParams { CategoryName = name };
-
-        var result = await _categoryService.GetCategoryByNameAsync(categoryParams);
-
-        if (result.IsFailure)
-        {
-            response = FailureHelper.HandleFailureResult<RetrievedCategoryDto?>(result);
-            return StatusCode(response.StatusCode, response);
-        }
-
-        response = new ApiResponse<RetrievedCategoryDto?>(200, result.Value);
-
-        return StatusCode(response.StatusCode, response);
-    }
-
-    [HttpGet("admin/{name}")]
-    [Authorize(Roles = "admin")]
-    public async Task<ActionResult<ApiResponse<RetrievedCategoryForAdminDto?>>> GetCategoyByNameForAdmin([FromRoute] string? name)
-    {
-        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-
-        var (isValidUser, errorResponse) = await UserValidationAsync<RetrievedCategoryForAdminDto?>(userId);
-
-        if (!isValidUser)
-        {
-            return errorResponse;
-        }
-
-        var response = ApiResponse<RetrievedCategoryForAdminDto?>.GetEmptyResponse;
-
-        var categoryParams = new CategoryParams { CategoryName = name };
-
-        var result = await _categoryService.GetCategoryByNameForAdminAsync(categoryParams);
-
-        if (result.IsFailure)
-        {
-            response = FailureHelper.HandleFailureResult<RetrievedCategoryForAdminDto?>(result);
-            return StatusCode(response.StatusCode, response);
-        }
-
-        response = new ApiResponse<RetrievedCategoryForAdminDto?>(200, result.Value);
-
-        return StatusCode(response.StatusCode, response);
-    }
-
     [HttpGet]
     [AllowAnonymous]
     public async Task<ActionResult<ApiResponsePaged<RetrievedCategorySummaryDto>>> GetCategories([FromQuery] CategoryQueryParams categoryQueryParams)
@@ -209,25 +158,6 @@ public class CategoriesController : ControllerBase
         var result = await _categoryService.GetCategoriesForAdminAsync(categoryQueryParams);
 
         var response = new ApiResponsePaged<RetrievedCategorySummaryForAdminDto>(200, result.Value!);
-
-        return StatusCode(response.StatusCode, response);
-    }
-
-    [HttpGet("count")]
-    [AllowAnonymous]
-    public async Task<ActionResult<ApiResponse<int>>> GetCategoriesCount()
-    {
-        var response = ApiResponse<int>.GetEmptyResponse;
-
-        var result = await _categoryService.GetCategoriesCountAsync();
-
-        if (result.IsFailure)
-        {
-            response = FailureHelper.HandleFailureResult<int>(result);
-            return StatusCode(response.StatusCode, response);
-        }
-
-        response = new ApiResponse<int>(200, result.Value);
 
         return StatusCode(response.StatusCode, response);
     }

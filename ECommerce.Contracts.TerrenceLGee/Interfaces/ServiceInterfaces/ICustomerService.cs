@@ -9,5 +9,4 @@ public interface ICustomerService
 {
     Task<Result<RetrievedCustomerDto?>> GetCustomerProfileAsync(CustomerRetrievalDto customerRetrieval);
     Task<Result<PagedList<RetrievedCustomerDto>>> GetAllCustomersForAdminAsync(CustomerQueryParams customerQueryParams);
-    Task<Result<int>> GetCountOfAllCustomersForAdminAsync();
 }

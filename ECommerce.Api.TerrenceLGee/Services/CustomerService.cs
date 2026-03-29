@@ -39,16 +39,4 @@ public class CustomerService : ICustomerService
             customerQueryParams.Page,
             customerQueryParams.PageSize));
     }
-
-    public async Task<Result<int>> GetCountOfAllCustomersForAdminAsync()
-    {
-        var count = await _customerRepository.GetCountOfAllCustomersForAdminAsync();
-
-        if (count == -1)
-        {
-            return Result<int>.Fail("Unable to get count of all customers", ErrorType.NotFound);
-        }
-
-        return Result<int>.Ok(count);
-    }
 }

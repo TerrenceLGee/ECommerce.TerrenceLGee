@@ -77,18 +77,6 @@ public class ProductService : IProductService
         return Result<RetrievedProductDto?>.Ok(product.ToRetrievedProductDto());
     }
 
-    public async Task<Result<RetrievedProductDto?>> GetProductByNameAsync(ProductParams productParams)
-    {
-        var product = await _productRepository.GetProductByNameAsync(productParams.ProductName);
-
-        if (product is null)
-        {
-            return Result<RetrievedProductDto?>.Fail($"Unable to retrieve product {productParams.ProductName}", ErrorType.NotFound);
-        }
-
-        return Result<RetrievedProductDto?>.Ok(product.ToRetrievedProductDto());
-    }
-
     public async Task<Result<RetrievedProductForAdminDto?>> GetProductForAdminAsync(ProductParams productParams)
     {
         var product = await _productRepository.GetProductAsync(productParams.ProductId);
@@ -96,18 +84,6 @@ public class ProductService : IProductService
         if (product is null)
         {
             return Result<RetrievedProductForAdminDto?>.Fail($"Unable to retrieve product {productParams.ProductId}", ErrorType.NotFound);
-        }
-
-        return Result<RetrievedProductForAdminDto?>.Ok(product.ToRetrievedProductForAdminDto());
-    }
-
-    public async Task<Result<RetrievedProductForAdminDto?>> GetProductByNameForAdminAsync(ProductParams productParams)
-    {
-        var product = await _productRepository.GetProductByNameAsync(productParams.ProductName);
-
-        if (product is null)
-        {
-            return Result<RetrievedProductForAdminDto?>.Fail($"Unable to retrieve product {productParams.ProductName}", ErrorType.NotFound);
         }
 
         return Result<RetrievedProductForAdminDto?>.Ok(product.ToRetrievedProductForAdminDto());
@@ -134,30 +110,5 @@ public class ProductService : IProductService
             products.TotalEntities,
             productQueryParams.Page,
             productQueryParams.PageSize));
-    }
-
-
-    public async Task<Result<int>> GetProductCountInCategoryAsync(ProductParams productParams)
-    {
-        var count = await _productRepository.GetProductCountInCategoryAsync(productParams);
-
-        if (count == -1)
-        {
-            return Result<int>.Fail($"Unable to retrieve count of products in category {productParams.CategoryId}.", ErrorType.BadRequest);
-        }
-
-        return Result<int>.Ok(count);
-    }
-
-    public async Task<Result<int>> GetProductCountAsync()
-    {
-        var count = await _productRepository.GetProductCountAsync();
-
-        if (count == -1)
-        {
-            return Result<int>.Fail("Unable to retrieve count of all products.", ErrorType.BadRequest);
-        }
-
-        return Result<int>.Ok(count);
     }
 }

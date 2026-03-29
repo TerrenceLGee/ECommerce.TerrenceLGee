@@ -163,26 +163,6 @@ public class ProductsController : ControllerBase
         return StatusCode(response.StatusCode, response);
     }
 
-    [HttpGet("{name}")]
-    [AllowAnonymous]
-    public async Task<ActionResult<ApiResponse<RetrievedProductDto?>>> GetProductByName([FromRoute] string? name)
-    {
-        var response = ApiResponse<RetrievedProductDto?>.GetEmptyResponse;
-
-        var productParams = new ProductParams { ProductName = name };
-
-        var result = await _productService.GetProductByNameAsync(productParams);
-
-        if (result.IsFailure)
-        {
-            response = FailureHelper.HandleFailureResult<RetrievedProductDto?>(result);
-            return StatusCode(response.StatusCode, response);
-        }
-
-        response = new ApiResponse<RetrievedProductDto?>(200, result.Value);
-
-        return StatusCode(response.StatusCode, response);
-    }
 
     [HttpGet]
     [AllowAnonymous]
@@ -225,36 +205,6 @@ public class ProductsController : ControllerBase
         return StatusCode(response.StatusCode, response);
     }
 
-    [HttpGet("admin/{name}")]
-    [Authorize(Roles = "admin")]
-    public async Task<ActionResult<ApiResponse<RetrievedProductForAdminDto?>>> GetProductByNameForAdmin([FromRoute] string? name)
-    {
-        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-
-        var (isValidUser, errorResponse) = await UserValidationAsync<RetrievedProductForAdminDto?>(userId);
-
-        if (!isValidUser)
-        {
-            return errorResponse;
-        }
-
-        var productParams = new ProductParams { ProductName = name };
-
-        var response = ApiResponse<RetrievedProductForAdminDto?>.GetEmptyResponse;
-
-        var result = await _productService.GetProductByNameForAdminAsync(productParams);
-
-        if (result.IsFailure)
-        {
-            response = FailureHelper.HandleFailureResult<RetrievedProductForAdminDto?>(result);
-            return StatusCode(response.StatusCode, response);
-        }
-
-        response = new ApiResponse<RetrievedProductForAdminDto?>(200, result.Value);
-
-        return StatusCode(response.StatusCode, response);
-    }
-
     [HttpGet("admin")]
     [Authorize(Roles = "admin")]
     public async Task<ActionResult<ApiResponsePaged<RetrievedProductForAdminDto>>> GetProductsForAdmin([FromQuery] ProductQueryParams productQueryParams)
@@ -271,67 +221,6 @@ public class ProductsController : ControllerBase
         var result = await _productService.GetProductsForAdminAsync(productQueryParams);
 
         var response = new ApiResponsePaged<RetrievedProductForAdminDto>(200, result.Value!);
-
-        return StatusCode(response.StatusCode, response);
-    }
-
-    [HttpGet("count")]
-    [AllowAnonymous]
-    public async Task<ActionResult<ApiResponse<int>>> GetProductsCount()
-    {
-        var response = ApiResponse<int>.GetEmptyResponse;
-
-        var result = await _productService.GetProductCountAsync();
-
-        if (result.IsFailure)
-        {
-            response = FailureHelper.HandleFailureResult<int>(result);
-            return StatusCode(response.StatusCode, response);
-        }
-
-        response = new ApiResponse<int>(200, result.Value);
-
-        return StatusCode(response.StatusCode, response);
-    }
-
-    [HttpGet("count/{categoryId:int}")]
-    [AllowAnonymous]
-    public async Task<ActionResult<ApiResponse<int>>> GetCountOfProductsInCategoryByCategoryId([FromRoute] int categoryId)
-    {
-        var response = ApiResponse<int>.GetEmptyResponse;
-
-        var productParams = new ProductParams { CategoryId = categoryId };
-
-        var result = await _productService.GetProductCountInCategoryAsync(productParams);
-
-        if (result.IsFailure)
-        {
-            response = FailureHelper.HandleFailureResult<int>(result);
-            return StatusCode(response.StatusCode, response);
-        }
-
-        response = new ApiResponse<int>(200, result.Value);
-
-        return StatusCode(response.StatusCode, response);
-    }
-
-    [HttpGet("count/{categoryName}")]
-    [AllowAnonymous]
-    public async Task<ActionResult<ApiResponse<int>>> GetCountOfProductInCategoryByCategoryName([FromRoute] string categoryName)
-    {
-        var response = ApiResponse<int>.GetEmptyResponse;
-
-        var productParams = new ProductParams { CategoryName = categoryName };
-
-        var result = await _productService.GetProductCountInCategoryAsync(productParams);
-
-        if (result.IsFailure)
-        {
-            response = FailureHelper.HandleFailureResult<int>(result);
-            return StatusCode(response.StatusCode, response);
-        }
-
-        response = new ApiResponse<int>(200, result.Value);
 
         return StatusCode(response.StatusCode, response);
     }

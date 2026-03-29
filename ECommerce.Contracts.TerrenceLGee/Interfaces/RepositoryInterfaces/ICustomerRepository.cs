@@ -8,5 +8,4 @@ public interface ICustomerRepository
 {
     Task<ApplicationUser?> GetCustomerProfileAsync(string? customerId);
     Task<PagedList<ApplicationUser>> GetAllCustomersForAdminAsync(CustomerQueryParams customerQueryParams);
-    Task<int> GetCountOfAllCustomersForAdminAsync();
 }

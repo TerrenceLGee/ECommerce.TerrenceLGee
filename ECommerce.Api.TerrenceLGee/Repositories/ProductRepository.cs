@@ -166,45 +166,17 @@ public class ProductRepository : IProductRepository
         }
     }
 
-    public async Task<Product?> GetProductByNameAsync(string? productName)
-    {
-        try
-        {
-            if (string.IsNullOrEmpty(productName)) return null;
-
-            var product = await _context.Products
-                .Include(p => p.Category)
-                .AsNoTracking()
-                .FirstOrDefaultAsync(p => p.Name.ToLower().Equals(productName.ToLower()));
-
-            return product;
-        }
-        catch (Exception ex)
-        {
-            _errorMessage = $"\nClass: {nameof(ProductRepository)}\n" +
-                $"Method: {nameof(GetProductByNameAsync)}\n" +
-                $"There was an unexpected error retrieving product {productName}: " +
-                $"{ex.Message}";
-            _logger.LogError(ex, "{msg}\n\n", _errorMessage);
-            return null;
-        }
-    }
-
     public async Task<PagedList<Product>> GetProductsAsync(ProductQueryParams productQueryParams)
     {
         try
         {
-            var count = await GetProductCountAsync();
-
-            if (count == 0) return [];
-
             var products = _context.Products
                 .Include(p => p.Category)
                 .AsNoTracking();
 
             SetFilteringAndSorting(ref products, productQueryParams);
 
-            return await products.ToPagedListAsync(count, productQueryParams.Page, productQueryParams.PageSize);
+            return await products.ToPagedListAsync(products.Count(), productQueryParams.Page, productQueryParams.PageSize);
         }
         catch (Exception ex)
         {
@@ -213,57 +185,6 @@ public class ProductRepository : IProductRepository
                 $"There was an unexpected error retrieving all products: {ex.Message}";
             _logger.LogError(ex, "{msg}\n\n", _errorMessage);
             return [];
-        }
-    }
-
-
-    public async Task<int> GetProductCountInCategoryAsync(ProductParams productParams)
-    {
-        try
-        {
-            var count = 0;
-
-            if (!string.IsNullOrEmpty(productParams.CategoryName))
-            {
-                count = await _context.Products
-                    .AsNoTracking()
-                    .CountAsync(p => p.Category != null && p.Category.Name.ToLower().Equals(productParams.CategoryName.ToLower()));
-            }
-            else
-            {
-                count = await _context.Products
-                    .AsNoTracking()
-                    .CountAsync(p => p.Category != null && p.CategoryId == productParams.CategoryId);
-            }
-
-            return count;
-        }
-        catch (Exception ex)
-        {
-            _errorMessage = $"\nClass: {nameof(ProductRepository)}\n" +
-                $"Method: {nameof(GetProductCountInCategoryAsync)}\n" +
-                $"There was an unexpected error retrieving the count of the products in category " +
-                $"{productParams.CategoryId}: {ex.Message}";
-            _logger.LogError(ex, "{msg}\n\n", _errorMessage);
-            return -1;
-        }
-    }
-
-    public async Task<int> GetProductCountAsync()
-    {
-        try
-        {
-            return await _context.Products
-                .AsNoTracking()
-                .CountAsync();
-        }
-        catch (Exception ex)
-        {
-            _errorMessage = $"\nClass: {nameof(ProductRepository)}\n" +
-                $"Method: {nameof(GetProductCountAsync)}\n" +
-                $"There was an unexpected error retrieving count of products: {ex.Message}";
-            _logger.LogError(ex, "{msg}\n\n", _errorMessage);
-            return -1;
         }
     }
 

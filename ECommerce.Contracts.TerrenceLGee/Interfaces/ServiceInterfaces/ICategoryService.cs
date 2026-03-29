@@ -11,9 +11,6 @@ public interface ICategoryService
     Task<Result<RetrievedCategoryForAdminDto?>> UpdateCategoryAsync(UpdateCategoryDto category);
     Task<Result<RetrievedCategoryDto?>> GetCategoryAsync(CategoryParams categoryParams);
     Task<Result<RetrievedCategoryForAdminDto?>> GetCategoryForAdminAsync(CategoryParams categoryParams);
-    Task<Result<RetrievedCategoryDto?>> GetCategoryByNameAsync(CategoryParams categoryParams);
-    Task<Result<RetrievedCategoryForAdminDto?>> GetCategoryByNameForAdminAsync(CategoryParams categoryParams);
     Task<Result<PagedList<RetrievedCategorySummaryDto>>> GetCategoriesAsync(CategoryQueryParams categoryQueryParams);
     Task<Result<PagedList<RetrievedCategorySummaryForAdminDto>>> GetCategoriesForAdminAsync(CategoryQueryParams categoryQueryParams);
-    Task<Result<int>> GetCategoriesCountAsync();
 }

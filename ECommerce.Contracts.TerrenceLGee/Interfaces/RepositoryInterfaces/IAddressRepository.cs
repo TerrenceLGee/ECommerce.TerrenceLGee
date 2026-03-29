@@ -12,6 +12,4 @@ public interface IAddressRepository
     public Task<Address?> GetAddressAsync(int addressId, string? customerId);
     public Task<PagedList<Address>> GetCustomerAddressesAsync(AddressQueryParams addressQueryParams);
     public Task<PagedList<Address>> GetAllCustomerAddressesForAdminAsync(AddressQueryParams addressQueryParams);
-    public Task<int> GetCustomerAddressCountAsync(string? customerId);
-    public Task<int> GetAllAddressCountForAdminAsync();
 }

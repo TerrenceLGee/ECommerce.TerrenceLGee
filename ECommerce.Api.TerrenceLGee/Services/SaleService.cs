@@ -143,30 +143,6 @@ public class SaleService : ISaleService
             saleQueryParams.PageSize));
     }
 
-    public async Task<Result<int>> GetSaleCountAsync(SaleParams saleParams)
-    {
-        var count = await _saleRepository.GetSaleCountAsync(saleParams.CustomerId);
-
-        if (count == -1)
-        {
-            return Result<int>.Fail("Unexpected error retrieving sale count.", ErrorType.InternalServerError);
-        }
-
-        return Result<int>.Ok(count);
-    }
-
-    public async Task<Result<int>> GetAllSalesCountForAdminAsync()
-    {
-        var count = await _saleRepository.GetAllSalesCountForAdminAsync();
-
-        if (count == -1)
-        {
-            return Result<int>.Fail("Unexpected error retrieving the count of all sales.", ErrorType.InternalServerError);
-        }
-
-        return Result<int>.Ok(count);
-    }
-
     public async Task<Result> AdminUpdateSaleStatusAsync(UpdateSaleStatusDto sale)
     {
         var (saleStatusUpdated, status) = await _saleRepository.AdminUpdateSaleStatusAsync(sale.SaleId, sale.Status);

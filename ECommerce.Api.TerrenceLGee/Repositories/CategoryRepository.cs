@@ -99,44 +99,17 @@ public class CategoryRepository : ICategoryRepository
         }
     }
 
-    public async Task<Category?> GetCategoryByNameAsync(string? categoryName)
-    {
-        try
-        {
-            if (string.IsNullOrEmpty(categoryName)) return null;
-
-            var category = await _context.Categories
-                .AsNoTracking()
-                .Include(c => c.Products)
-                .FirstOrDefaultAsync(c => c.Name.ToLower().Equals(categoryName.ToLower()));
-
-            return category;
-        }
-        catch (Exception ex)
-        {
-            _errorMessage = $"\nClass: {nameof(CategoryRepository)}\n" +
-                $"Method: {nameof(GetCategoryByNameAsync)}\n" +
-                $"There was an unexpected error retrieving category {categoryName}";
-            _logger.LogError(ex, "{msg}\n\n", _errorMessage);
-            return null;
-        }
-    }
-
     public async Task<PagedList<Category>> GetCategoriesAsync(CategoryQueryParams categoryQueryParams)
     {
         try
         {
-            var count = await GetCategoriesCountAsync();
-
-            if (count == 0) return [];
-
             var categories = _context.Categories
                 .Include(c => c.Products)
                 .AsNoTracking();
 
             SetFilteringAndSorting(ref categories, categoryQueryParams);
 
-            return await categories.ToPagedListAsync(count, categoryQueryParams.Page, categoryQueryParams.PageSize);
+            return await categories.ToPagedListAsync(categories.Count(), categoryQueryParams.Page, categoryQueryParams.PageSize);
         }
         catch (Exception ex)
         {
@@ -147,25 +120,6 @@ public class CategoryRepository : ICategoryRepository
             return [];
         }
     }
-
-    public async Task<int> GetCategoriesCountAsync()
-    {
-        try
-        {
-            return await _context.Categories
-                .AsNoTracking()
-                .CountAsync();
-        }
-        catch (Exception ex)
-        {
-            _errorMessage = $"\nClass: {nameof(CategoryRepository)}\n" +
-                $"Method: {nameof(GetCategoriesAsync)}\n" +
-                $"There was an unexpected error retrieving the categories: {ex.Message}";
-            _logger.LogError(ex, "{msg}\n\n", _errorMessage);
-            return -1;
-        }
-    }
-
     private static void SetFilteringAndSorting(ref IQueryable<Category> categories, CategoryQueryParams categoryQueryParams)
     {
         if (!string.IsNullOrEmpty(categoryQueryParams.Description))

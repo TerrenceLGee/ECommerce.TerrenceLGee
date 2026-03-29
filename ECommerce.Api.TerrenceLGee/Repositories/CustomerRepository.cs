@@ -47,10 +47,6 @@ public class CustomerRepository : ICustomerRepository
     {
         try
         {
-            var count = await GetCountOfAllCustomersForAdminAsync();
-
-            if (count == 0) return [];
-
             var customers = _context.Users
                 .Where(c => !string.IsNullOrEmpty(c.UserName) && !c.UserName.ToLower().Equals("admin@example.com"))
                 .Include(c => c.Addresses)
@@ -60,7 +56,7 @@ public class CustomerRepository : ICustomerRepository
 
             SetFilteringAndSorting(ref customers, customerQueryParams);
 
-            return await customers.ToPagedListAsync(count, customerQueryParams.Page, customerQueryParams.PageSize);
+            return await customers.ToPagedListAsync(customers.Count(), customerQueryParams.Page, customerQueryParams.PageSize);
         }
         catch (Exception ex)
         {
@@ -69,25 +65,6 @@ public class CustomerRepository : ICustomerRepository
                 $"There was an unexpected error retrieving all customers: {ex.Message}";
             _logger.LogError(ex, "{msg}\n\n", _errorMessage);
             return [];
-        }
-    }
-
-    public async Task<int> GetCountOfAllCustomersForAdminAsync()
-    {
-        try
-        {
-            return await _context.Users
-                .AsNoTracking()
-                .Where(c => !string.IsNullOrEmpty(c.UserName) && !c.UserName.ToLower().Equals("admin@example.com"))
-                .CountAsync();
-        }
-        catch (Exception ex)
-        {
-            _errorMessage = $"\nClass: {nameof(CustomerRepository)}\n" +
-                $"Method: {nameof(GetCountOfAllCustomersForAdminAsync)}\n" +
-                $"There was an unexpected error retrieving the count of all customers: {ex.Message}";
-            _logger.LogError(ex, "{msg}\n\n", _errorMessage);
-            return -1;
         }
     }
 

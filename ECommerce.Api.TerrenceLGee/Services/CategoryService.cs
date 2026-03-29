@@ -65,30 +65,6 @@ public class CategoryService : ICategoryService
         return Result<RetrievedCategoryForAdminDto?>.Ok(category.ToRetrievedCategoryForAdminDto());
     }
 
-    public async Task<Result<RetrievedCategoryDto?>> GetCategoryByNameAsync(CategoryParams categoryParams)
-    {
-        var category = await _categoryRepository.GetCategoryByNameAsync(categoryParams.CategoryName);
-
-        if (category is null)
-        {
-            return Result<RetrievedCategoryDto?>.Fail($"Unable to retrieve category {categoryParams.CategoryName}", ErrorType.NotFound);
-        }
-
-        return Result<RetrievedCategoryDto?>.Ok(category.ToRetrievedCategoryDto());
-    }
-
-    public async Task<Result<RetrievedCategoryForAdminDto?>> GetCategoryByNameForAdminAsync(CategoryParams categoryParams)
-    {
-        var category = await _categoryRepository.GetCategoryByNameAsync(categoryParams.CategoryName);
-
-        if (category is null)
-        {
-            return Result<RetrievedCategoryForAdminDto?>.Fail($"Unable to retrieve category {categoryParams.CategoryName}", ErrorType.NotFound);
-        }
-
-        return Result<RetrievedCategoryForAdminDto?>.Ok(category.ToRetrievedCategoryForAdminDto());
-    }
-
     public async Task<Result<PagedList<RetrievedCategorySummaryDto>>> GetCategoriesAsync(CategoryQueryParams categoryQueryParams)
     {
         var categories = await _categoryRepository.GetCategoriesAsync(categoryQueryParams);
@@ -113,17 +89,5 @@ public class CategoryService : ICategoryService
             categoryQueryParams.PageSize);
 
         return Result<PagedList<RetrievedCategorySummaryForAdminDto>>.Ok(pagedCategories);
-    }
-
-    public async Task<Result<int>> GetCategoriesCountAsync()
-    {
-        var count = await _categoryRepository.GetCategoriesCountAsync();
-
-        if (count == -1)
-        {
-            return Result<int>.Fail("Unable to retrieve count of categories", ErrorType.NotFound);
-        }
-
-        return Result<int>.Ok(count);
     }
 }

@@ -13,6 +13,4 @@ public interface IAddressService
     Task<Result<RetrievedAddressDto?>> GetAddressAsync(AddressIdDto addressIdDto);
     Task<Result<PagedList<RetrievedAddressDto>>> GetCustomerAddressesAsync(AddressQueryParams addressQueryParams);
     Task<Result<PagedList<RetrievedAddressDto>>> GetAllCustomerAddressesForAdminAsync(AddressQueryParams addressQueryParams);
-    Task<Result<int>> GetCustomerAddressCountAsync(AddressIdDto addressIdDto);
-    Task<Result<int>> GetAllAddressCountForAdminAsync();
 }
