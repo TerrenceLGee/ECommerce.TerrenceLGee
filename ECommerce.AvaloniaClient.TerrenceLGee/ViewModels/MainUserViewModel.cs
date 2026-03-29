@@ -314,19 +314,9 @@ public partial class MainUserViewModel : ObservableObject
             CurrentSubView = detailVM;
         });
 
-        _messenger.Register<NavigateBackToAllAddressesMessage>(this, (r, m) =>
-        {
-            CurrentSubView = _serviceProvider.GetRequiredService<ViewAddressesViewModel>();
-        });
-
         _messenger.Register<AddAddressMessage>(this, (r, m) =>
         {
             CurrentSubView = _serviceProvider.GetRequiredService<AddAddressViewModel>();
-        });
-
-        _messenger.Register<NavigateBackToAllAddressesAfterAddMessage>(this, (r, m) =>
-        {
-            CurrentSubView = _serviceProvider.GetRequiredService<ViewAddressesViewModel>();
         });
     }
 

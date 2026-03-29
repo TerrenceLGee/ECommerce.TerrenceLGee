@@ -88,9 +88,6 @@
         <DataTemplate DataType="{x:Type vm:AddAddressViewModel}">
 			<local:AddAddressView/>
         </DataTemplate>
-        <DataTemplate DataType="{x:Type vm:ViewAddressesViewModel}">
-			<local:ViewAddressesView/>
-        </DataTemplate>
         <DataTemplate DataType="{x:Type vm:DisplayCustomerAddressForAdminViewModel}">
 			<local:DisplayCustomerAddressForAdminView/>
         </DataTemplate>

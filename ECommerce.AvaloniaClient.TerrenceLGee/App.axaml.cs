@@ -92,7 +92,6 @@ public partial class App : Application
         services.AddTransient<AddAddressViewModel>();
         services.AddTransient<UpdateAddressViewModel>();
         services.AddTransient<CustomerChooseAddressForUpdateViewModel>();
-        services.AddTransient<ViewAddressesViewModel>();
         services.AddTransient<DisplayCustomerAddressForAdminViewModel>();
         services.AddTransient<DisplayAddedAddressViewModel>();
         services.AddTransient<DisplayUpdatedAddressViewModel>();
