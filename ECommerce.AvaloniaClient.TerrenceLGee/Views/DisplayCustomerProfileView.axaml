@@ -93,7 +93,8 @@
 						   FontSize="20"
 						   FontWeight="Bold"
 						   Margin="0,0,0,10"/>
-				<DataGrid ItemsSource="{Binding AddressesForDisplay}"
+				<ProgressBar IsIndeterminate="{Binding AddressIsLoading}"/>
+				<DataGrid ItemsSource="{Binding Addresses}"
 						  SelectedItem="{Binding SelectedAddress}"
 						  IsReadOnly="True"
 						  GridLinesVisibility="All"
@@ -150,13 +151,30 @@
 						Command="{Binding AddAddressCommand}" HorizontalAlignment="Left"/>
 			</StackPanel>
 			<StackPanel Grid.Row="4">
+				<StackPanel>
+					<TextBlock Text="Filter On Min/Max Total Amount Of Sales" FontWeight="Bold"/>
+					<StackPanel Orientation="Horizontal" Spacing="10">
+						<TextBox Text="{Binding MinTotalAmount}" Watermark="Min Total Amount..." Width="150"/>
+						<TextBox Text="{Binding MaxTotalAmount}" Watermark="Max Total Amount..." Width="150"/>
+					</StackPanel>
+					<TextBlock Text="Filter On Sale Status" FontWeight="Bold"/>
+					<StackPanel Orientation="Horizontal" Spacing="10">
+						<ComboBox Width="200" MaxDropDownHeight="300"
+								  ItemsSource="{Binding SaleStatuses}"
+								  SelectedValue="{Binding SelectedStatus}"
+								  PlaceholderText="Filter On Status"/>
+					</StackPanel>
+					<Button Content="Apply Filters" Command="{Binding LoadOrdersCommand}"/>
+					<Button Content="Clear Filters" Command="{Binding ClearFiltersCommand}"/>
+				</StackPanel>
 				<TextBlock Text="All Orders (Select an order for more information)"
 						   Foreground="Goldenrod"
 						   TextDecorations="Underline"
 						   FontSize="20"
 						   FontWeight="Bold"
 						   Margin="0,0,0,10"/>
-				<DataGrid ItemsSource="{Binding OrdersForDisplay}"
+				<ProgressBar IsIndeterminate="{Binding OrderIsLoading}"/>
+				<DataGrid ItemsSource="{Binding Orders}"
 						  SelectedItem="{Binding SelectedOrder}"
 						  IsReadOnly="True"
 						  GridLinesVisibility="All"

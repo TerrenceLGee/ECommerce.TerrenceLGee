@@ -92,9 +92,6 @@ public partial class MainUserViewModel : ObservableObject
             case CustomerMenu.AddSale:
                 CurrentSubView = _serviceProvider.GetRequiredService<ViewCategoriesForSaleViewModel>();
                 break;
-            case CustomerMenu.ViewOrders:
-                CurrentSubView = _serviceProvider.GetRequiredService<ViewOrdersViewModel>();
-                break;
             case AdminMenu.Logout:
             case CustomerMenu.Logout:
                 _authService.LogoutUserAsync();
@@ -410,7 +407,9 @@ public partial class MainUserViewModel : ObservableObject
         _messenger.Register<DisplayCustomerProfileMessage>(this, async (r, m) =>
         {
             var customerService = _serviceProvider.GetRequiredService<ICustomerService>();
-            var profileVM = new DisplayCustomerProfileViewModel(customerService, _messenger);
+            var addressService = _serviceProvider.GetRequiredService<IAddressService>();
+            var saleService = _serviceProvider.GetRequiredService<ISaleService>();
+            var profileVM = new DisplayCustomerProfileViewModel(customerService, addressService, saleService, _messenger);
             await profileVM.GetProfileAsync();
             CurrentSubView = profileVM;
         });

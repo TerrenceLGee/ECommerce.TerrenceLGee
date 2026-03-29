@@ -8,8 +8,6 @@ public enum CustomerMenu
     ViewProfile,
     [Display(Name = "Shop")]
     AddSale,
-    [Display(Name = "View all orders")]
-    ViewOrders,
     [Display(Name = "Logout")]
     Logout
 }

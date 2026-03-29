@@ -6,7 +6,12 @@ using ECommerce.AvaloniaClient.TerrenceLGee.Data.Models.Customer;
 using ECommerce.AvaloniaClient.TerrenceLGee.Data.Models.Sale;
 using ECommerce.AvaloniaClient.TerrenceLGee.Messages.AddressMessages;
 using ECommerce.AvaloniaClient.TerrenceLGee.Messages.SaleMessages;
+using ECommerce.AvaloniaClient.TerrenceLGee.Services.Interfaces.Address;
 using ECommerce.AvaloniaClient.TerrenceLGee.Services.Interfaces.Customer;
+using ECommerce.AvaloniaClient.TerrenceLGee.Services.Interfaces.Sale;
+using ECommerce.Shared.TerrenceLGee.Enums;
+using ECommerce.Shared.TerrenceLGee.Parameters.AddressParameters;
+using ECommerce.Shared.TerrenceLGee.Parameters.SaleParameters;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -18,23 +23,21 @@ namespace ECommerce.AvaloniaClient.TerrenceLGee.ViewModels;
 public partial class DisplayCustomerProfileViewModel : ObservableObject
 {
     private readonly ICustomerService _customerService;
+    private readonly IAddressService _addressService;
+    private readonly ISaleService _saleService;
     private readonly IMessenger _messenger;
 
-    public ObservableCollection<AddressProfileData> Addresses { get; } = [];
-    public ObservableCollection<SaleForCustomerProfileData> Orders { get; } = [];
-
-
-    [ObservableProperty]
-    private List<AddressProfileData> _addressesForDisplay;
+    public ObservableCollection<AddressData> Addresses { get; } = [];
+    public ObservableCollection<SaleSummaryData> Orders { get; } = [];
 
     [ObservableProperty]
-    private List<SaleForCustomerProfileData> _ordersForDisplay;
+    private List<SaleStatus> _saleStatuses;
 
     [ObservableProperty]
-    private SaleForCustomerProfileData? _selectedOrder;
+    private SaleSummaryData? _selectedOrder;
 
     [ObservableProperty]
-    private AddressProfileData? _selectedAddress;
+    private AddressData? _selectedAddress;
 
     [ObservableProperty]
     private CustomerData? _profile;
@@ -49,6 +52,8 @@ public partial class DisplayCustomerProfileViewModel : ObservableObject
     private bool _addressHasNextPage;
     [ObservableProperty]
     private bool _addressHasPreviousPage;
+    [ObservableProperty]
+    private bool _addressIsLoading;
 
     [ObservableProperty]
     private int _orderPage = 1;
@@ -60,13 +65,35 @@ public partial class DisplayCustomerProfileViewModel : ObservableObject
     private bool _orderHasNextPage;
     [ObservableProperty]
     private bool _orderHasPreviousPage;
+    [ObservableProperty]
+    private bool _orderIsLoading;
+    [ObservableProperty]
+    private decimal? _minTotalAmount;
+    [ObservableProperty]
+    private decimal? _maxTotalAmount;
+    [ObservableProperty]
+    private string? _status;
+    [ObservableProperty]
+    private SaleStatus? _selectedStatus;
 
-    public DisplayCustomerProfileViewModel(ICustomerService customerService, IMessenger messenger)
+    public DisplayCustomerProfileViewModel(
+        ICustomerService customerService,
+        IAddressService addressService,
+        ISaleService saleService,
+        IMessenger messenger)
     {
         _customerService = customerService;
+        _addressService = addressService;
+        _saleService = saleService;
         _messenger = messenger;
-        _addressesForDisplay = new List<AddressProfileData>();
-        _ordersForDisplay = new List<SaleForCustomerProfileData>();
+        SaleStatuses = new List<SaleStatus>
+        {
+            SaleStatus.Pending,
+            SaleStatus.Processing,
+            SaleStatus.Shipped,
+            SaleStatus.Delivered,
+            SaleStatus.Canceled
+        };
     }
 
 
@@ -76,88 +103,123 @@ public partial class DisplayCustomerProfileViewModel : ObservableObject
 
         if (Profile is not null)
         {
-            LoadAddresses(Profile.Addresses);
-            LoadOrders(Profile.Sales);
-            FetchAddresses();
-            FetchOrders();
+            await LoadAddressesAsync();
+            await LoadOrdersAsync();
         }
     }
 
-    [RelayCommand]
-    private void FetchAddresses()
-    {
-        var pagedAddresses = Addresses.Skip((AddressPage - 1) * AddressPageSize)
-            .Take(AddressPageSize)
-            .ToList();
-
-        AddressesForDisplay = pagedAddresses;
-
-        AddressTotalPages = (int)Math.Ceiling(Addresses.Count / (double)AddressPageSize);
-        AddressHasNextPage = AddressPage < AddressTotalPages;
-        AddressHasPreviousPage = AddressPage > 1;
-    }
 
     [RelayCommand]
-    private void NextAddressPage()
+    private async Task NextAddressPageAsync()
     {
         if (!AddressHasNextPage) return;
         AddressPage++;
-        FetchAddresses();
+        await LoadAddressesAsync();
     }
 
     [RelayCommand]
-    private void PreviousAddressPage()
+    private async Task PreviousAddressPage()
     {
         if (!AddressHasPreviousPage) return;
         AddressPage--;
-        FetchAddresses();
+        await LoadAddressesAsync();
     }
 
     [RelayCommand]
-    private void FetchOrders()
+    private async Task FetchOrdersAsync()
     {
-        var pagedOrders = Orders.Skip((OrderPage - 1) * OrderPageSize)
-            .Take(OrderPageSize)
-            .ToList();
+        OrderIsLoading = true;
 
-        OrdersForDisplay = pagedOrders;
+        var queryParams = new SaleQueryParams
+        {
+            Page = OrderPage,
+            PageSize = OrderPageSize,
+            MinTotalAmount = MinTotalAmount,
+            MaxTotalAmount = MaxTotalAmount,
+            Status = (SelectedStatus.HasValue)
+            ? SelectedStatus.Value.ToString()
+            : null
+        };
 
-        OrderTotalPages = (int)Math.Ceiling(Orders.Count / (double)OrderPageSize);
-        OrderHasNextPage = OrderPage < OrderTotalPages;
-        OrderHasPreviousPage = OrderPage > 1;
+        var result = await _saleService.GetSalesForCustomerAsync(queryParams);
+
+        if (result is not null)
+        {
+            Orders.Clear();
+
+            foreach (var order in result.Data)
+            {
+                Orders.Add(order);
+            }
+
+            OrderTotalPages = result.TotalPages;
+            OrderHasNextPage = OrderPage < OrderTotalPages;
+            OrderHasPreviousPage = OrderPage > 1;
+        }
+
+        OrderIsLoading = false;
     }
 
     [RelayCommand]
-    private void NextOrderPage()
+    private async Task NextOrderPageAsync()
     {
         if (!OrderHasNextPage) return;
         OrderPage++;
-        FetchOrders();
+        await FetchOrdersAsync();
     }
 
     [RelayCommand]
-    private void PreviousOrderPage()
+    private async Task PreviousOrderPage()
     {
         if (!OrderHasPreviousPage) return;
         OrderPage--;
-        FetchOrders();
+        await FetchOrdersAsync();
     }
 
-    private void LoadAddresses(List<AddressProfileData> addresses)
+    [RelayCommand]
+    private async Task LoadAddressesAsync()
     {
-        foreach (var address in addresses)
+        AddressIsLoading = true;
+
+        var queryParams = new AddressQueryParams
         {
-            Addresses.Add(address);
+            Page = AddressPage,
+            PageSize = AddressPageSize
+        };
+
+        var result = await _addressService.GetAddressesForCustomerAsync(queryParams);
+
+        if (result is not null)
+        {
+            Addresses.Clear();
+
+            foreach (var address in result.Data)
+            {
+                Addresses.Add(address);
+            }
+
+            AddressTotalPages = result.TotalPages;
+            AddressHasNextPage = AddressPage < AddressTotalPages;
+            AddressHasPreviousPage = AddressPage > 1;
         }
+
+        AddressIsLoading = false;
     }
 
 
-    private void LoadOrders(List<SaleForCustomerProfileData> orders)
+    [RelayCommand]
+    private async Task LoadOrdersAsync()
     {
-        foreach (var order in orders)
-        {
-            Orders.Add(order);
-        }
+        OrderPage = 1;
+        await FetchOrdersAsync();
+    }
+
+    [RelayCommand]
+    private void ClearFilters()
+    {
+        MinTotalAmount = null;
+        MaxTotalAmount = null;
+        SelectedStatus = null;
     }
 
     [RelayCommand]
@@ -166,7 +228,7 @@ public partial class DisplayCustomerProfileViewModel : ObservableObject
         _messenger.Send(new AddAddressMessage());
     }
 
-    partial void OnSelectedOrderChanged(SaleForCustomerProfileData? value)
+    partial void OnSelectedOrderChanged(SaleSummaryData? value)
     {
         if (value is not null)
         {
@@ -174,11 +236,11 @@ public partial class DisplayCustomerProfileViewModel : ObservableObject
         }
     }
 
-    partial void OnSelectedAddressChanged(AddressProfileData? value)
+    partial void OnSelectedAddressChanged(AddressData? value)
     {
         if (value is not null)
         {
-            _messenger.Send(new AddressSelectedForDetailMessage(value.AddressId));
+            _messenger.Send(new AddressSelectedForDetailMessage(value.Id));
         }
     }
 }
