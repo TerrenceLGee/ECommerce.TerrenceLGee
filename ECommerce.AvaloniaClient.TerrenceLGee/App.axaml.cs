@@ -103,7 +103,6 @@ public partial class App : Application
         services.AddTransient<DisplayProductDetailForSaleViewModel>();
         services.AddTransient<CheckoutViewModel>();
         services.AddTransient<DisplayOrderDetailsViewModel>();
-        services.AddTransient<ViewOrdersViewModel>();
         services.AddTransient<DisplayCustomerOrderDetailViewModel>();
         services.AddTransient<ViewCartViewModel>();
 

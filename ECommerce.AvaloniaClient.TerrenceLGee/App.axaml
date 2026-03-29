@@ -127,9 +127,6 @@
         <DataTemplate DataType="{x:Type vm:DisplayOrderDetailsViewModel}">
 			<local:DisplayOrderDetailsView/>
         </DataTemplate>
-        <DataTemplate DataType="{x:Type vm:ViewOrdersViewModel}">
-			<local:ViewOrdersView/>
-        </DataTemplate>
         <DataTemplate DataType="{x:Type vm:DisplayCustomerOrderDetailViewModel}">
 			<local:DisplayCustomerOrderDetailView/>
         </DataTemplate>

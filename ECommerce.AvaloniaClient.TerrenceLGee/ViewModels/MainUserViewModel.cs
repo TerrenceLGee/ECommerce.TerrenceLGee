@@ -385,11 +385,6 @@ public partial class MainUserViewModel : ObservableObject
             CurrentSubView = detailVM;
         });
 
-        _messenger.Register<NavigateBackToAllCustomerOrdersMessage>(this, (r, m) =>
-        {
-            CurrentSubView = _serviceProvider.GetRequiredService<ViewOrdersViewModel>();
-        });
-
         _messenger.Register<ViewCartMessage>(this, (r, m) =>
         {
             PreviousSubView = CurrentSubView;
