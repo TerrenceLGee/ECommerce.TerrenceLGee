@@ -63,17 +63,6 @@
 									   FontWeight="ExtraBold"
 									   TextWrapping="Wrap"/>
 						</WrapPanel>
-						<WrapPanel>
-							<TextBlock Text="Total Amount Spent So Far: "
-									   Foreground="LightCyan"
-									   FontStyle="Italic"
-									   FontSize="15"
-									   FontWeight="ExtraBold"/>
-							<TextBlock Text="{Binding Customer.TotalAmountOfAllSales, StringFormat={}{0:C}}"
-									   Foreground="LightGoldenrodYellow"
-									   FontSize="15"
-									   FontWeight="ExtraBold"/>
-						</WrapPanel>
 					</StackPanel>
 				</Border>
 			</StackPanel>
@@ -84,7 +73,8 @@
 						   FontSize="20"
 						   FontWeight="Bold"
 						   Margin="0,0,0,10"/>
-				<DataGrid ItemsSource="{Binding AddressesForDisplay}"
+				<ProgressBar IsIndeterminate="{Binding AddressesIsLoading}"/>
+				<DataGrid ItemsSource="{Binding Addresses}"
 						  SelectedItem="{Binding SelectedAddress}"
 						  IsReadOnly="True"
 						  GridLinesVisibility="All"
@@ -136,6 +126,21 @@
 						IsEnabled="{Binding AddressHasNextPage}"/>
 			</StackPanel>
 			<StackPanel Grid.Row="3">
+				<StackPanel>
+					<TextBlock Text="Filter On Min/Max Total Amount Of Sales" FontWeight="Bold"/>
+					<StackPanel Orientation="Horizontal" Spacing="10">
+						<TextBox Text="{Binding MinTotalAmount}" Watermark="Min Total Amount..." Width="150"/>
+						<TextBox Text="{Binding MaxTotalAmount}" Watermark="Max Total Amount..." Width="150"/>
+					</StackPanel>
+					<TextBlock Text="Filter On Sale Status" FontWeight="Bold"/>
+					<StackPanel Orientation="Horizontal" Spacing="10">
+						<ComboBox Width="200" MaxDropDownHeight="300" 
+								   ItemsSource="{Binding SaleStatuses}"
+								   SelectedValue="{Binding SelectedStatus}"
+								   PlaceholderText="Filter On Status"/>
+					</StackPanel>
+					<Button Content="Clear Filters" Command="{Binding ClearFiltersCommand}"/>
+				</StackPanel>
 				<WrapPanel>
 					<TextBlock Text="Orders for "
 							   Foreground="Goldenrod"
@@ -153,7 +158,8 @@
 							   FontWeight="Bold"
 							   FontSize="20"/>
 				</WrapPanel>
-				<DataGrid ItemsSource="{Binding OrdersForDisplay}"
+				<ProgressBar IsIndeterminate="{Binding OrdersIsLoading}"/>
+				<DataGrid ItemsSource="{Binding Orders}"
 						  SelectedItem="{Binding SelectedOrder}"
 						  IsReadOnly="True"
 						  GridLinesVisibility="All"

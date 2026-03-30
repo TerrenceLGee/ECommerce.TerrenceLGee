@@ -175,6 +175,13 @@ public class AddressRepository : IAddressRepository
 
     private static void SetFilteringAndSorting(ref IQueryable<Address> addresses, AddressQueryParams addressQueryParams)
     {
+        if (!string.IsNullOrEmpty(addressQueryParams.CustomerId))
+        {
+            addresses = addresses
+                .Where(a => a.Customer != null && !string.IsNullOrEmpty(a.CustomerId) && 
+                a.CustomerId.Equals(addressQueryParams.CustomerId));
+        }
+
         if (!string.IsNullOrEmpty(addressQueryParams.CustomerFirstName))
         {
             addresses = addresses

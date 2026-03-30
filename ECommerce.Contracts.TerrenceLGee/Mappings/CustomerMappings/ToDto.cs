@@ -19,10 +19,7 @@ public static class ToDto
                 EmailAddress = customer.Email ?? "N/A",
                 UserName = customer.UserName ?? "N/A",
                 DateOfBirth = customer.DateOfBirth,
-                RegistrationDate = customer.RegistrationDate,
-                Addresses = customer.Addresses.Select(a => a.ToRetrievedAddressForCustomerProfileDto()).ToList(),
-                TotalAmountOfAllSales = customer.Sales.Sum(s => s.TotalAmount),
-                Sales = customer.Sales.Select(s => s.ToRetrievedSaleSummaryForCustomerProfileDto()).ToList()
+                RegistrationDate = customer.RegistrationDate
             };
         }
     }

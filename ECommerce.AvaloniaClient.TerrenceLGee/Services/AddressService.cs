@@ -346,6 +346,11 @@ public class AddressService : IAddressService
         var query = new StringBuilder();
         query.Append($"?page={queryParams.Page}&pageSize={queryParams.PageSize}");
 
+        if (!string.IsNullOrEmpty(queryParams.CustomerId))
+        {
+            query.Append($"&customerId={queryParams.CustomerId}");
+        }
+
         if (!string.IsNullOrEmpty(queryParams.City))
         {
             query.Append($"&city={queryParams.City}");

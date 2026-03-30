@@ -261,6 +261,11 @@ public class SaleRepository : ISaleRepository
             s.Customer.LastName.ToLower().Equals(saleQueryParams.CustomerLastName.ToLower()));
         }
 
+        if (!string.IsNullOrEmpty(saleQueryParams.CustomerId))
+        {
+            sales = sales.Where(s => s.Customer != null && s.CustomerId.Equals(saleQueryParams.CustomerId));
+        }
+
         sales = SortHelper<Sale>.ApplySorting(sales, saleQueryParams.OrderBy);
     }
 

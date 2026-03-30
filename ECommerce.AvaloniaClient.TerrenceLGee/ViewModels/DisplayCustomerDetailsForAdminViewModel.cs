@@ -5,10 +5,17 @@ using ECommerce.AvaloniaClient.TerrenceLGee.Data.Models.Address;
 using ECommerce.AvaloniaClient.TerrenceLGee.Data.Models.Customer;
 using ECommerce.AvaloniaClient.TerrenceLGee.Data.Models.Sale;
 using ECommerce.AvaloniaClient.TerrenceLGee.Messages.Customer;
+using ECommerce.AvaloniaClient.TerrenceLGee.Services.Interfaces.Address;
+using ECommerce.AvaloniaClient.TerrenceLGee.Services.Interfaces.Sale;
+using ECommerce.Shared.TerrenceLGee.Enums;
+using ECommerce.Shared.TerrenceLGee.Parameters.AddressParameters;
+using ECommerce.Shared.TerrenceLGee.Parameters.SaleParameters;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace ECommerce.AvaloniaClient.TerrenceLGee.ViewModels;
 
@@ -16,21 +23,21 @@ public partial class DisplayCustomerDetailsForAdminViewModel : ObservableObject
 {
     [ObservableProperty]
     private CustomerData _customer;
+    private readonly IAddressService _addressService;
+    private readonly ISaleService _saleService;
     private readonly IMessenger _messenger;
 
-    public ObservableCollection<AddressProfileData> Addresses { get; } = [];
-    public ObservableCollection<SaleForCustomerProfileData> Orders { get; } = [];
+    public ObservableCollection<AddressData> Addresses { get; } = [];
+    public ObservableCollection<SaleSummaryData> Orders { get; } = [];
 
     [ObservableProperty]
-    private List<AddressProfileData> _addressesForDisplay;
-    [ObservableProperty]
-    private List<SaleForCustomerProfileData> _ordersForDisplay;
+    private List<SaleStatus> _saleStatuses;
 
     [ObservableProperty]
-    private AddressProfileData? _selectedAddress;
+    private AddressData? _selectedAddress;
 
     [ObservableProperty]
-    private SaleForCustomerProfileData? _selectedOrder;
+    private SaleSummaryData? _selectedOrder;
 
     [ObservableProperty]
     private int _addressPage = 1;
@@ -42,6 +49,8 @@ public partial class DisplayCustomerDetailsForAdminViewModel : ObservableObject
     private bool _addressHasNextPage;
     [ObservableProperty]
     private bool _addressHasPreviousPage;
+    [ObservableProperty]
+    private bool _addressesIsLoading;
 
     [ObservableProperty]
     private int _orderPage = 1;
@@ -53,95 +62,157 @@ public partial class DisplayCustomerDetailsForAdminViewModel : ObservableObject
     private bool _orderHasNextPage;
     [ObservableProperty]
     private bool _orderHasPreviousPage;
+    [ObservableProperty]
+    private bool _ordersIsLoading;
+
+    [ObservableProperty]
+    private decimal? _minTotalAmount;
+    [ObservableProperty]
+    private decimal? _maxTotalAmount;
+    [ObservableProperty]
+    private string? _status;
+    [ObservableProperty]
+    private SaleStatus? _selectedStatus;
+
+    private CancellationTokenSource? _filterCancellationTokenSource;
 
     public string CustomerName { get; set; }
-    public DisplayCustomerDetailsForAdminViewModel(CustomerData customer, IMessenger messenger)
+    public DisplayCustomerDetailsForAdminViewModel(
+        CustomerData customer, 
+        IAddressService addressService, 
+        ISaleService saleService, 
+        IMessenger messenger)
     {
         _customer = customer;
         _messenger = messenger;
-        _addressesForDisplay = new List<AddressProfileData>();
-        _ordersForDisplay = new List<SaleForCustomerProfileData>();
-        LoadAddresses(_customer.Addresses);
-        LoadOrders(_customer.Sales);
-        FetchAddressesCommand.Execute(null);
-        FetchOrdersCommand.Execute(null);
+        _addressService = addressService;
+        _saleService = saleService;
+        SaleStatuses = new List<SaleStatus>
+        {
+            SaleStatus.Pending,
+            SaleStatus.Processing,
+            SaleStatus.Shipped,
+            SaleStatus.Delivered,
+            SaleStatus.Canceled
+        };
         CustomerName = $"{_customer.FirstName} {_customer.LastName}";
+        LoadAddressesCommand.Execute(null);
+        LoadOrdersCommand.Execute(null);
     }
 
+    
     [RelayCommand]
-    private void FetchAddresses()
-    {
-        var pagedAddresses = Addresses.Skip((AddressPage - 1) * AddressPageSize)
-            .Take(AddressPageSize)
-            .ToList();
-
-        AddressesForDisplay = pagedAddresses;
-
-        AddressTotalPages = (int)Math.Ceiling(Addresses.Count / (double)AddressPageSize);
-        AddressHasNextPage = AddressPage < AddressTotalPages;
-        AddressHasPreviousPage = AddressPage > 1;
-    }
-
-    [RelayCommand]
-    private void NextAddressPage()
+    private async Task NextAddressPageAsync()
     {
         if (!AddressHasNextPage) return;
         AddressPage++;
-        FetchAddresses();
+        await LoadAddressesAsync();
     }
 
     [RelayCommand]
-    private void PreviousAddressPage()
+    private async Task PreviousAddressPage()
     {
         if (!AddressHasPreviousPage) return;
         AddressPage--;
-        FetchAddresses();
+        await LoadAddressesAsync();
     }
 
-    [RelayCommand]
-    private void FetchOrders()
+    
+    private async Task FetchOrdersAsync()
     {
-        var pagedOrders = Orders.Skip((OrderPage - 1) * OrderPageSize)
-            .Take(OrderPageSize)
-            .ToList();
+        OrdersIsLoading = true;
 
-        OrdersForDisplay = pagedOrders;
+        var queryParams = new SaleQueryParams
+        {
+            Page = OrderPage,
+            PageSize = OrderPageSize,
+            CustomerId = Customer.CustomerId,
+            MinTotalAmount = MinTotalAmount,
+            MaxTotalAmount = MaxTotalAmount,
+            Status = (SelectedStatus.HasValue)
+            ? SelectedStatus.Value.ToString()
+            : null
+        };
 
-        OrderTotalPages = (int)Math.Ceiling(Orders.Count / (double)OrderPageSize);
-        OrderHasNextPage = OrderPage < OrderTotalPages;
-        OrderHasPreviousPage = OrderPage > 1;
+        var result = await _saleService.GetSalesForAdminAsync(queryParams);
+
+        if (result is not null)
+        {
+            Orders.Clear();
+
+            foreach (var order in result.Data)
+            {
+                Orders.Add(order);
+            }
+
+            OrderTotalPages = result.TotalPages;
+            OrderHasNextPage = OrderPage < OrderTotalPages;
+            OrderHasPreviousPage = OrderPage > 1;
+        }
+
+        OrdersIsLoading = false;
     }
 
     [RelayCommand]
-    private void NextOrderPage()
+    private async Task NextOrderPageAsync()
     {
         if (!OrderHasNextPage) return;
         OrderPage++;
-        FetchOrders();
+        await FetchOrdersAsync();
     }
 
     [RelayCommand]
-    private void PreviousOrderPage()
+    private async Task PreviousOrderPageAsync()
     {
         if (!OrderHasPreviousPage) return;
         OrderPage--;
-        FetchOrders();
+        await FetchOrdersAsync();
     }
 
-    private void LoadAddresses(List<AddressProfileData> addresses)
+    [RelayCommand]
+    private async Task LoadAddressesAsync()
     {
-        foreach (var address in addresses)
+        AddressesIsLoading = true;
+
+        var queryParams = new AddressQueryParams
         {
-            Addresses.Add(address);
+            Page = AddressPage,
+            PageSize = AddressPageSize,
+            CustomerId = Customer.CustomerId,
+        };
+
+        var result = await _addressService.GetAddressesForCustomerAsync(queryParams);
+
+        if (result is not null)
+        {
+            Addresses.Clear();
+
+            foreach (var address in result.Data)
+            {
+                Addresses.Add(address);
+            }
+
+            AddressTotalPages = result.TotalPages;
+            AddressHasNextPage = AddressPage < AddressTotalPages;
+            AddressHasPreviousPage = AddressPage > 1;
         }
+
+        AddressesIsLoading = false;
     }
 
-    private void LoadOrders(List<SaleForCustomerProfileData> orders)
+    [RelayCommand]
+    private async Task LoadOrdersAsync()
     {
-        foreach (var order in orders)
-        {
-            Orders.Add(order);
-        }
+        OrderPage = 1;
+        await FetchOrdersAsync();
+    }
+
+    [RelayCommand]
+    private void ClearFilters()
+    {
+        MinTotalAmount = null;
+        MaxTotalAmount = null;
+        SelectedStatus = null;
     }
 
     [RelayCommand]
@@ -150,19 +221,62 @@ public partial class DisplayCustomerDetailsForAdminViewModel : ObservableObject
         _messenger.Send(new ViewCustomersForAdminMessage());
     }
 
-    partial void OnSelectedAddressChanged(AddressProfileData? value)
+    partial void OnSelectedAddressChanged(AddressData? value)
     {
         if (value is not null)
         {
-            _messenger.Send(new DisplayCustomerAddressDetailForAdminMessage(value.AddressId, Customer.CustomerId));
+            _messenger.Send(new DisplayCustomerAddressDetailForAdminMessage(value.Id, Customer.CustomerId));
         }
     }
 
-    partial void OnSelectedOrderChanged(SaleForCustomerProfileData? value)
+    partial void OnSelectedOrderChanged(SaleSummaryData? value)
     {
         if (value is not null)
         {
             _messenger.Send(new AdminSelectedCustomerOrderForDetailMessage(value.Id, Customer));
         }
+    }
+
+    //partial void OnMinTotalAmountChanged(decimal? value) => OnFilterChanged();
+    //partial void OnMaxTotalAmountChanged(decimal? value) => OnFilterChanged();
+
+    async partial void OnMinTotalAmountChanged(decimal? value)
+    {
+        await Task.Delay(500);
+        OrderPage = 1;
+        await FetchOrdersAsync();
+    }
+
+    async partial void OnMaxTotalAmountChanged(decimal? value)
+    {
+        await Task.Delay(500);
+        OrderPage = 1;
+        await FetchOrdersAsync();
+    }
+    async partial void OnSelectedStatusChanged(SaleStatus? value)
+    {
+        OrderPage = 1;
+        await FetchOrdersAsync();
+    }
+
+    private void OnFilterChanged()
+    {
+        _filterCancellationTokenSource?.Cancel();
+        _filterCancellationTokenSource = new CancellationTokenSource();
+        var token = _filterCancellationTokenSource.Token;
+
+        Task.Run(async () =>
+        {
+            try
+            {
+                await Task.Delay(400, token);
+                OrderPage = 1;
+                await FetchOrdersAsync();
+            }
+            catch (TaskCanceledException)
+            {
+
+            }
+        }, token);
     }
 }

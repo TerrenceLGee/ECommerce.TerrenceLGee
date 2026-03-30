@@ -1,7 +1,4 @@
-﻿using ECommerce.AvaloniaClient.TerrenceLGee.Data.Models.Address;
-using ECommerce.AvaloniaClient.TerrenceLGee.Data.Models.Sale;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Text.Json.Serialization;
 
 namespace ECommerce.AvaloniaClient.TerrenceLGee.Data.Models.Customer;
@@ -25,15 +22,6 @@ public class CustomerData
 
     [JsonPropertyName("registrationDate")]
     public string RegistrationDate { get; set; } = string.Empty;
-
-    [JsonPropertyName("addresses")]
-    public List<AddressProfileData> Addresses { get; set; } = [];
-
-    [JsonPropertyName("totalAmountOfAllSales")]
-    public double TotalAmountOfAllSales { get; set; }
-
-    [JsonPropertyName("sales")]
-    public List<SaleForCustomerProfileData> Sales { get; set; } = [];
 
     public string? ErrorMessage { get; set; }
 }

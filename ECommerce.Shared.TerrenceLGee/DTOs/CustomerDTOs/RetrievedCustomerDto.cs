@@ -12,7 +12,4 @@ public class RetrievedCustomerDto
     public string UserName { get; set; } = string.Empty;
     public DateOnly DateOfBirth { get; set; }
     public DateOnly RegistrationDate { get; set; }
-    public List<RetrievedAddressForCustomerProfileDto> Addresses { get; set; } = [];
-    public decimal TotalAmountOfAllSales { get; set; }
-    public List<RetrievedSaleSummaryForCustomerProfileDto> Sales { get; set; } = [];
 }

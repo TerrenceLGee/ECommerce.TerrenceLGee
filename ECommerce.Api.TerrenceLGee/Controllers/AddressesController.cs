@@ -1,5 +1,6 @@
 ﻿using ECommerce.Api.TerrenceLGee.Controllers.Helpers;
 using ECommerce.Api.TerrenceLGee.Responses;
+using ECommerce.Contracts.TerrenceLGee.Common.Pagination;
 using ECommerce.Contracts.TerrenceLGee.Interfaces.ServiceInterfaces;
 using ECommerce.Entities.TerrenceLGee.Models;
 using ECommerce.Shared.TerrenceLGee.DTOs.AddressDTOs;
@@ -201,7 +202,12 @@ public class AddressesController : ControllerBase
             return errorResponse;
         }
 
-        queryParams.CustomerId = userId;
+        var userRole = User.FindFirstValue(ClaimTypes.Role);
+
+        if (!userRole!.Equals("admin", StringComparison.OrdinalIgnoreCase))
+        {
+            queryParams.CustomerId = userId;
+        }
 
         var result = await _addressService.GetCustomerAddressesAsync(queryParams);
 

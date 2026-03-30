@@ -26,9 +26,6 @@ public class CustomerRepository : ICustomerRepository
         try
         {
             var customer = await _context.Users
-                .Include(c => c.Addresses)
-                .Include(c => c.Sales)
-                .ThenInclude(s => s.SaleProducts)
                 .FirstOrDefaultAsync(c => c.Id.Equals(customerId));
 
             return customer;
@@ -49,9 +46,6 @@ public class CustomerRepository : ICustomerRepository
         {
             var customers = _context.Users
                 .Where(c => !string.IsNullOrEmpty(c.UserName) && !c.UserName.ToLower().Equals("admin@example.com"))
-                .Include(c => c.Addresses)
-                .Include(c => c.Sales)
-                .ThenInclude(s => s.SaleProducts)
                 .AsNoTracking();
 
             SetFilteringAndSorting(ref customers, customerQueryParams);

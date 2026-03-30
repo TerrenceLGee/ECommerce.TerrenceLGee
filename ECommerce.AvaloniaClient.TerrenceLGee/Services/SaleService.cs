@@ -336,6 +336,11 @@ public class SaleService : ISaleService
         var query = new StringBuilder();
         query.Append($"?page={queryParams.Page}&pageSize={queryParams.PageSize}");
 
+        if (!string.IsNullOrEmpty(queryParams.CustomerId))
+        {
+            query.Append($"&customerId={queryParams.CustomerId}");
+        }
+
         if (queryParams.MinTotalAmount.HasValue)
         {
             query.Append($"&minTotalAmount={queryParams.MinTotalAmount}");

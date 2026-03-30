@@ -39,7 +39,6 @@
 						  <DataGridTextColumn Header="Email Address" Binding="{Binding EmailAddress}" Width="Auto"/>
 						  <DataGridTextColumn Header="Date Of Birth" Binding="{Binding DateOfBirth}" Width="Auto"/>
 						  <DataGridTextColumn Header="Date Of Registration" Binding="{Binding RegistrationDate}" Width="Auto"/>
-						  <DataGridTextColumn Header="Total Amount Spent" Binding="{Binding TotalAmountOfAllSales, StringFormat={}{0:C}}" Width="Auto"/>
                       </DataGrid.Columns>
                   </DataGrid>
               </StackPanel>

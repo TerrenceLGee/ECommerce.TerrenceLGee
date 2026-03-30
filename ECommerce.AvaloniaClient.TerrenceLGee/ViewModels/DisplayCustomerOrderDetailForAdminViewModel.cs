@@ -139,17 +139,6 @@ public partial class DisplayCustomerOrderDetailForAdminViewModel : ObservableObj
         {
             SuccessMessage = data;
             Sale = await _saleService.GetSaleForAdminAsync(SaleId);
-            var saleThatWasUpdated = _customer.Sales
-                .Where(s => s.Id == SaleId)
-                .FirstOrDefault();
-
-            if (saleThatWasUpdated is not null)
-            {
-                var updatedSale = saleThatWasUpdated;
-                updatedSale.SaleStatus = SelectedStatus;
-                _customer.Sales.Remove(saleThatWasUpdated);
-                _customer.Sales.Add(updatedSale);
-            }
             _messenger.Send(new AdminUpdatedCustomerOrderMessage(_customer));
         }
         else

@@ -413,7 +413,9 @@ public partial class MainUserViewModel : ObservableObject
         _messenger.Register<DisplayCustomerDetailsForAdminMessage>(this, (r, m) =>
         {
             PreviousSubView = CurrentSubView;
-            CurrentSubView = new DisplayCustomerDetailsForAdminViewModel(m.Data, _messenger);
+            var addressService = _serviceProvider.GetRequiredService<IAddressService>();
+            var saleService = _serviceProvider.GetRequiredService<ISaleService>();
+            CurrentSubView = new DisplayCustomerDetailsForAdminViewModel(m.Data, addressService, saleService, _messenger);
         });
 
         _messenger.Register<AdminSelectedCustomerOrderForDetailMessage>(this, async (r, m) =>
@@ -436,7 +438,9 @@ public partial class MainUserViewModel : ObservableObject
 
         _messenger.Register<NavigateBackToCustomerDetailsMessage>(this, async (r, m) =>
         {
-            CurrentSubView = new DisplayCustomerDetailsForAdminViewModel(m.Data, _messenger);
+            var addressService = _serviceProvider.GetRequiredService<IAddressService>();
+            var saleService = _serviceProvider.GetRequiredService<ISaleService>();
+            CurrentSubView = new DisplayCustomerDetailsForAdminViewModel(m.Data, addressService, saleService, _messenger);
         });
 
         _messenger.Register<DisplayCustomerAddressDetailForAdminMessage>(this, async (r, m) =>

@@ -26,21 +26,6 @@ public static class ToDto
                 IsShippingAddress = address.IsShippingAddress
             };
         }
-
-        public RetrievedAddressForCustomerProfileDto ToRetrievedAddressForCustomerProfileDto()
-        {
-            return new RetrievedAddressForCustomerProfileDto
-            {
-                AddressId = address.Id,
-                AddressLine1 = address.AddressLine1,
-                AddressLine2 = address.AddressLine2,
-                City = address.City,
-                State = address.State,
-                PostalCode = address.PostalCode,
-                Country = address.Country,
-                IsBillingAddress = address.IsBillingAddress,
-                IsShippingAddress = address.IsShippingAddress
-            };
-        }
+      
     }
 }

@@ -45,18 +45,5 @@ public static class ToDto
                 SaleStatus = sale.SaleStatus
             };
         }
-
-        public RetrievedSaleSummaryForCustomerProfileDto ToRetrievedSaleSummaryForCustomerProfileDto()
-        {
-            return new RetrievedSaleSummaryForCustomerProfileDto
-            {
-                Id = sale.Id,
-                SaleProductCount = sale.SaleProducts.Count,
-                TotalBaseAmount = sale.TotalBaseAmount,
-                TotalDiscountAmount = sale.TotalDiscountAmount,
-                TotalAmount = sale.TotalAmount,
-                SaleStatus = sale.SaleStatus
-            };
-        }
     }
 }

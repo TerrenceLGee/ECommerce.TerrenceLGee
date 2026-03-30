@@ -71,18 +71,6 @@
 									   FontWeight="ExtraBold"
 									   TextWrapping="Wrap"/>
 						</WrapPanel>
-						<WrapPanel>
-							<TextBlock Text="Total Amount Spent So Far: "
-									   Foreground="LightCyan"
-									   FontStyle="Italic"
-									   FontSize="15"
-									   FontWeight="ExtraBold"/>
-							<TextBlock Text="{Binding Profile.TotalAmountOfAllSales, StringFormat={}{0:C}}"
-									   Foreground="LightGoldenrodYellow"
-									   FontSize="15"
-									   FontWeight="ExtraBold"
-									   TextWrapping="Wrap"/>
-						</WrapPanel>
 					</StackPanel>
 				</Border>
 			</StackPanel>
