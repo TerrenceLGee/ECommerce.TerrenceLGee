@@ -108,15 +108,15 @@ public class SaleRepository : ISaleRepository
 
             if (saleToUpdate is null) return (false, SaleStatus.None);
 
-            if (saleToUpdate.SaleStatus == SaleStatus.Delivered || saleToUpdate.SaleStatus == SaleStatus.Canceled) return (false, saleToUpdate.SaleStatus);
-            if (saleToUpdate.SaleStatus == SaleStatus.Processing && status == SaleStatus.Pending) return (false, saleToUpdate.SaleStatus);
-            if (saleToUpdate.SaleStatus == SaleStatus.Shipped && status == SaleStatus.Processing) return (false, saleToUpdate.SaleStatus);
-
             if (status == SaleStatus.Canceled)
             {
                 var result = await RestockAsync(saleToUpdate.SaleProducts);
                 if (!result) return (false, SaleStatus.None);
             }
+
+            if (saleToUpdate.SaleStatus == SaleStatus.Delivered || saleToUpdate.SaleStatus == SaleStatus.Canceled) return (false, saleToUpdate.SaleStatus);
+            if (saleToUpdate.SaleStatus == SaleStatus.Processing && status == SaleStatus.Pending) return (false, saleToUpdate.SaleStatus);
+            if (saleToUpdate.SaleStatus == SaleStatus.Shipped && status == SaleStatus.Processing) return (false, saleToUpdate.SaleStatus);
 
             saleToUpdate.SaleStatus = status;
             saleToUpdate.UpdatedAt = DateTime.UtcNow;

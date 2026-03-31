@@ -84,7 +84,6 @@ public class CategoryRepository : ICategoryRepository
         {
             var category = await _context.Categories
                 .AsNoTracking()
-                .Include(c => c.Products)
                 .FirstOrDefaultAsync(c => c.Id == categoryId);
 
             return category;
@@ -104,7 +103,6 @@ public class CategoryRepository : ICategoryRepository
         try
         {
             var categories = _context.Categories
-                .Include(c => c.Products)
                 .AsNoTracking();
 
             SetFilteringAndSorting(ref categories, categoryQueryParams);

@@ -1,13 +1,11 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
-using ECommerce.AvaloniaClient.TerrenceLGee.Data.Models.Category;
 using ECommerce.AvaloniaClient.TerrenceLGee.Data.Models.Product;
 using ECommerce.AvaloniaClient.TerrenceLGee.Messages.SaleMessages;
 using ECommerce.AvaloniaClient.TerrenceLGee.Services.Interfaces.Product;
 using ECommerce.Shared.TerrenceLGee.DTOs.OrderDTOs;
 using ECommerce.Shared.TerrenceLGee.Parameters.ProductParameters;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
@@ -43,9 +41,9 @@ public partial class ViewProductsForSaleViewModel : ObservableObject
 
 
     public ViewProductsForSaleViewModel(
-        IProductService productService, 
-        int categoryId, 
-        List<CartItemDto> shoppingCart, 
+        IProductService productService,
+        int categoryId,
+        List<CartItemDto> shoppingCart,
         IMessenger messenger)
     {
         _productService = productService;

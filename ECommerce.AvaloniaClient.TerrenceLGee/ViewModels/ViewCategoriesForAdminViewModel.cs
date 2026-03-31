@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using ECommerce.AvaloniaClient.TerrenceLGee.Data.Models.Category;
+using ECommerce.AvaloniaClient.TerrenceLGee.Helpers;
 using ECommerce.AvaloniaClient.TerrenceLGee.Messages.CategoryMessages;
 using ECommerce.AvaloniaClient.TerrenceLGee.Services.Interfaces.Category;
 using ECommerce.Shared.TerrenceLGee.Parameters.CategoryParameters;
@@ -35,6 +36,8 @@ public partial class ViewCategoriesForAdminViewModel : ObservableObject
     private bool _hasNextPage;
     [ObservableProperty]
     private string? _searchByDescription;
+
+    async partial void OnSearchByDescriptionChanged(string? value) => await FilterHelper.OnFilterChangedAsync(Page, LoadCategoriesAsync);
 
     public ViewCategoriesForAdminViewModel(ICategoryService categoryService, IMessenger messenger)
     {

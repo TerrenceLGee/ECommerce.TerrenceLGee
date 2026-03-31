@@ -1,50 +1,17 @@
 <UserControl xmlns="https://github.com/avaloniaui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="ECommerce.AvaloniaClient.TerrenceLGee.AdminChooseProductForUpdateView"
-             xmlns:vm="using:ECommerce.AvaloniaClient.TerrenceLGee.ViewModels"
-             x:DataType="vm:AdminChooseProductForUpdateViewModel">
-  <StackPanel>
-	  <TextBlock Text="Choose A Product To Update" FontSize="36" FontWeight="Bold" Margin="0,0,0,10"/>
-      <ProgressBar IsIndeterminate="True" IsVisible="{Binding IsLoading}"/>
-      <TextBox Text="{Binding CategoryName}"
-               Watermark="Search for product by category name..."
-               Foreground="White"
-               Margin="0,0,0,10"/>
-      <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="10">
-		  <Button Content="Search By Category Name" Command="{Binding LoadProductsCommand}"/>
-      </StackPanel>
-      <DataGrid ItemsSource="{Binding Products}"
-                SelectedItem="{Binding SelectedProductForUpdate}"
-                IsReadOnly="True"
-                GridLinesVisibility="All"
-                BorderThickness="1"
-                BorderBrush="Gray">
-          <DataGrid.Columns>
-              <DataGridTextColumn Header="Product Name" Binding="{Binding Name}" Width="Auto"/>
-              <DataGridTextColumn Header="Description" Binding="{Binding Description}" Width="Auto"/>
-              <DataGridTextColumn Header="Stock Quantity" Binding="{Binding StockQuantity}" Width="Auto"/>
-              <DataGridTextColumn Header="Unit Price" Binding="{Binding UnitPrice}" Width="Auto"/>
-              <DataGridTextColumn Header="Discount Percentage" Binding="{Binding DiscountPercentage}" Width="Auto"/>
-              <DataGridTextColumn Header="In Stock" Binding="{Binding IsInStock}" Width="Auto"/>
-              <DataGridTextColumn Header="Is Deleted" Binding="{Binding IsDeleted}" Width="Auto"/>
-              <DataGridTextColumn Header="Created At" Binding="{Binding CreatedAt}" Width="Auto"/>
-              <DataGridTextColumn Header="Updated At" Binding="{Binding UpdatedAt}" Width="Auto"/>
-          </DataGrid.Columns>
-      </DataGrid>
-      <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="10">
-		  <Button Content="Previous" Command="{Binding PreviousPageCommand}" IsEnabled="{Binding HasPreviousPage}"/>
-          <TextBlock>
-			  <Run Text="{Binding Page}"/>
-              <Run Text=" of "/>
-              <Run Text="{Binding TotalPages}"/>
-          </TextBlock>
-          <Button Content="Next" Command="{Binding NextPageCommand}" IsEnabled="{Binding HasNextPage}"/>
-      </StackPanel>
-      <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="10">
-		  <Button Content="Back To Product Page" Command="{Binding GoBackCommand}"/>
-      </StackPanel>
-  </StackPanel>
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+			 x:Class="ECommerce.AvaloniaClient.TerrenceLGee.AdminChooseProductForUpdateView"
+			 xmlns:local="using:ECommerce.AvaloniaClient.TerrenceLGee"
+			 xmlns:vm="using:ECommerce.AvaloniaClient.TerrenceLGee.ViewModels"
+			 x:DataType="vm:AdminChooseProductForUpdateViewModel">
+	<StackPanel>
+		<TextBlock Text="Choose A Product To Update" FontSize="36" FontWeight="Bold" Margin="0,0,0,10"/>
+		<local:ProductsAdminBaseView DataContext="{Binding}"/>
+		<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="10">
+			<Button Content="Back To Product Page" Command="{Binding GoBackCommand}"/>
+		</StackPanel>
+	</StackPanel>
 </UserControl>

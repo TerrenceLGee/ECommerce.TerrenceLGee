@@ -6,34 +6,14 @@ using ECommerce.AvaloniaClient.TerrenceLGee.Messages.OtherMessages;
 using ECommerce.AvaloniaClient.TerrenceLGee.Messages.ProductMessages;
 using ECommerce.AvaloniaClient.TerrenceLGee.Services.Interfaces.Product;
 using ECommerce.Shared.TerrenceLGee.Parameters.ProductParameters;
-using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 
 namespace ECommerce.AvaloniaClient.TerrenceLGee.ViewModels;
 
-public partial class AdminChooseProductForUpdateViewModel : ObservableObject
+public partial class AdminChooseProductForUpdateViewModel : ProductsAdminBaseViewModel
 {
     private readonly IProductService _productService;
     private readonly IMessenger _messenger;
-    public ObservableCollection<ProductAdminData> Products { get; } = [];
-
-    [ObservableProperty]
-    private bool _isLoading;
-    [ObservableProperty]
-    ProductAdminData? _selectedProductForUpdate;
-
-    [ObservableProperty]
-    private int _page = 1;
-    [ObservableProperty]
-    private int _pageSize = 10;
-    [ObservableProperty]
-    private int _totalPages;
-    [ObservableProperty]
-    private bool _hasPreviousPage;
-    [ObservableProperty]
-    private bool _hasNextPage;
-    [ObservableProperty]
-    private string? _categoryName;
 
     public AdminChooseProductForUpdateViewModel(IProductService productService, IMessenger messenger)
     {
@@ -44,63 +24,34 @@ public partial class AdminChooseProductForUpdateViewModel : ObservableObject
 
 
     [RelayCommand]
-    private async Task LoadProductsAsync()
-    {
-        IsLoading = true;
-
-        var queryParams = new ProductQueryParams
-        {
-            Page = Page,
-            PageSize = PageSize,
-            CategoryName = CategoryName
-        };
-
-        var result = await _productService.GetProductsForAdminAsync(queryParams);
-
-        if (result is not null)
-        {
-            Products.Clear();
-
-            foreach (var product in result.Data)
-            {
-                Products.Add(product);
-            }
-
-            TotalPages = result.TotalPages;
-            HasNextPage = Page < TotalPages;
-            HasPreviousPage = Page > 1;
-        }
-
-        IsLoading = false;
-    }
-
-    [RelayCommand]
-    private async Task NextPageAsync()
-    {
-        if (!HasNextPage) return;
-        Page++;
-        await LoadProductsAsync();
-    }
-
-    [RelayCommand]
-    private async Task PreviousPageAsync()
-    {
-        if (!HasPreviousPage) return;
-        Page--;
-        await LoadProductsAsync();
-    }
-
-    [RelayCommand]
     private void GoBack()
     {
         _messenger.Send(new NavigateBackToPreviousPageMessage());
     }
 
-    partial void OnSelectedProductForUpdateChanged(ProductAdminData? value)
+    protected override async Task<ProductsAdminRoot?> GetProductsAsync()
     {
-        if (value is not null)
+        var queryParams = new ProductQueryParams
         {
-            _messenger.Send(new ProductSelectedForUpdateMessage(value));
-        }
+            Page = Page,
+            PageSize = PageSize,
+            MinUnitPrice = MinUnitPrice,
+            MaxUnitPrice = MaxUnitPrice,
+            MinStockQuantity = MinStockQuantity,
+            MaxStockQuantity = MaxStockQuantity,
+            MinDiscountPercentage = MinDiscountPercentage,
+            MaxDiscountPercentage = MaxDiscountPercentage,
+            CategoryName = CategoryName,
+            Description = Description,
+            InStock = InStock,
+            IsDeleted = IsDeleted
+        };
+
+        return await _productService.GetProductsForAdminAsync(queryParams);
+    }
+
+    protected override void OnProductSelected(ProductAdminData product)
+    {
+        _messenger.Send(new ProductSelectedForUpdateMessage(product));
     }
 }

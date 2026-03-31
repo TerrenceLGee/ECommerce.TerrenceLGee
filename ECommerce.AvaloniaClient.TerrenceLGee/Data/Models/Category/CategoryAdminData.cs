@@ -22,9 +22,5 @@ public class CategoryAdminData
 
     [JsonPropertyName("updatedAt")]
     public DateTime? UpdatedAt { get; set; }
-
-    [JsonPropertyName("products")]
-    public List<ProductAdminData> Products { get; set; } = [];
-
     public string? ErrorMessage { get; set; }
 }

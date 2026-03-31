@@ -4,6 +4,7 @@ using CommunityToolkit.Mvvm.Messaging;
 using ECommerce.AvaloniaClient.TerrenceLGee.Data.Models.Address;
 using ECommerce.AvaloniaClient.TerrenceLGee.Data.Models.Customer;
 using ECommerce.AvaloniaClient.TerrenceLGee.Data.Models.Sale;
+using ECommerce.AvaloniaClient.TerrenceLGee.Helpers;
 using ECommerce.AvaloniaClient.TerrenceLGee.Messages.Customer;
 using ECommerce.AvaloniaClient.TerrenceLGee.Services.Interfaces.Address;
 using ECommerce.AvaloniaClient.TerrenceLGee.Services.Interfaces.Sale;
@@ -73,8 +74,6 @@ public partial class DisplayCustomerDetailsForAdminViewModel : ObservableObject
     private string? _status;
     [ObservableProperty]
     private SaleStatus? _selectedStatus;
-
-    private CancellationTokenSource? _filterCancellationTokenSource;
 
     public string CustomerName { get; set; }
     public DisplayCustomerDetailsForAdminViewModel(
@@ -237,46 +236,19 @@ public partial class DisplayCustomerDetailsForAdminViewModel : ObservableObject
         }
     }
 
-    //partial void OnMinTotalAmountChanged(decimal? value) => OnFilterChanged();
-    //partial void OnMaxTotalAmountChanged(decimal? value) => OnFilterChanged();
+    async partial void OnMinTotalAmountChanged(decimal? value) => await FilterHelper.OnFilterChangedAsync(OrderPage, FetchOrdersAsync);
+    async partial void OnMaxTotalAmountChanged(decimal? value) => await FilterHelper.OnFilterChangedAsync(OrderPage, FetchOrdersAsync);
 
-    async partial void OnMinTotalAmountChanged(decimal? value)
-    {
-        await Task.Delay(500);
-        OrderPage = 1;
-        await FetchOrdersAsync();
-    }
-
-    async partial void OnMaxTotalAmountChanged(decimal? value)
-    {
-        await Task.Delay(500);
-        OrderPage = 1;
-        await FetchOrdersAsync();
-    }
     async partial void OnSelectedStatusChanged(SaleStatus? value)
     {
         OrderPage = 1;
         await FetchOrdersAsync();
     }
 
-    private void OnFilterChanged()
+    private async Task OnFilterChanged()
     {
-        _filterCancellationTokenSource?.Cancel();
-        _filterCancellationTokenSource = new CancellationTokenSource();
-        var token = _filterCancellationTokenSource.Token;
-
-        Task.Run(async () =>
-        {
-            try
-            {
-                await Task.Delay(400, token);
-                OrderPage = 1;
-                await FetchOrdersAsync();
-            }
-            catch (TaskCanceledException)
-            {
-
-            }
-        }, token);
+        await Task.Delay(500);
+        OrderPage = 1;
+        await FetchOrdersAsync();
     }
 }

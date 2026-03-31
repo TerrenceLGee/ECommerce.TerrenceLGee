@@ -16,8 +16,6 @@ public static class ToDto
                 Id = category.Id,
                 Name = category.Name,
                 Description = category.Description,
-                Products = category.Products
-                .Select(p => p.ToRetrievedProductDto()).ToList()
             };
         }
 
@@ -28,7 +26,6 @@ public static class ToDto
                 Id = category.Id,
                 Name = category.Name,
                 Description = category.Description,
-                ProductsInCategory = category.Products.Count
             };
         }
 
@@ -39,8 +36,6 @@ public static class ToDto
                 Id = category.Id,
                 Name = category.Name,
                 Description = category.Description,
-                Products = category.Products
-                .Select(p => p.ToRetrievedProductForAdminDto()).ToList(),
                 CreatedAt = category.CreatedAt,
                 UpdatedAt = category.UpdatedAt
             };
@@ -53,7 +48,6 @@ public static class ToDto
                 Id = category.Id,
                 Name = category.Name,
                 Description = category.Description,
-                ProductsInCategory = category.Products.Count,
                 CreatedAt = category.CreatedAt,
                 UpdatedAt = category.UpdatedAt
             };

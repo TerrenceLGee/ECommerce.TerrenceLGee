@@ -18,7 +18,6 @@
           <DataGrid.Columns>
 			  <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="Auto"/>
               <DataGridTextColumn Header="Description" Binding="{Binding Description}" Width="Auto"/>
-              <DataGridTextColumn Header="Products In Category" Binding="{Binding ProductsInCategory}" Width="Auto"/>
               <DataGridTextColumn Header="Created At" Binding="{Binding CreatedAt}" Width="Auto"/>
               <DataGridTextColumn Header="Updated At" Binding="{Binding UpdatedAt}" Width="Auto"/>
           </DataGrid.Columns>

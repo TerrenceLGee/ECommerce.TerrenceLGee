@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using ECommerce.AvaloniaClient.TerrenceLGee.Data.Models.Product;
+using ECommerce.AvaloniaClient.TerrenceLGee.Helpers;
 using ECommerce.AvaloniaClient.TerrenceLGee.Messages.ProductMessages;
 using ECommerce.AvaloniaClient.TerrenceLGee.Services.Interfaces.Product;
 using ECommerce.Shared.TerrenceLGee.Parameters.ProductParameters;
@@ -136,6 +137,46 @@ public partial class ViewProductsForAdminViewModel : ObservableObject
         Description = null;
         InStock = false;
         IsDeleted = false;
+    }
+
+    async partial void OnMinUnitPriceChanged(decimal? value) => await FilterHelper.OnFilterChangedAsync(Page, LoadProductsAsync);
+
+    async partial void OnMaxUnitPriceChanged(decimal? value) => await FilterHelper.OnFilterChangedAsync(Page, LoadProductsAsync);
+
+    async partial void OnMinStockQuantityChanged(int? value) => await FilterHelper.OnFilterChangedAsync(Page, LoadProductsAsync);
+
+    async partial void OnMaxStockQuantityChanged(int? value) => await FilterHelper.OnFilterChangedAsync(Page, LoadProductsAsync);
+
+    async partial void OnMinDiscountPercentageChanged(int? value) => await FilterHelper.OnFilterChangedAsync(Page, LoadProductsAsync);
+
+    async partial void OnMaxDiscountPercentageChanged(int? value) => await FilterHelper.OnFilterChangedAsync(Page, LoadProductsAsync);
+
+    async partial void OnCategoryNameChanged(string? value) => await FilterHelper.OnFilterChangedAsync(Page, LoadProductsAsync);
+
+    async partial void OnDescriptionChanged(string? value) => await FilterHelper.OnFilterChangedAsync(Page, LoadProductsAsync);
+
+    async partial void OnInStockChanged(bool? value)
+    {
+        if (value is not null)
+        {
+            Page = 1;
+            await FetchProductsAsync();
+        }
+    }
+
+    async partial void OnIsDeletedChanged(bool? value)
+    {
+        if (value is not null)
+        {
+            Page = 1;
+            await FetchProductsAsync();
+        }
+    }
+
+    [RelayCommand]
+    private void GoBack()
+    {
+        _messenger.Send(new NavigateBackToProductPageMessage());
     }
 
     partial void OnSelectedProductChanged(ProductAdminData? value)

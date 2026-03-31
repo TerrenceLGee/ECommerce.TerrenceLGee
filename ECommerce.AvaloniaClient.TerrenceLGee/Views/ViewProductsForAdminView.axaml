@@ -7,7 +7,7 @@
              xmlns:vm="using:ECommerce.AvaloniaClient.TerrenceLGee.ViewModels"
              x:DataType="vm:ViewProductsForAdminViewModel">
   <ScrollViewer>
-	  <Grid RowDefinitions="Auto, Auto, Auto" Margin="10">
+	  <Grid RowDefinitions="Auto, Auto, Auto, Auto" Margin="10">
 		  <StackPanel Grid.Row="0">
 			  <TextBlock Text="Filter By Price Range" FontWeight="ExtraBold"/>
               <StackPanel Orientation="Horizontal" Spacing="10">
@@ -34,7 +34,6 @@
 				  <CheckBox IsChecked="{Binding InStock}" Content="In Stock Products"/>
                   <CheckBox IsChecked="{Binding IsDeleted}" Content="Deleted Products"/>
               </StackPanel>
-              <Button Content="Apply Filters" Command="{Binding LoadProductsCommand}"/>
               <Button Content="Clear Filters" Command="{Binding ClearFiltersCommand}"/>
           </StackPanel>
           <StackPanel Grid.Row="1">
@@ -70,6 +69,9 @@
                   </TextBlock>
                   <Button Content="Next" Command="{Binding NextPageCommand}" IsEnabled="{Binding HasNextPage}"/>
               </StackPanel>
+          </StackPanel>
+          <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Center" Spacing="10">
+			  <Button Content="Back" Command="{Binding GoBackCommand}"/>
           </StackPanel>
       </Grid>
   </ScrollViewer>

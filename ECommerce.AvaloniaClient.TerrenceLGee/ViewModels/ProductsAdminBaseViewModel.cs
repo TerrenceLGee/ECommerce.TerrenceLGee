@@ -1,31 +1,18 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using CommunityToolkit.Mvvm.Messaging;
-using ECommerce.AvaloniaClient.TerrenceLGee.Data.Models.Category;
 using ECommerce.AvaloniaClient.TerrenceLGee.Data.Models.Product;
 using ECommerce.AvaloniaClient.TerrenceLGee.Helpers;
-using ECommerce.AvaloniaClient.TerrenceLGee.Messages.CategoryMessages;
-using ECommerce.AvaloniaClient.TerrenceLGee.Services.Interfaces.Category;
-using ECommerce.AvaloniaClient.TerrenceLGee.Services.Interfaces.Product;
-using ECommerce.Shared.TerrenceLGee.Parameters.ProductParameters;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 
 namespace ECommerce.AvaloniaClient.TerrenceLGee.ViewModels;
 
-public partial class DisplayAdminCategoryDetailViewModel : ObservableObject
+public abstract partial class ProductsAdminBaseViewModel : ObservableValidator
 {
-    public int CategoryId { get; }
-    [ObservableProperty]
-    public CategoryAdminData? _category;
     public ObservableCollection<ProductAdminData> Products { get; } = [];
-    private readonly ICategoryService _categoryService;
-    private readonly IProductService _productService;
-    private readonly IMessenger _messenger;
 
     [ObservableProperty]
     private ProductAdminData? _selectedProduct;
-
 
     [ObservableProperty]
     private int _page = 1;
@@ -34,9 +21,9 @@ public partial class DisplayAdminCategoryDetailViewModel : ObservableObject
     [ObservableProperty]
     private int _totalPages;
     [ObservableProperty]
-    private bool _hasNextPage;
-    [ObservableProperty]
     private bool _hasPreviousPage;
+    [ObservableProperty]
+    private bool _hasNextPage;
     [ObservableProperty]
     private bool _isLoading;
 
@@ -53,55 +40,19 @@ public partial class DisplayAdminCategoryDetailViewModel : ObservableObject
     [ObservableProperty]
     private int? _maxDiscountPercentage;
     [ObservableProperty]
+    private string? _categoryName;
+    [ObservableProperty]
     private string? _description;
-
-    public DisplayAdminCategoryDetailViewModel(
-        ICategoryService categoryService,
-        IProductService productService,
-        int categoryId,
-        IMessenger messenger)
-    {
-        _categoryService = categoryService;
-        _productService = productService;
-        CategoryId = categoryId;
-        _messenger = messenger;
-        LoadProductsCommand.Execute(null);
-    }
-
-    public async Task GetCategoryAsync()
-    {
-        Category = await _categoryService.GetCategoryForAdminAsync(CategoryId);
-        if (Category is null) GoBack();
-    }
-
-    [RelayCommand]
-    private async Task LoadProductsAsync()
-    {
-        Page = 1;
-        await FetchProductsAsync();
-    }
-
-
+    [ObservableProperty]
+    private bool? _inStock;
+    [ObservableProperty]
+    private bool? _isDeleted;
 
     private async Task FetchProductsAsync()
     {
         IsLoading = true;
 
-        var queryParams = new ProductQueryParams
-        {
-            Page = Page,
-            PageSize = PageSize,
-            CategoryId = CategoryId,
-            MinUnitPrice = MinUnitPrice,
-            MaxUnitPrice = MaxUnitPrice,
-            MinStockQuantity = MinStockQuantity,
-            MaxStockQuantity = MaxStockQuantity,
-            MinDiscountPercentage = MinDiscountPercentage,
-            MaxDiscountPercentage = MaxDiscountPercentage,
-            Description = Description
-        };
-
-        var result = await _productService.GetProductsForAdminAsync(queryParams);
+        var result = await GetProductsAsync();
 
         if (result is not null)
         {
@@ -121,7 +72,14 @@ public partial class DisplayAdminCategoryDetailViewModel : ObservableObject
     }
 
     [RelayCommand]
-    private async Task NextPageAsync()
+    protected async Task LoadProductsAsync()
+    {
+        Page = 1;
+        await FetchProductsAsync();
+    }
+
+    [RelayCommand]
+    protected async Task NextPageAsync()
     {
         if (!HasNextPage) return;
         Page++;
@@ -129,7 +87,7 @@ public partial class DisplayAdminCategoryDetailViewModel : ObservableObject
     }
 
     [RelayCommand]
-    private async Task PreviousPageAsync()
+    protected async Task PreviousPageAsync()
     {
         if (!HasPreviousPage) return;
         Page--;
@@ -137,7 +95,7 @@ public partial class DisplayAdminCategoryDetailViewModel : ObservableObject
     }
 
     [RelayCommand]
-    private async Task ClearFiltersAsync()
+    protected async Task ClearFiltersAsync()
     {
         MinUnitPrice = null;
         MaxUnitPrice = null;
@@ -145,23 +103,21 @@ public partial class DisplayAdminCategoryDetailViewModel : ObservableObject
         MaxStockQuantity = null;
         MinDiscountPercentage = null;
         MaxDiscountPercentage = null;
+        CategoryName = null;
         Description = null;
+        IsDeleted = false;
     }
 
-    [RelayCommand]
-    private void GoBack()
-    {
-        _messenger.Send(new NavigateBackToAllAdminCategoriesMessage());
-    }
+    protected abstract Task<ProductsAdminRoot?> GetProductsAsync();
+    protected abstract void OnProductSelected(ProductAdminData product);
 
     partial void OnSelectedProductChanged(ProductAdminData? value)
     {
         if (value is not null)
         {
-            _messenger.Send(new CategoryProductSelectedForAdminMessage(value.Id, CategoryId));
+            OnProductSelected(value);
         }
     }
-
     async partial void OnMinUnitPriceChanged(decimal? value) => await FilterHelper.OnFilterChangedAsync(Page, LoadProductsAsync);
 
     async partial void OnMaxUnitPriceChanged(decimal? value) => await FilterHelper.OnFilterChangedAsync(Page, LoadProductsAsync);
@@ -174,5 +130,19 @@ public partial class DisplayAdminCategoryDetailViewModel : ObservableObject
 
     async partial void OnMaxDiscountPercentageChanged(int? value) => await FilterHelper.OnFilterChangedAsync(Page, LoadProductsAsync);
 
+    async partial void OnCategoryNameChanged(string? value) => await FilterHelper.OnFilterChangedAsync(Page, LoadProductsAsync);
+
     async partial void OnDescriptionChanged(string? value) => await FilterHelper.OnFilterChangedAsync(Page, LoadProductsAsync);
+
+    async partial void OnInStockChanged(bool? value)
+    {
+        Page = 1;
+        await FetchProductsAsync();
+    }
+
+    async partial void OnIsDeletedChanged(bool? value)
+    {
+        Page = 1;
+        await FetchProductsAsync();
+    }
 }

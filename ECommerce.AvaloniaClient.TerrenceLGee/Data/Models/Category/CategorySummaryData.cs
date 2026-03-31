@@ -12,7 +12,4 @@ public class CategorySummaryData
 
     [JsonPropertyName("description")]
     public string? Description { get; set; }
-
-    [JsonPropertyName("productsInCategory")]
-    public int ProductsInCategory { get; set; }
 }

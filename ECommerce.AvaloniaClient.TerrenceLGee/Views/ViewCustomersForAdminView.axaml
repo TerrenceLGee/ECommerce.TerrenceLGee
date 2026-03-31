@@ -19,7 +19,6 @@
 				  <TextBox Text="{Binding MinTotalSpent}" Watermark="Min Total Spent..." Width="150"/>
                   <TextBox Text="{Binding MaxTotalSpent}" Watermark="Max Total Spent..." Width="150"/>
               </StackPanel>
-              <Button Content="Apply Filters" Command="{Binding LoadCustomersCommand}"/>
               <Button Content="Clear Filters" Command="{Binding ClearFiltersCommand}"/>
           </StackPanel>
           <StackPanel Grid.Row="1">

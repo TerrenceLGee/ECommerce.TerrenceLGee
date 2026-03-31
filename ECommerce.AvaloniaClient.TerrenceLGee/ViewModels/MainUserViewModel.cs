@@ -157,7 +157,8 @@ public partial class MainUserViewModel : ObservableObject
         _messenger.Register<CategorySelectedForAdminMessage>(this, async (r, m) =>
         {
             var categoryService = _serviceProvider.GetRequiredService<ICategoryService>();
-            var detailVM = new DisplayAdminCategoryDetailViewModel(categoryService, m.CategoryId, _messenger);
+            var productService = _serviceProvider.GetRequiredService<IProductService>();
+            var detailVM = new DisplayAdminCategoryDetailViewModel(categoryService, productService, m.CategoryId, _messenger);
             await detailVM.GetCategoryAsync();
             CurrentSubView = detailVM;
         });
@@ -171,7 +172,8 @@ public partial class MainUserViewModel : ObservableObject
         _messenger.Register<NavigateBackToAdminCategoryDetailView>(this, async (r, m) =>
         {
             var categoryService = _serviceProvider.GetRequiredService<ICategoryService>();
-            var detailVM = new DisplayAdminCategoryDetailViewModel(categoryService, m.CategoryId, _messenger);
+            var productService = _serviceProvider.GetRequiredService<IProductService>();
+            var detailVM = new DisplayAdminCategoryDetailViewModel(categoryService, productService, m.CategoryId, _messenger);
             await detailVM.GetCategoryAsync();
             CurrentSubView = detailVM;
         });

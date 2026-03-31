@@ -1,5 +1,4 @@
 ﻿using Avalonia.Controls;
-using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using ECommerce.AvaloniaClient.TerrenceLGee.Data.Models.Product;
@@ -8,41 +7,14 @@ using ECommerce.AvaloniaClient.TerrenceLGee.Services.Interfaces.Product;
 using ECommerce.Shared.TerrenceLGee.Parameters.ProductParameters;
 using MsBox.Avalonia;
 using MsBox.Avalonia.Enums;
-using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 
 namespace ECommerce.AvaloniaClient.TerrenceLGee.ViewModels;
 
-public partial class RestoreProductViewModel : ObservableObject
+public partial class RestoreProductViewModel : ProductsAdminBaseViewModel
 {
     private readonly IProductService _productService;
     private readonly IMessenger _messenger;
-    public ObservableCollection<ProductAdminData> Products { get; } = [];
-
-    [ObservableProperty]
-    private bool _isLoading;
-    [ObservableProperty]
-    private ProductAdminData? _selectedProduct;
-
-    [ObservableProperty]
-    private int _page = 1;
-    [ObservableProperty]
-    private int _pageSize = 10;
-    [ObservableProperty]
-    private int _totalPages;
-    [ObservableProperty]
-    private bool _hasPreviousPage;
-    [ObservableProperty]
-    private bool _hasNextPage;
-    [ObservableProperty]
-    private string? _categoryName;
-    [ObservableProperty]
-    private bool? _isDeleted;
-
-    [ObservableProperty]
-    private string? _successMessage;
-    [ObservableProperty]
-    private string? _errorMessage;
 
     public RestoreProductViewModel(IProductService productService, IMessenger messenger)
     {
@@ -51,66 +23,6 @@ public partial class RestoreProductViewModel : ObservableObject
         _messenger = messenger;
     }
 
-    [RelayCommand]
-    private async Task LoadProductsAsync()
-    {
-        Page = 1;
-        await FetchProductsAsync();
-    }
-
-    [RelayCommand]
-    private async Task NextPageAsync()
-    {
-        if (!HasNextPage) return;
-        Page++;
-        await FetchProductsAsync();
-    }
-
-    [RelayCommand]
-    private async Task PreviousPageAsync()
-    {
-        if (!HasPreviousPage) return;
-        Page--;
-        await FetchProductsAsync();
-    }
-
-    private async Task FetchProductsAsync()
-    {
-        IsLoading = true;
-
-        var queryParams = new ProductQueryParams
-        {
-            Page = Page,
-            PageSize = PageSize,
-            CategoryName = CategoryName,
-            IsDeleted = IsDeleted
-        };
-
-        var result = await _productService.GetProductsForAdminAsync(queryParams);
-
-        if (result is not null)
-        {
-            Products.Clear();
-
-            foreach (var product in result.Data)
-            {
-                Products.Add(product);
-            }
-
-            TotalPages = result.TotalPages;
-            HasNextPage = Page < TotalPages && result.TotalItemsRetrieved >= PageSize;
-            HasPreviousPage = Page > 1;
-        }
-
-        IsLoading = false;
-    }
-
-    [RelayCommand]
-    private async Task ClearFiltersAsync()
-    {
-        CategoryName = string.Empty;
-        IsDeleted = false;
-    }
 
     [RelayCommand]
     private async Task GoBack()
@@ -118,11 +30,8 @@ public partial class RestoreProductViewModel : ObservableObject
         _messenger.Send(new NavigateBackToPreviousPageMessage());
     }
 
-    async partial void OnSelectedProductChanged(ProductAdminData? value)
+    private async Task RestoreProductAsync(ProductAdminData value)
     {
-        SuccessMessage = null;
-        ErrorMessage = null;
-
         if (value is not null)
         {
             var box = MessageBoxManager
@@ -138,15 +47,61 @@ public partial class RestoreProductViewModel : ObservableObject
                 if (success)
                 {
                     SelectedProduct = null;
-                    SuccessMessage = data;
+                    box = MessageBoxManager
+                        .GetMessageBoxStandard("Success", $"{data}", ButtonEnum.Ok, Icon.Success,
+                        null, WindowStartupLocation.CenterOwner);
+
+                    result = await box.ShowAsync();
+
+                    if (result == ButtonResult.Ok)
+                    {
+                        _messenger.Send(new NavigateBackToPreviousPageMessage());
+                    }
                 }
                 else
                 {
                     SelectedProduct = null;
-                    ErrorMessage = data;
+                    box = MessageBoxManager
+                        .GetMessageBoxStandard("Error", $"{data}", ButtonEnum.Ok, Icon.Error,
+                        null, WindowStartupLocation.CenterOwner);
+
+                    result = await box.ShowAsync();
+
+                    if (result == ButtonResult.Ok)
+                    {
+                        _messenger.Send(new NavigateBackToPreviousPageMessage());
+                    }
                 }
-                await FetchProductsAsync();
+                await LoadProductsAsync();
             }
         }
+    }
+
+
+    protected override async Task<ProductsAdminRoot?> GetProductsAsync()
+    {
+        var queryParams = new ProductQueryParams
+        {
+            Page = Page,
+            PageSize = PageSize,
+            MinUnitPrice = MinUnitPrice,
+            MaxUnitPrice = MaxUnitPrice,
+            MinStockQuantity = MinStockQuantity,
+            MaxStockQuantity = MaxStockQuantity,
+            MinDiscountPercentage = MinDiscountPercentage,
+            MaxDiscountPercentage = MaxDiscountPercentage,
+            CategoryName = CategoryName,
+            Description = Description,
+            InStock = InStock,
+            IsDeleted = IsDeleted
+        };
+
+        return await _productService.GetProductsForAdminAsync(queryParams);
+    }
+
+    protected override void OnProductSelected(ProductAdminData product)
+    {
+        Avalonia.Threading.Dispatcher.UIThread.InvokeAsync(
+            () => RestoreProductAsync(product));
     }
 }

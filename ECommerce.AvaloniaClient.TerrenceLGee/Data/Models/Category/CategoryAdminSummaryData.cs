@@ -14,9 +14,6 @@ public class CategoryAdminSummaryData
     [JsonPropertyName("description")]
     public string? Description { get; set; }
 
-    [JsonPropertyName("productsInCategory")]
-    public int ProductsInCategory { get; set; }
-
     [JsonPropertyName("createdAt")]
     public DateTime CreatedAt { get; set; }
 

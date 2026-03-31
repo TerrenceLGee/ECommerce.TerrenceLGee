@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using ECommerce.AvaloniaClient.TerrenceLGee.Data.Models.Customer;
+using ECommerce.AvaloniaClient.TerrenceLGee.Helpers;
 using ECommerce.AvaloniaClient.TerrenceLGee.Messages.Customer;
 using ECommerce.AvaloniaClient.TerrenceLGee.Services.Interfaces.Customer;
 using ECommerce.AvaloniaClient.TerrenceLGee.Services.Interfaces.Product;
@@ -41,6 +42,11 @@ public partial class ViewCustomersForAdminViewModel : ObservableObject
     private decimal? _minTotalSpent;
     [ObservableProperty]
     private decimal? _maxTotalSpent;
+
+    async partial void OnMinSaleCountChanged(int? value) => await FilterHelper.OnFilterChangedAsync(Page, LoadCustomersAsync);
+    async partial void OnMaxSaleCountChanged(int? value) => await FilterHelper.OnFilterChangedAsync(Page, LoadCustomersAsync);
+    async partial void OnMinTotalSpentChanged(decimal? value) => await FilterHelper.OnFilterChangedAsync(Page, LoadCustomersAsync);
+    async partial void OnMaxTotalSpentChanged(decimal? value) => await FilterHelper.OnFilterChangedAsync(Page, LoadCustomersAsync);
 
     public ViewCustomersForAdminViewModel(ICustomerService customerService, IMessenger messenger)
     {
