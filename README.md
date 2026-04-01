@@ -1,4 +1,6 @@
 # E-Commerce Application
+<img width="300" height="300" alt="Image" src="https://github.com/user-attachments/assets/757dafb5-c53d-44d6-a501-618c9e1dd2f3" />
+
 An e-commerce application with a back end web API and a front end GUI client. Created with ASP.NET Core and Avalonia.
 
 Created following the curriculum of [C# Academy](https://www.thecsharpacademy.com/)
