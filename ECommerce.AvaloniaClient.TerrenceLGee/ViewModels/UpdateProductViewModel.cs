@@ -31,6 +31,7 @@ public partial class UpdateProductViewModel : ObservableValidator
         _discountPercentage = Product.DiscountPercentage;
         _isDeleted = Product.IsDeleted;
         _isInStock = Product.IsInStock;
+        _imageUrl = Product.ImageUrl;
     }
 
     [ObservableProperty]
@@ -69,6 +70,14 @@ public partial class UpdateProductViewModel : ObservableValidator
         .FirstOrDefault()?.ErrorMessage;
 
     [ObservableProperty]
+    [Url]
+    [NotifyPropertyChangedFor(nameof(ImageUrlErrors))]
+    private string? _imageUrl;
+
+    public string? ImageUrlErrors => GetErrors(nameof(ImageUrl))
+        .FirstOrDefault()?.ErrorMessage;
+
+    [ObservableProperty]
     private bool _isDeleted;
 
     [ObservableProperty]
@@ -92,6 +101,7 @@ public partial class UpdateProductViewModel : ObservableValidator
         ValidateProperty(Description, nameof(Description));
         ValidateProperty(StockQuantity, nameof(StockQuantity));
         ValidateProperty(DiscountPercentage, nameof(DiscountPercentage));
+        ValidateProperty(ImageUrl, nameof(ImageUrl));
 
         if (HasErrors)
         {
@@ -107,7 +117,8 @@ public partial class UpdateProductViewModel : ObservableValidator
             StockQuantity = StockQuantity,
             DiscountPercentage = DiscountPercentage,
             IsDeleted = IsDeleted,
-            IsInStock = IsInStock
+            IsInStock = IsInStock,
+            ImageUrl = ImageUrl
         };
 
         var data = await _productService.UpdateProductAsync(product);

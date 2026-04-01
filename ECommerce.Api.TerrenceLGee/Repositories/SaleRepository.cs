@@ -114,9 +114,11 @@ public class SaleRepository : ISaleRepository
                 if (!result) return (false, SaleStatus.None);
             }
 
+            if (saleToUpdate.SaleStatus == status) return (false, saleToUpdate.SaleStatus);
             if (saleToUpdate.SaleStatus == SaleStatus.Delivered || saleToUpdate.SaleStatus == SaleStatus.Canceled) return (false, saleToUpdate.SaleStatus);
             if (saleToUpdate.SaleStatus == SaleStatus.Processing && status == SaleStatus.Pending) return (false, saleToUpdate.SaleStatus);
             if (saleToUpdate.SaleStatus == SaleStatus.Shipped && status == SaleStatus.Processing) return (false, saleToUpdate.SaleStatus);
+            
 
             saleToUpdate.SaleStatus = status;
             saleToUpdate.UpdatedAt = DateTime.UtcNow;

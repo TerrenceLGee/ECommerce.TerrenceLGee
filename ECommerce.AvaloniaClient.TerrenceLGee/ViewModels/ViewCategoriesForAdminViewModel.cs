@@ -49,7 +49,13 @@ public partial class ViewCategoriesForAdminViewModel : ObservableObject
     [RelayCommand]
     private async Task LoadCategoriesAsync()
     {
-        IsLoading = true;
+        Page = 1;
+        await FetchCategoriesAsync();
+    }
+
+    private async Task FetchCategoriesAsync()
+    {
+        IsLoading = false;
 
         var queryParams = new CategoryQueryParams
         {
@@ -82,7 +88,7 @@ public partial class ViewCategoriesForAdminViewModel : ObservableObject
     {
         if (!HasNextPage) return;
         Page++;
-        await LoadCategoriesAsync();
+        await FetchCategoriesAsync();
     }
 
     [RelayCommand]
@@ -90,13 +96,19 @@ public partial class ViewCategoriesForAdminViewModel : ObservableObject
     {
         if (!HasPreviousPage) return;
         Page--;
-        await LoadCategoriesAsync();
+        await FetchCategoriesAsync();
     }
 
     [RelayCommand]
     private void GoBack()
     {
         _messenger.Send(new NavigateBackToCategoryPageMessage());
+    }
+
+    [RelayCommand]
+    private void ClearFilters()
+    {
+        SearchByDescription = null;
     }
 
     partial void OnSelectedCategoryChanged(CategoryAdminSummaryData? value)

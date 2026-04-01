@@ -45,10 +45,12 @@
                   </StackPanel>
               </StackPanel>
           </StackPanel>
-          <StackPanel Grid.Row="1">
+          <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" Spacing="30">
 			  <Button Content="Complete Order" Command="{Binding CheckoutCommand}"/>
               <Button Content="Cancel Order" Command="{Binding CancelOrderCommand}"/>
+              <Button Content="Empty Cart" Command="{Binding ClearCartCommand}"/>
               <Button Content="Remove Item" Command="{Binding RemoveItemCommand}"/>
+              <Button Content="Back" Command="{Binding GoBackCommand}"/>
           </StackPanel>
           <StackPanel Grid.Row="2">
 			  <TextBlock Text="{Binding SuccessMessage}" Foreground="Gold" IsVisible="{Binding !!SuccessMessage}"

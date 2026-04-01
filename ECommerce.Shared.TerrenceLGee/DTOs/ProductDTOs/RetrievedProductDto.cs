@@ -9,5 +9,6 @@ public class RetrievedProductDto
     public int StockQuantity { get; set; }
     public decimal UnitPrice { get; set; }
     public int DiscountPercentage { get; set; }
+    public string? ImageUrl { get; set; }
     public bool IsInStock { get; set; }
 }

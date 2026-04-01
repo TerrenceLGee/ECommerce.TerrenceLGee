@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using ECommerce.AvaloniaClient.TerrenceLGee.Data.Models.Category;
+using ECommerce.AvaloniaClient.TerrenceLGee.Helpers;
 using ECommerce.AvaloniaClient.TerrenceLGee.Messages.SaleMessages;
 using ECommerce.AvaloniaClient.TerrenceLGee.Services;
 using ECommerce.AvaloniaClient.TerrenceLGee.Services.Interfaces.Category;
@@ -39,6 +40,8 @@ public partial class ViewCategoriesForSaleViewModel : ObservableObject
     private bool _hasPreviousPage;
     [ObservableProperty]
     private bool _hasNextPage;
+    [ObservableProperty]
+    private string? _searchByDescription;
 
     public ViewCategoriesForSaleViewModel(
         ICategoryService categoryService, 
@@ -55,12 +58,20 @@ public partial class ViewCategoriesForSaleViewModel : ObservableObject
     [RelayCommand]
     private async Task LoadCategoriesAsync()
     {
+        Page = 1;
+
+        await FetchCategoriesAsync();
+    }
+
+    private async Task FetchCategoriesAsync()
+    {
         IsLoading = true;
 
         var queryParams = new CategoryQueryParams
         {
             Page = Page,
-            PageSize = PageSize
+            PageSize = PageSize,
+            Description = SearchByDescription
         };
 
         var result = await _categoryService.GetCategoriesAsync(queryParams);
@@ -87,7 +98,7 @@ public partial class ViewCategoriesForSaleViewModel : ObservableObject
     {
         if (!HasNextPage) return;
         Page++;
-        await LoadCategoriesAsync();
+        await FetchCategoriesAsync();
     }
 
     [RelayCommand]
@@ -95,8 +106,10 @@ public partial class ViewCategoriesForSaleViewModel : ObservableObject
     {
         if (!HasPreviousPage) return;
         Page--;
-        await LoadCategoriesAsync();
+        await FetchCategoriesAsync();
     }
+
+    async partial void OnSearchByDescriptionChanged(string? value) => await FilterHelper.OnFilterChangedAsync(Page, LoadCategoriesAsync);
 
     partial void OnSelectedCategoryChanged(CategorySummaryData? value)
     {
@@ -104,6 +117,12 @@ public partial class ViewCategoriesForSaleViewModel : ObservableObject
         {
             _messenger.Send(new CategorySelectedForSaleMessage(value.Id, ShoppingCart));
         }
+    }
+
+    [RelayCommand]
+    private void ClearFilters()
+    {
+        SearchByDescription = null;
     }
 
     [RelayCommand]

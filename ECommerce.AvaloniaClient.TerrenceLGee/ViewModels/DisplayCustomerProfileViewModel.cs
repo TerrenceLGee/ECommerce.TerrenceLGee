@@ -4,6 +4,7 @@ using CommunityToolkit.Mvvm.Messaging;
 using ECommerce.AvaloniaClient.TerrenceLGee.Data.Models.Address;
 using ECommerce.AvaloniaClient.TerrenceLGee.Data.Models.Customer;
 using ECommerce.AvaloniaClient.TerrenceLGee.Data.Models.Sale;
+using ECommerce.AvaloniaClient.TerrenceLGee.Helpers;
 using ECommerce.AvaloniaClient.TerrenceLGee.Messages.AddressMessages;
 using ECommerce.AvaloniaClient.TerrenceLGee.Messages.SaleMessages;
 using ECommerce.AvaloniaClient.TerrenceLGee.Services.Interfaces.Address;
@@ -226,6 +227,16 @@ public partial class DisplayCustomerProfileViewModel : ObservableObject
     private void AddAddress()
     {
         _messenger.Send(new AddAddressMessage());
+    }
+
+    async partial void OnMinTotalAmountChanged(decimal? value) => await FilterHelper.OnFilterChangedAsync(OrderPage, LoadOrdersAsync);
+
+    async partial void OnMaxTotalAmountChanged(decimal? value) => await FilterHelper.OnFilterChangedAsync(OrderPage, LoadOrdersAsync);
+
+    async partial void OnSelectedStatusChanged(SaleStatus? value)
+    {
+        OrderPage = 1;
+        await FetchOrdersAsync();
     }
 
     partial void OnSelectedOrderChanged(SaleSummaryData? value)

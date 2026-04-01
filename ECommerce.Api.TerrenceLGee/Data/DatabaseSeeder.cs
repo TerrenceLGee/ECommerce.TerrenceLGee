@@ -160,7 +160,8 @@ public static class DatabaseSeeder
                 DiscountPercentage = 0,
                 IsDeleted = false,
                 IsInStock = true,
-                CreatedAt = DateTime.UtcNow
+                CreatedAt = DateTime.UtcNow,
+                ImageUrl = "https://m.media-amazon.com/images/I/A1eIf+Hj4YL._AC_SX679_.jpg"
             },
             new Product
             {
@@ -172,7 +173,8 @@ public static class DatabaseSeeder
                 DiscountPercentage = 10,
                 IsDeleted = false,
                 IsInStock = true,
-                CreatedAt = DateTime.UtcNow
+                CreatedAt = DateTime.UtcNow,
+                ImageUrl = "https://m.media-amazon.com/images/I/71ZfDaCP4nL._AC_SX679_.jpg"
             },
             new Product
             {
@@ -184,7 +186,8 @@ public static class DatabaseSeeder
                 DiscountPercentage = 0,
                 IsDeleted = false,
                 IsInStock = true,
-                CreatedAt = DateTime.UtcNow
+                CreatedAt = DateTime.UtcNow,
+                ImageUrl = "https://m.media-amazon.com/images/I/71oGda6DyEL._AC_SX569_.jpg"
             },
             new Product
             {
@@ -196,7 +199,8 @@ public static class DatabaseSeeder
                 DiscountPercentage = 15,
                 IsDeleted = false,
                 IsInStock = true,
-                CreatedAt = DateTime.UtcNow
+                CreatedAt = DateTime.UtcNow,
+                ImageUrl = "https://m.media-amazon.com/images/I/51rkKPruYvL._AC_SX679_.jpg"
             },
             new Product
             {
@@ -208,7 +212,8 @@ public static class DatabaseSeeder
                 DiscountPercentage = 0,
                 IsDeleted = false,
                 IsInStock = true,
-                CreatedAt = DateTime.UtcNow
+                CreatedAt = DateTime.UtcNow,
+                ImageUrl = "https://m.media-amazon.com/images/I/71gqlRrQCuL.jpg"
             },
             new Product
             {
@@ -220,7 +225,8 @@ public static class DatabaseSeeder
                 DiscountPercentage = 5,
                 IsDeleted = false,
                 IsInStock = true,
-                CreatedAt = DateTime.UtcNow
+                CreatedAt = DateTime.UtcNow,
+                ImageUrl = "https://m.media-amazon.com/images/I/81OlLtbjieL.jpg"
             },
             new Product
             {
@@ -232,7 +238,8 @@ public static class DatabaseSeeder
                 DiscountPercentage = 12,
                 IsDeleted = false,
                 IsInStock = true,
-                CreatedAt = DateTime.UtcNow
+                CreatedAt = DateTime.UtcNow,
+                ImageUrl = "https://m.media-amazon.com/images/I/815e4H+YBaL.jpg"
             },
             new Product
             {
@@ -244,7 +251,8 @@ public static class DatabaseSeeder
                 DiscountPercentage = 0,
                 IsDeleted = false,
                 IsInStock = true,
-                CreatedAt = DateTime.UtcNow
+                CreatedAt = DateTime.UtcNow,
+                ImageUrl = "https://m.media-amazon.com/images/I/71xJEJVlVwL.jpg"
             },
             new Product
             {
@@ -256,7 +264,8 @@ public static class DatabaseSeeder
                 DiscountPercentage = 5,
                 IsDeleted = false,
                 IsInStock = true,
-                CreatedAt = DateTime.UtcNow
+                CreatedAt = DateTime.UtcNow,
+                ImageUrl = "https://m.media-amazon.com/images/I/61-AAZI6B1L._SY300_SX300_QL70_FMwebp_.jpg"
             },
             new Product
             {
@@ -268,7 +277,8 @@ public static class DatabaseSeeder
                 DiscountPercentage = 0,
                 IsDeleted = false,
                 IsInStock = true,
-                CreatedAt = DateTime.UtcNow
+                CreatedAt = DateTime.UtcNow,
+                ImageUrl = "https://m.media-amazon.com/images/I/91wYFN2CBRL._SX425_.jpg"
             },
             new Product
             {
@@ -280,7 +290,8 @@ public static class DatabaseSeeder
                 DiscountPercentage = 0,
                 IsDeleted = false,
                 IsInStock = true,
-                CreatedAt = DateTime.UtcNow
+                CreatedAt = DateTime.UtcNow,
+                ImageUrl = "https://m.media-amazon.com/images/I/71Q3UNQRYHL._SX425_.jpg"
             },
             new Product
             {
@@ -292,7 +303,8 @@ public static class DatabaseSeeder
                 DiscountPercentage = 5,
                 IsDeleted = false,
                 IsInStock = true,
-                CreatedAt = DateTime.UtcNow
+                CreatedAt = DateTime.UtcNow,
+                ImageUrl = "https://m.media-amazon.com/images/I/81RqWZVeexL._SX425_.jpg"
             },
             new Product
             {
@@ -304,7 +316,8 @@ public static class DatabaseSeeder
                 DiscountPercentage = 0,
                 IsDeleted = false,
                 IsInStock = true,
-                CreatedAt = DateTime.UtcNow
+                CreatedAt = DateTime.UtcNow,
+                ImageUrl = "https://m.media-amazon.com/images/I/51nO--WOBkL._SY445_SX342_FMwebp_.jpg"
             },
             new Product
             {
@@ -316,7 +329,8 @@ public static class DatabaseSeeder
                 DiscountPercentage = 15,
                 IsDeleted = false,
                 IsInStock = true,
-                CreatedAt = DateTime.UtcNow
+                CreatedAt = DateTime.UtcNow,
+                ImageUrl = "https://m.media-amazon.com/images/I/619vzxml9jL._AC_UF1000,1000_QL80_.jpg"
             },
             new Product
             {
@@ -328,7 +342,8 @@ public static class DatabaseSeeder
                 DiscountPercentage = 0,
                 IsDeleted = false,
                 IsInStock = true,
-                CreatedAt = DateTime.UtcNow
+                CreatedAt = DateTime.UtcNow,
+                ImageUrl = "https://m.media-amazon.com/images/I/610Svp+mOkL._AC_UF1000,1000_QL80_.jpg"
             },
             new Product
             {
@@ -340,7 +355,8 @@ public static class DatabaseSeeder
                 DiscountPercentage = 0,
                 IsDeleted = false,
                 IsInStock = true,
-                CreatedAt = DateTime.UtcNow
+                CreatedAt = DateTime.UtcNow,
+                ImageUrl = "https://m.media-amazon.com/images/I/418LKBgGA2L._SX342_SY445_FMwebp_.jpg"
             },
             new Product
             {
@@ -352,7 +368,8 @@ public static class DatabaseSeeder
                 DiscountPercentage = 0,
                 IsDeleted = false,
                 IsInStock = true,
-                CreatedAt = DateTime.UtcNow
+                CreatedAt = DateTime.UtcNow,
+                ImageUrl = "https://m.media-amazon.com/images/I/513VY7Vkt9L._SY300_SX300_QL70_FMwebp_.jpg"
             },
             new Product
             {
@@ -364,7 +381,8 @@ public static class DatabaseSeeder
                 DiscountPercentage = 0,
                 IsDeleted = false,
                 IsInStock = true,
-                CreatedAt = DateTime.UtcNow
+                CreatedAt = DateTime.UtcNow,
+                ImageUrl = "https://m.media-amazon.com/images/I/71gwSJPuX6L._SY445_.jpg"
             },
             new Product
             {
@@ -376,7 +394,8 @@ public static class DatabaseSeeder
                 DiscountPercentage = 10,
                 IsDeleted = false,
                 IsInStock = true,
-                CreatedAt = DateTime.UtcNow
+                CreatedAt = DateTime.UtcNow,
+                ImageUrl = "https://m.media-amazon.com/images/I/51IQSyPXYBL._SY300_SX300_QL70_FMwebp_.jpg"
             },
             new Product
             {
@@ -388,7 +407,8 @@ public static class DatabaseSeeder
                 DiscountPercentage = 10,
                 IsDeleted = false,
                 IsInStock = true,
-                CreatedAt = DateTime.UtcNow
+                CreatedAt = DateTime.UtcNow,
+                ImageUrl = "https://m.media-amazon.com/images/I/8164b7a5DvL._SX342_.jpg"
             },
             new Product
             {
@@ -400,7 +420,8 @@ public static class DatabaseSeeder
                 DiscountPercentage = 0,
                 IsDeleted = false,
                 IsInStock = true,
-                CreatedAt = DateTime.UtcNow
+                CreatedAt = DateTime.UtcNow,
+                ImageUrl = "https://m.media-amazon.com/images/I/71V3y5K2QRL._AC_SY300_SX300_QL70_FMwebp_.jpg"
             },
             new Product
             {
@@ -412,7 +433,8 @@ public static class DatabaseSeeder
                 DiscountPercentage = 30,
                 IsDeleted = false,
                 IsInStock = true,
-                CreatedAt = DateTime.UtcNow
+                CreatedAt = DateTime.UtcNow,
+                ImageUrl = "https://m.media-amazon.com/images/I/61NGD9LBiVL._AC_SL1028_.jpg"
             },
             new Product
             {
@@ -424,7 +446,8 @@ public static class DatabaseSeeder
                 DiscountPercentage = 20,
                 IsDeleted = false,
                 IsInStock = true,
-                CreatedAt = DateTime.UtcNow
+                CreatedAt = DateTime.UtcNow,
+                ImageUrl = "https://m.media-amazon.com/images/I/71out2dpOAL._AC_UF1000,1000_QL80_.jpg"
             },
             new Product
             {
@@ -436,7 +459,8 @@ public static class DatabaseSeeder
                 DiscountPercentage = 15,
                 IsDeleted = false,
                 IsInStock = true,
-                CreatedAt = DateTime.UtcNow
+                CreatedAt = DateTime.UtcNow,
+                ImageUrl = "https://m.media-amazon.com/images/I/71bd5H+u3PL._AC_SY300_SX300_QL70_FMwebp_.jpg"
             },
         };
 

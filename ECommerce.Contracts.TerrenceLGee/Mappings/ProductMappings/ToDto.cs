@@ -18,7 +18,8 @@ public static class ToDto
                 StockQuantity = product.StockQuantity,
                 UnitPrice = product.UnitPrice,
                 DiscountPercentage = product.DiscountPercentage,
-                IsInStock = product.IsInStock
+                IsInStock = product.IsInStock,
+                ImageUrl = product.ImageUrl
             };
         }
 
@@ -37,7 +38,8 @@ public static class ToDto
                 IsDeleted = product.IsDeleted,
                 IsInStock = product.IsInStock,
                 CreatedAt = product.CreatedAt,
-                UpdatedAt = product.UpdatedAt
+                UpdatedAt = product.UpdatedAt,
+                ImageUrl = product.ImageUrl
             };
         }
     }

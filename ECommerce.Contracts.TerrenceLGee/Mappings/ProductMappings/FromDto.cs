@@ -18,7 +18,8 @@ public static class FromDto
                 UnitPrice = productDto.UnitPrice,
                 DiscountPercentage = productDto.DiscountPercentage,
                 IsInStock = productDto.IsInStock,
-                IsDeleted = productDto.IsDeleted
+                IsDeleted = productDto.IsDeleted,
+                ImageUrl = productDto.ImageUrl
             };
         }
     }
@@ -36,7 +37,8 @@ public static class FromDto
                 StockQuantity = productDto.StockQuantity,
                 DiscountPercentage = productDto.DiscountPercentage,
                 IsInStock = productDto.IsInStock,
-                IsDeleted = productDto.IsDeleted
+                IsDeleted = productDto.IsDeleted,
+                ImageUrl = productDto.ImageUrl
             };
         }
     }

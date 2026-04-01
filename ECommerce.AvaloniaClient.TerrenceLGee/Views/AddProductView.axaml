@@ -70,6 +70,10 @@
           <TextBox Text="{Binding DiscountPercentage}"/>
           <TextBlock Classes="Error" Text="{Binding DiscountPercentageErrors}"/>
 
+          <TextBlock Text="Image Url" FontWeight="ExtraBold"/>
+          <TextBox Text="{Binding ImageUrl}"/>
+          <TextBlock Classes="Error" Text="{Binding ImageUrlErrors}"/>
+
           <CheckBox IsChecked="{Binding IsInStock}" Content="In Stock?"/>
           <CheckBox IsChecked="{Binding IsDeleted}" Content="Deleted?"/>
       </StackPanel>

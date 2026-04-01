@@ -47,14 +47,14 @@
 					<DataGrid.Columns>
 						<DataGridTextColumn Header="Category" Binding="{Binding CategoryName}" Width="Auto"/>
 						<DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="Auto"/>
-						<DataGridTextColumn Header="" Binding="{Binding Description}" Width="Auto"/>
-						<DataGridTextColumn Header="" Binding="{Binding StockQuantity}" Width="Auto"/>
-						<DataGridTextColumn Header="" Binding="{Binding UnitPrice, StringFormat={}{0:C}}" Width="Auto"/>
-						<DataGridTextColumn Header="" Binding="{Binding DiscountPercentage}" Width="Auto"/>
-						<DataGridTextColumn Header="" Binding="{Binding IsInStock}" Width="Auto"/>
-						<DataGridTextColumn Header="" Binding="{Binding IsDeleted}" Width="Auto"/>
-						<DataGridTextColumn Header="" Binding="{Binding CreatedAt}" Width="Auto"/>
-						<DataGridTextColumn Header="" Binding="{Binding UpdatedAt}" Width="Auto"/>
+						<DataGridTextColumn Header="Description" Binding="{Binding Description}" Width="Auto"/>
+						<DataGridTextColumn Header="Stock Quantity" Binding="{Binding StockQuantity}" Width="Auto"/>
+						<DataGridTextColumn Header="Unit Price" Binding="{Binding UnitPrice, StringFormat={}{0:C}}" Width="Auto"/>
+						<DataGridTextColumn Header="Discount Percentage" Binding="{Binding DiscountPercentage}" Width="Auto"/>
+						<DataGridTextColumn Header="In Stock" Binding="{Binding IsInStock}" Width="Auto"/>
+						<DataGridTextColumn Header="Deleted" Binding="{Binding IsDeleted}" Width="Auto"/>
+						<DataGridTextColumn Header="Created At" Binding="{Binding CreatedAt}" Width="Auto"/>
+						<DataGridTextColumn Header="Updated At" Binding="{Binding UpdatedAt}" Width="Auto"/>
 					</DataGrid.Columns>
 				</DataGrid>
 		</StackPanel>

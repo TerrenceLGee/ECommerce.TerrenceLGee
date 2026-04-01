@@ -1,4 +1,5 @@
 ﻿using Avalonia.Controls;
+using Avalonia.Threading;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using ECommerce.AvaloniaClient.TerrenceLGee.Data.Models.Product;
@@ -52,11 +53,6 @@ public partial class RestoreProductViewModel : ProductsAdminBaseViewModel
                         null, WindowStartupLocation.CenterOwner);
 
                     result = await box.ShowAsync();
-
-                    if (result == ButtonResult.Ok)
-                    {
-                        _messenger.Send(new NavigateBackToPreviousPageMessage());
-                    }
                 }
                 else
                 {
@@ -66,11 +62,6 @@ public partial class RestoreProductViewModel : ProductsAdminBaseViewModel
                         null, WindowStartupLocation.CenterOwner);
 
                     result = await box.ShowAsync();
-
-                    if (result == ButtonResult.Ok)
-                    {
-                        _messenger.Send(new NavigateBackToPreviousPageMessage());
-                    }
                 }
                 await LoadProductsAsync();
             }
@@ -101,7 +92,7 @@ public partial class RestoreProductViewModel : ProductsAdminBaseViewModel
 
     protected override void OnProductSelected(ProductAdminData product)
     {
-        Avalonia.Threading.Dispatcher.UIThread.InvokeAsync(
+        Dispatcher.UIThread.InvokeAsync(
             () => RestoreProductAsync(product));
     }
 }

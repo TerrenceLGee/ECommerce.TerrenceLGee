@@ -1,10 +1,13 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using Avalonia.Controls;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using ECommerce.AvaloniaClient.TerrenceLGee.Data.Models.Product;
 using ECommerce.AvaloniaClient.TerrenceLGee.Messages.SaleMessages;
 using ECommerce.AvaloniaClient.TerrenceLGee.Services.Interfaces.Product;
 using ECommerce.Shared.TerrenceLGee.DTOs.OrderDTOs;
+using MsBox.Avalonia;
+using MsBox.Avalonia.Enums;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -25,10 +28,6 @@ public partial class DisplayProductDetailForSaleViewModel : ObservableObject
     private decimal _quantity = 1;
     [ObservableProperty]
     public decimal _maxQuantity = 5000;
-    [ObservableProperty]
-    private string? _successMessage;
-    [ObservableProperty]
-    private string? _errorMessage;
 
 
 
@@ -81,8 +80,11 @@ public partial class DisplayProductDetailForSaleViewModel : ObservableObject
             });
         }
 
+        var box = MessageBoxManager
+            .GetMessageBoxStandard("Added", "Item Added To Cart", ButtonEnum.Ok, Icon.Success,
+            null, WindowStartupLocation.CenterOwner);
 
-        SuccessMessage = $"Successfully added item to your shopping cart";
+        await box.ShowAsync();
     }
 
     [RelayCommand]
@@ -94,11 +96,19 @@ public partial class DisplayProductDetailForSaleViewModel : ObservableObject
         if (itemToRemove is not null)
         {
             ShoppingCart.Remove(itemToRemove);
-            SuccessMessage = "Item successfully removed from your shopping cart";
+            var box = MessageBoxManager
+                .GetMessageBoxStandard("Removed", "Item Removed From Cart", ButtonEnum.Ok, Icon.Success,
+                null, WindowStartupLocation.CenterOwner);
+
+            await box.ShowAsync();
         }
         else
         {
-            ErrorMessage = "Error removed item from your shopping cart";
+            var box = MessageBoxManager
+                .GetMessageBoxStandard("Error", "Unable To Remove Item From Cart", ButtonEnum.Ok, Icon.Success,
+                null, WindowStartupLocation.CenterOwner);
+
+            await box.ShowAsync();
         }
     }
 

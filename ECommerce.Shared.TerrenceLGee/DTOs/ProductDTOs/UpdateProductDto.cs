@@ -30,4 +30,7 @@ public class UpdateProductDto
 
     [Required(ErrorMessage = "Product stock status in our warehouse is required.")]
     public bool IsInStock { get; set; }
+
+    [Url]
+    public string? ImageUrl { get; set; }
 }

@@ -12,6 +12,7 @@ public class RetrievedProductForAdminDto
     public int DiscountPercentage { get; set; }
     public bool IsDeleted { get; set; }
     public bool IsInStock { get; set; }
+    public string? ImageUrl { get; set; }
     public DateTime CreatedAt { get; set; }
     public DateTime? UpdatedAt { get; set; }
 }

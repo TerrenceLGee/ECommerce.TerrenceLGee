@@ -916,7 +916,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"categoryId\": 4,\r\n    \"name\": \"Head First C#: A Learner's Guide to Real-World Programming with C# and .NET\",\r\n    \"description\": \"Dive right in and build a cross-platform game in chapter one using C# and .NET MAUI--running on Windows, macOS, Android, and iOS. Our readers have become professional developers, team leads, and coding streamers.\",\r\n    \"stockQuantity\": 50,\r\n    \"unitPrice\": 69.99,\r\n    \"discountPercentage\": 33,\r\n    \"isDeleted\" : false,\r\n    \"isInStock\": true\r\n}",
+              "raw": "{\r\n    \"categoryId\": 4,\r\n    \"name\": \"Head First C#: A Learner's Guide to Real-World Programming with C# and .NET\",\r\n    \"description\": \"Dive right in and build a cross-platform game in chapter one using C# and .NET MAUI--running on Windows, macOS, Android, and iOS. Our readers have become professional developers, team leads, and coding streamers.\",\r\n    \"stockQuantity\": 50,\r\n    \"unitPrice\": 69.99,\r\n    \"discountPercentage\": 33,\r\n    \"isDeleted\" : false,\r\n    \"isInStock\": true,\r\n    \"imageUrl\": \"https://m.media-amazon.com/images/I/41oEi8theaL._SX342_SY445_FMwebp_.jpg\"\r\n}",
               "options": {
                 "raw": {
                   "language": "json"

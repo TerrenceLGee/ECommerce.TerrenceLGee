@@ -349,6 +349,7 @@ public partial class MainUserViewModel : ObservableObject
 
         _messenger.Register<CheckoutMessage>(this, (r, m) =>
         {
+            PreviousSubView = CurrentSubView;
             var saleService = _serviceProvider.GetRequiredService<ISaleService>();
             CurrentSubView = new CheckoutViewModel(saleService, m.ShoppingCart, _messenger);
         });

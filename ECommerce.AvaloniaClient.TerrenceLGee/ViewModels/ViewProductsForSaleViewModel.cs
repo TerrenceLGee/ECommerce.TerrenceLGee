@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using ECommerce.AvaloniaClient.TerrenceLGee.Data.Models.Product;
+using ECommerce.AvaloniaClient.TerrenceLGee.Helpers;
 using ECommerce.AvaloniaClient.TerrenceLGee.Messages.SaleMessages;
 using ECommerce.AvaloniaClient.TerrenceLGee.Services.Interfaces.Product;
 using ECommerce.Shared.TerrenceLGee.DTOs.OrderDTOs;
@@ -38,6 +39,20 @@ public partial class ViewProductsForSaleViewModel : ObservableObject
     private bool _hasPreviousPage;
     [ObservableProperty]
     private bool _hasNextPage;
+    [ObservableProperty]
+    private decimal? _minUnitPrice;
+    [ObservableProperty]
+    private decimal? _maxUnitPrice;
+    [ObservableProperty]
+    private int? _minStockQuantity;
+    [ObservableProperty]
+    private int? _maxStockQuantity;
+    [ObservableProperty]
+    private int? _minDiscountPercentage;
+    [ObservableProperty]
+    private int? _maxDiscountPercentage;
+    [ObservableProperty]
+    private string? _description;
 
 
     public ViewProductsForSaleViewModel(
@@ -56,13 +71,27 @@ public partial class ViewProductsForSaleViewModel : ObservableObject
     [RelayCommand]
     private async Task LoadProductsAsync()
     {
+        Page = 1;
+        await FetchProductsAsync();
+    }
+
+    private async Task FetchProductsAsync()
+    {
         IsLoading = true;
 
         var queryParams = new ProductQueryParams
         {
             Page = Page,
             PageSize = PageSize,
-            CategoryId = _categoryId
+            CategoryId = _categoryId,
+            MinUnitPrice = MinUnitPrice,
+            MaxUnitPrice = MaxUnitPrice,
+            MinStockQuantity = MinStockQuantity,
+            MaxStockQuantity = MaxStockQuantity,
+            MinDiscountPercentage = MinDiscountPercentage,
+            MaxDiscountPercentage = MaxDiscountPercentage,
+            Description = Description,
+            InStock = true
         };
 
         var result = await _productService.GetProductsAsync(queryParams);
@@ -89,7 +118,7 @@ public partial class ViewProductsForSaleViewModel : ObservableObject
     {
         if (!HasNextPage) return;
         Page++;
-        await LoadProductsAsync();
+        await FetchProductsAsync();
     }
 
     [RelayCommand]
@@ -97,13 +126,25 @@ public partial class ViewProductsForSaleViewModel : ObservableObject
     {
         if (!HasPreviousPage) return;
         Page--;
-        await LoadProductsAsync();
+        await FetchProductsAsync();
     }
 
     [RelayCommand]
     private void GoBack()
     {
         _messenger.Send(new NavigateBackToAllCategoriesForSale());
+    }
+
+    [RelayCommand]
+    private void ClearFilters()
+    {
+        MinUnitPrice = null;
+        MaxUnitPrice = null;
+        MinStockQuantity = null;
+        MaxStockQuantity = null;
+        MaxDiscountPercentage = null;
+        MinDiscountPercentage = null;
+        Description = null;
     }
 
     partial void OnSelectedProductChanged(ProductData? value)
@@ -125,4 +166,19 @@ public partial class ViewProductsForSaleViewModel : ObservableObject
     {
         _messenger.Send(new CheckoutMessage(ShoppingCart));
     }
+
+    async partial void OnMinUnitPriceChanged(decimal? value) => await FilterHelper.OnFilterChangedAsync(Page, LoadProductsAsync);
+
+    async partial void OnMaxUnitPriceChanged(decimal? value) => await FilterHelper.OnFilterChangedAsync(Page, LoadProductsAsync);
+
+    async partial void OnMinStockQuantityChanged(int? value) => await FilterHelper.OnFilterChangedAsync(Page, LoadProductsAsync);
+
+    async partial void OnMaxStockQuantityChanged(int? value) => await FilterHelper.OnFilterChangedAsync(Page, LoadProductsAsync);
+
+    async partial void OnMinDiscountPercentageChanged(int? value) => await FilterHelper.OnFilterChangedAsync(Page, LoadProductsAsync);
+
+    async partial void OnMaxDiscountPercentageChanged(int? value) => await FilterHelper.OnFilterChangedAsync(Page, LoadProductsAsync);
+
+    async partial void OnDescriptionChanged(string? value) => await FilterHelper.OnFilterChangedAsync(Page, LoadProductsAsync);
+    
 }

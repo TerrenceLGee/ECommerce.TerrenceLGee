@@ -28,5 +28,8 @@ public class ProductData
     [JsonPropertyName("isInStock")]
     public bool IsInStock { get; set; }
 
+    [JsonPropertyName("imageUrl")]
+    public string? ImageUrl { get; set; }
+
     public string? ErrorMessage { get; set; }
 }

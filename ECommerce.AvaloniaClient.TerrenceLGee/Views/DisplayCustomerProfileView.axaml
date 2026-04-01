@@ -152,7 +152,6 @@
 								  SelectedValue="{Binding SelectedStatus}"
 								  PlaceholderText="Filter On Status"/>
 					</StackPanel>
-					<Button Content="Apply Filters" Command="{Binding LoadOrdersCommand}"/>
 					<Button Content="Clear Filters" Command="{Binding ClearFiltersCommand}"/>
 				</StackPanel>
 				<TextBlock Text="All Orders (Select an order for more information)"

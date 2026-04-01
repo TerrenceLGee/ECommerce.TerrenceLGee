@@ -8,4 +8,5 @@
   <Project Path="ECommerce.Contracts.TerrenceLGee/ECommerce.Contracts.TerrenceLGee.csproj" />
   <Project Path="ECommerce.Entities.TerrenceLGee/ECommerce.Entities.TerrenceLGee.csproj" />
   <Project Path="ECommerce.Shared.TerrenceLGee/ECommerce.Shared.TerrenceLGee.csproj" />
+  <Project Path="ECommerce.Tests.TerrenceLGee/ECommerce.Tests.TerrenceLGee.csproj" Id="64b26699-01be-4852-a1a7-6ce436e9f471" />
 </Solution>

@@ -5,68 +5,13 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="ECommerce.AvaloniaClient.TerrenceLGee.DeleteProductView"
              xmlns:vm="using:ECommerce.AvaloniaClient.TerrenceLGee.ViewModels"
+             xmlns:local="using:ECommerce.AvaloniaClient.TerrenceLGee"
              x:DataType="vm:DeleteProductViewModel">
-    <UserControl.Styles>
-		<Style Selector="TextBlock.Error">
-			<Setter Property="Foreground" Value="Red"/>
-            <Setter Property="FontSize" Value="12"/>
-            <Setter Property="Margin" Value="0,0,0,5"/>
-        </Style>
-    </UserControl.Styles>
-  <Grid RowDefinitions="Auto, Auto, Auto, Auto, Auto" Margin="10">
-	  <StackPanel Grid.Row="0">
-		  <TextBlock Text="Filter Products On Category Name" FontWeight="ExtraBold"/>
-          <StackPanel Orientation="Horizontal" Spacing="10">
-			  <TextBox Text="{Binding CategoryName}" Watermark="Category Name..." Width="150"/>
-          </StackPanel>
-          <TextBlock Text="Filter On InStock Products" FontWeight="ExtraBold"/>
-          <StackPanel Orientation="Horizontal" Spacing="10">
-			  <CheckBox IsChecked="{Binding InStock}" Content="Is In Stock?"/>
-          </StackPanel>
-          <Button Content="Apply Filter" Command="{Binding LoadProductsCommand}"/>
-          <Button Content="Clear Filters" Command="{Binding ClearFiltersCommand}"/>
-      </StackPanel>
-      <StackPanel Grid.Row="1">
-		  <TextBlock Text="Select A Product To Delete" FontWeight="ExtraBold"/>
-          <StackPanel>
-			  <DataGrid ItemsSource="{Binding Products}"
-                        SelectedItem="{Binding SelectedProduct}"
-                        IsReadOnly="True"
-                        GridLinesVisibility="All"
-                        BorderThickness="1"
-                        BorderBrush="Gray">
-                  <DataGrid.Columns>
-                      <DataGridTextColumn Header="Category Name" Binding="{Binding CategoryName}" Width="Auto"/>
-                      <DataGridTextColumn Header="Product Name" Binding="{Binding Name}" Width="Auto"/>
-                      <DataGridTextColumn Header="Description" Binding="{Binding Description}" Width="Auto"/>
-                      <DataGridTextColumn Header="Stock Quantity" Binding="{Binding StockQuantity}" Width="Auto"/>
-                      <DataGridTextColumn Header="Unit Price" Binding="{Binding UnitPrice}" Width="Auto"/>
-                      <DataGridTextColumn Header="Discount Percentage" Binding="{Binding DiscountPercentage}" Width="Auto"/>
-                      <DataGridTextColumn Header="In Stock" Binding="{Binding IsInStock}" Width="Auto"/>
-                      <DataGridTextColumn Header="Is Deleted" Binding="{Binding IsDeleted}" Width="Auto"/>
-                      <DataGridTextColumn Header="Created At" Binding="{Binding CreatedAt}" Width="Auto"/>
-                      <DataGridTextColumn Header="Updated At" Binding="{Binding UpdatedAt}" Width="Auto"/>
-                  </DataGrid.Columns>
-              </DataGrid>
-          </StackPanel>
-          <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" Spacing="10">
-			  <Button Content="Previous" Command="{Binding PreviousPageCommand}" IsEnabled="{Binding HasPreviousPage}"/>
-              <TextBlock>
-				  <Run Text="{Binding Page}"/>
-                  <Run Text=" of "/>
-                  <Run Text="{Binding TotalPages}"/>
-              </TextBlock>
-              <Button Content="Next" Command="{Binding NextPageCommand}" IsEnabled="{Binding HasNextPage}"/>
-          </StackPanel>
-          <StackPanel Grid.Row="3" Spacing="10">
-			  <TextBlock Text="{Binding SuccessMessage}" Foreground="Gold" IsVisible="{Binding !!SuccessMessage}"
-                         HorizontalAlignment="Center"/>
-              <TextBlock Text="{Binding ErrorMessage}" Classes="Error" IsVisible="{Binding !!ErrorMessage}"
-                         HorizontalAlignment="Center"/>
-          </StackPanel>
-      </StackPanel>
-      <StackPanel Grid.Row="4" Spacing="10" Orientation="Horizontal" HorizontalAlignment="Center">
-		  <Button Content="Back To Product Page" Command="{Binding GoBackCommand}"/>
-      </StackPanel>
-  </Grid>
+    <StackPanel>
+		<TextBlock Text="Choose A Product To Delete" FontSize="36" FontWeight="Bold" Margin="0,0,0,10"/>
+        <local:ProductsAdminBaseView DataContext="{Binding}"/>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="10">
+			<Button Content="Back To Product Page" Command="{Binding GoBackCommand}"/>
+        </StackPanel>
+    </StackPanel>
 </UserControl>

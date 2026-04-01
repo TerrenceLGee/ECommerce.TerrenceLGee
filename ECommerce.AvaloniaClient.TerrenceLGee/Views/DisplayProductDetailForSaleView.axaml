@@ -4,6 +4,7 @@
 			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 			 mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
 			 x:Class="ECommerce.AvaloniaClient.TerrenceLGee.DisplayProductDetailForSaleView"
+			 xmlns:asyncImageLoader="clr-namespace:AsyncImageLoader;assembly=AsyncImageLoader.Avalonia"
 			 xmlns:vm="using:ECommerce.AvaloniaClient.TerrenceLGee.ViewModels"
 			 x:DataType="vm:DisplayProductDetailForSaleViewModel">
 	<ScrollViewer>
@@ -17,9 +18,13 @@
 						   TextDecorations="Underline"
 						   Margin="0,0,0,15"/>
 				<Border Padding="15"
-						CornerRadius="5"
-						Background="#3a3a3a">
+						CornerRadius="5">
 					<StackPanel Spacing="10">
+						<StackPanel HorizontalAlignment="Center">
+							<Image asyncImageLoader:ImageLoader.Source="{Binding Product.ImageUrl}"
+								   Height="300"
+								   Width="300"/>
+						</StackPanel>
 						<WrapPanel>
 							<TextBlock Text="In Category: "
 									   Foreground="LightCyan"

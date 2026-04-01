@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
+using ECommerce.AvaloniaClient.TerrenceLGee.Messages.OtherMessages;
 using ECommerce.AvaloniaClient.TerrenceLGee.Messages.SaleMessages;
 using ECommerce.AvaloniaClient.TerrenceLGee.Services.Interfaces.Sale;
 using ECommerce.Shared.TerrenceLGee.DTOs.OrderDTOs;
@@ -113,6 +114,12 @@ public partial class CheckoutViewModel : ObservableObject
     }
 
     [RelayCommand]
+    private void GoBack()
+    {
+        _messenger.Send(new NavigateBackToPreviousPageMessage());
+    }
+
+    [RelayCommand]
     private void CancelOrder()
     {
         ShoppingCart.Clear();
@@ -134,6 +141,22 @@ public partial class CheckoutViewModel : ObservableObject
                 ShoppingCart.Remove(SelectedItem);
                 LoadCart();
             }
+        }
+    }
+
+    [RelayCommand]
+    private async Task ClearCartAsync()
+    {
+        var box = MessageBoxManager
+            .GetMessageBoxStandard("Empty", "Empty Cart?", ButtonEnum.YesNo, Icon.Warning, null,
+            WindowStartupLocation.CenterOwner);
+
+        var result = await box.ShowAsync();
+
+        if (result == ButtonResult.Yes)
+        {
+            ShoppingCart.Clear();
+            LoadCart();
         }
     }
 }

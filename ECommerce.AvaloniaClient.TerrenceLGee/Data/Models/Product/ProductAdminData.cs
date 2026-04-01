@@ -41,5 +41,8 @@ public class ProductAdminData
     [JsonPropertyName("updatedAt")]
     public DateTime? UpdatedAt { get; set; }
 
+    [JsonPropertyName("imageUrl")]
+    public string? ImageUrl { get; set; }
+
     public string? ErrorMessage { get; set; }
 }

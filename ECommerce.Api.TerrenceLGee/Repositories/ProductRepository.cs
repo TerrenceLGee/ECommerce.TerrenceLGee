@@ -64,6 +64,7 @@ public class ProductRepository : IProductRepository
             productToUpdate.Description = product.Description;
             productToUpdate.StockQuantity = product.StockQuantity;
             productToUpdate.DiscountPercentage = product.DiscountPercentage;
+            productToUpdate.ImageUrl = product.ImageUrl;
 
             if (productToUpdate.StockQuantity <= 0)
             {
