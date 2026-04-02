@@ -9,15 +9,13 @@
 			 xmlns:vm="using:ECommerce.AvaloniaClient.TerrenceLGee.ViewModels"
 			 x:DataType="vm:DisplaySelectedProductFromAdminCategoryDetailViewModel">
 	<ScrollViewer>
-		<Grid RowDefinitions="Auto, Auto" Margin="10">
+		<Grid RowDefinitions="Auto, Auto" 
+			  Margin="10">
 			<StackPanel Grid.Row="0">
 				<TextBlock Text="{Binding Product.Name}"
-						   FontSize="24"
-						   FontWeight="ExtraBold"
-						   Margin="0,0,0,15"
-						   Foreground="Goldenrod"
-						   TextDecorations="Underline"/>
-				<Border Padding="15" CornerRadius="5">
+						   Classes="Header"/>
+				<Border Padding="15" 
+						CornerRadius="5">
 					<StackPanel Spacing="10">
 						<StackPanel HorizontalAlignment="Center">
 							<Image asyncImageLoader:ImageLoader.Source="{Binding Product.ImageUrl}"
@@ -26,102 +24,57 @@
 						</StackPanel>
 						<WrapPanel>
 							<TextBlock Text="Category Name: "
-									   Foreground="LightCyan"
-									   FontSize="15"
-									   FontStyle="Italic"/>
+									   Classes="SubHeader"/>
 							<TextBlock Text="{Binding Product.CategoryName}"
-									   Foreground="LightGoldenrodYellow"
-									   FontWeight="ExtraBold"
-									   FontSize="15"
-									   TextWrapping="Wrap" />
+									   Classes="SubHeader"/>
 						</WrapPanel>
 						<WrapPanel>
 							<TextBlock Text="Product Description: "
-									   Foreground="LightCyan"
-									   FontSize="15"
-									   FontStyle="Italic"/>
+									   Classes="SubHeader"/>
 							<TextBlock Text="{Binding Product.Description}"
-									   Foreground="LightGoldenrodYellow"
-									   FontWeight="ExtraBold"
-									   FontSize="15"
-									   TextWrapping="Wrap"/>
+									   Classes="SubHeader"/>
 						</WrapPanel>
 						<WrapPanel>
 							<TextBlock Text="Stock Quantity: "
-									   Foreground="LightCyan"
-									   FontSize="15"
-									   FontStyle="Italic"/>
+									   Classes="SubHeader"/>
 							<TextBlock Text="{Binding Product.StockQuantity}"
-									   Foreground="LightGoldenrodYellow"
-									   FontWeight="ExtraBold"
-									   FontSize="15"
-									   TextWrapping="Wrap"/>
+									   Classes="SubHeader"/>
 						</WrapPanel>
 						<WrapPanel>
 							<TextBlock Text="Unit Price: "
-									   Foreground="LightCyan"
-									   FontSize="15"
-									   FontStyle="Italic"/>
+									   Classes="SubHeader"/>
 							<TextBlock Text="{Binding Product.UnitPrice, StringFormat={}{0:C}}"
-									   Foreground="LightGoldenrodYellow"
-									   FontWeight="ExtraBold"
-									   FontSize="15"
-									   TextWrapping="Wrap"/>
+									   Classes="SubHeader"/>
 						</WrapPanel>
 						<WrapPanel>
 							<TextBlock Text="Discount Percentage: "
-									   Foreground="LightCyan"
-									   FontSize="15"
-									   FontStyle="Italic"/>
+									   Classes="SubHeader"/>
 							<TextBlock Text="{Binding Product.DiscountPercentage}"
-									   Foreground="LightGoldenrodYellow"
-									   FontWeight="ExtraBold"
-									   FontSize="15"
-									   TextWrapping="Wrap"/>
+									   Classes="SubHeader"/>
 						</WrapPanel>
 						<WrapPanel>
 							<TextBlock Text="In Stock?: "
-									   Foreground="LightCyan"
-									   FontSize="15"
-									   FontStyle="Italic"/>
+									   Classes="SubHeader"/>
 							<TextBlock Text="{Binding Product.IsInStock}"
-									   Foreground="LightGoldenrodYellow"
-									   FontWeight="ExtraBold"
-									   FontSize="15"
-									   TextWrapping="Wrap"/>
+									   Classes="SubHeader"/>
 						</WrapPanel>
 						<WrapPanel>
 							<TextBlock Text="Is Deleted?: "
-									   Foreground="LightCyan"
-									   FontSize="15"
-									   FontStyle="Italic"/>
+									   Classes="SubHeader"/>
 							<TextBlock Text="{Binding Product.IsDeleted}"
-									   Foreground="LightGoldenrodYellow"
-									   FontWeight="ExtraBold"
-									   FontSize="15"
-									   TextWrapping="Wrap"/>
+									   Classes="SubHeader"/>
 						</WrapPanel>
 						<WrapPanel>
 							<TextBlock Text="Created At: "
-									   Foreground="LightCyan"
-									   FontSize="15"
-									   FontStyle="Italic"/>
+									   Classes="SubHeader"/>
 							<TextBlock Text="{Binding Product.CreatedAt}"
-									   Foreground="LightGoldenrodYellow"
-									   FontWeight="ExtraBold"
-									   FontSize="15"
-									   TextWrapping="Wrap"/>
+									   Classes="SubHeader"/>
 						</WrapPanel>
 						<WrapPanel>
 							<TextBlock Text="Updated At: "
-									   Foreground="LightCyan"
-									   FontSize="15"
-									   FontStyle="Italic"/>
+									   Classes="SubHeader"/>
 							<TextBlock Text="{Binding Product.UpdatedAt}"
-									   Foreground="LightGoldenrodYellow"
-									   FontWeight="ExtraBold"
-									   FontSize="15"
-									   TextWrapping="Wrap"/>
+									   Classes="SubHeader"/>
 						</WrapPanel>
 
 					</StackPanel>
@@ -129,6 +82,7 @@
 			</StackPanel>
 			<StackPanel Grid.Row="1">
 				<Button Content="Back"
+						Classes="Secondary"
 						Command="{Binding GoBackCommand}"
 						HorizontalAlignment="Center"
 						Margin="0,0,0,15"/>

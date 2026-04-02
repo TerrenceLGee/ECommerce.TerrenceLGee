@@ -12,82 +12,45 @@
 			<StackPanel Grid.Row="0">
 				<WrapPanel>
 					<TextBlock Text="Profile For:  "
-							   Foreground="Goldenrod"
-							   TextDecorations="Underline"
-							   FontSize="24"
-							   FontWeight="ExtraBold"
-							   Margin="0,0,0,15"/>
+							   Classes="Header"/>
 					<TextBlock Text="{Binding Profile.FirstName}"
-							   Foreground="Goldenrod"
-							   TextDecorations="Underline"
-							   FontSize="24"
-							   FontWeight="ExtraBold"
-							   Margin="0,0,0,15"/>
+							   Classes="Header"/>
 					<TextBlock Text=" "
 							   Margin="0,0,0,15"/>
 					<TextBlock Text="{Binding Profile.LastName}"
-							   Foreground="Goldenrod"
-							   TextDecorations="Underline"
-							   FontSize="24"
-							   FontWeight="ExtraBold"
-							   Margin="0,0,0,15"/>
+							   Classes="Header"/>
 				</WrapPanel>
 				<Border Padding="15"
 						CornerRadius="5">
 					<StackPanel Spacing="10">
 						<WrapPanel>
 							<TextBlock Text="Email Address: "
-									   Foreground="LightCyan"
-									   FontStyle="Italic"
-									   FontSize="15"
-									   FontWeight="ExtraBold"/>
+									   Classes="SubHeader"/>
 							<TextBlock Text="{Binding Profile.EmailAddress}"
-									   Foreground="LightGoldenrodYellow"
-									   FontSize="15"
-									   FontWeight="ExtraBold"
-									   TextWrapping="Wrap"/>
+									   Classes="SubHeader"/>
 						</WrapPanel>
 						<WrapPanel>
 							<TextBlock Text="Date Of Birth: "
-									   Foreground="LightCyan"
-									   FontStyle="Italic"
-									   FontSize="15"
-									   FontWeight="ExtraBold"/>
+									   Classes="SubHeader"/>
 							<TextBlock Text="{Binding Profile.DateOfBirth}"
-									   Foreground="LightGoldenrodYellow"
-									   FontSize="15"
-									   FontWeight="ExtraBold"
-									   TextWrapping="Wrap"/>
+									   Classes="SubHeader"/>
 						</WrapPanel>
 						<WrapPanel>
 							<TextBlock Text="Registration Date: "
-									   Foreground="LightCyan"
-									   FontStyle="Italic"
-									   FontSize="15"
-									   FontWeight="ExtraBold"/>
+									   Classes="SubHeader"/>
 							<TextBlock Text="{Binding Profile.RegistrationDate}"
-									   Foreground="LightGoldenrodYellow"
-									   FontSize="15"
-									   FontWeight="ExtraBold"
-									   TextWrapping="Wrap"/>
+									   Classes="SubHeader"/>
 						</WrapPanel>
 					</StackPanel>
 				</Border>
 			</StackPanel>
 			<StackPanel Grid.Row="1">
 				<TextBlock Text="Addresses On File"
-						   Foreground="Goldenrod"
-						   TextDecorations="Underline"
-						   FontSize="20"
-						   FontWeight="Bold"
-						   Margin="0,0,0,10"/>
+						   Classes="Header"/>
 				<ProgressBar IsIndeterminate="{Binding AddressIsLoading}"/>
 				<DataGrid ItemsSource="{Binding Addresses}"
 						  SelectedItem="{Binding SelectedAddress}"
-						  IsReadOnly="True"
-						  GridLinesVisibility="All"
-						  BorderThickness="1"
-						  BorderBrush="Gray">
+						  IsReadOnly="True">
 					<DataGrid.Columns>
 						<DataGridTextColumn Header="Address Line 1"
 											Binding="{Binding AddressLine1}"
@@ -136,37 +99,39 @@
 			<StackPanel Grid.Row="3"
 						HorizontalAlignment="Center">
 				<Button Content="Add New Address"
-						Command="{Binding AddAddressCommand}" HorizontalAlignment="Left"/>
+						Classes="Success"
+						Command="{Binding AddAddressCommand}" 
+						HorizontalAlignment="Left"/>
 			</StackPanel>
 			<StackPanel Grid.Row="4">
 				<StackPanel>
-					<TextBlock Text="Filter On Min/Max Total Amount Of Sales" FontWeight="Bold"/>
-					<StackPanel Orientation="Horizontal" Spacing="10">
-						<TextBox Text="{Binding MinTotalAmount}" Watermark="Min Total Amount..." Width="150"/>
-						<TextBox Text="{Binding MaxTotalAmount}" Watermark="Max Total Amount..." Width="150"/>
+					<TextBlock Text="Filter On Min/Max Total Amount Of Sales" Classes="SubHeader"/>
+					<StackPanel Orientation="Horizontal" 
+								Spacing="10">
+						<TextBox Text="{Binding MinTotalAmount}" 
+								 Watermark="Min Total Amount..." 
+								 Width="150"/>
+						<TextBox Text="{Binding MaxTotalAmount}" 
+								 Watermark="Max Total Amount..." 
+								 Width="150"/>
 					</StackPanel>
-					<TextBlock Text="Filter On Sale Status" FontWeight="Bold"/>
-					<StackPanel Orientation="Horizontal" Spacing="10">
+					<TextBlock Text="Filter On Sale Status" Classes="SubHeader"/>
+					<StackPanel Orientation="Horizontal" 
+								Spacing="10">
 						<ComboBox Width="200" MaxDropDownHeight="300"
 								  ItemsSource="{Binding SaleStatuses}"
 								  SelectedValue="{Binding SelectedStatus}"
 								  PlaceholderText="Filter On Status"/>
 					</StackPanel>
-					<Button Content="Clear Filters" Command="{Binding ClearFiltersCommand}"/>
+					<Button Content="Clear Filters" 
+							Command="{Binding ClearFiltersCommand}"/>
 				</StackPanel>
 				<TextBlock Text="All Orders (Select an order for more information)"
-						   Foreground="Goldenrod"
-						   TextDecorations="Underline"
-						   FontSize="20"
-						   FontWeight="Bold"
-						   Margin="0,0,0,10"/>
+						   Classes="Header"/>
 				<ProgressBar IsIndeterminate="{Binding OrderIsLoading}"/>
 				<DataGrid ItemsSource="{Binding Orders}"
 						  SelectedItem="{Binding SelectedOrder}"
-						  IsReadOnly="True"
-						  GridLinesVisibility="All"
-						  BorderThickness="1"
-						  BorderBrush="Gray">
+						  IsReadOnly="True">
 					<DataGrid.Columns>
 						<DataGridTextColumn Header="Order Id"
 											Binding="{Binding Id}"

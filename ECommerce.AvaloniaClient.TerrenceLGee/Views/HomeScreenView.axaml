@@ -7,9 +7,12 @@
 			 xmlns:vm="using:ECommerce.AvaloniaClient.TerrenceLGee.ViewModels"
 			 x:DataType="vm:HomeScreenViewModel">
 	<ScrollViewer>
-		<Grid RowDefinitions="Auto, Auto" Margin="10">
+		<Grid RowDefinitions="Auto, Auto" 
+			  Margin="10">
 			<StackPanel Grid.Row="0">
-				<Image Source="/Assets/home.jpg" Height="600" Width="1000"/>
+				<Image Source="/Assets/home.jpg" 
+					   Height="600" 
+					   Width="1000"/>
 			</StackPanel>
 		</Grid>
 	</ScrollViewer>

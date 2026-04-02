@@ -10,7 +10,6 @@ using MsBox.Avalonia;
 using MsBox.Avalonia.Enums;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -43,11 +42,15 @@ public partial class CheckoutViewModel : ObservableObject
     [ObservableProperty]
     private bool _hasPreviousPage;
 
+    [ObservableProperty]
+    private decimal _subTotal;
+
     public CheckoutViewModel(ISaleService saleService, List<CartItemDto> shoppingCart, IMessenger messenger)
     {
         _saleService = saleService;
         _messenger = messenger;
         _shoppingCart = shoppingCart;
+        _subTotal = CalculateSubTotal(_shoppingCart);
         _shoppingCartForDisplay = new List<CartItemDto>();
         LoadCartCommand.Execute(null);
     }
@@ -158,5 +161,17 @@ public partial class CheckoutViewModel : ObservableObject
             ShoppingCart.Clear();
             LoadCart();
         }
+    }
+
+    private decimal CalculateSubTotal(List<CartItemDto> items)
+    {
+        var subtotal = 0.0m;
+
+        foreach (var item in items)
+        {
+            subtotal += ((decimal)item.ProductPrice! * item.Quantity);
+        }
+
+        return subtotal;
     }
 }

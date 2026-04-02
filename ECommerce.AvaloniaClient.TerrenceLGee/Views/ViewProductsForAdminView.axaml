@@ -7,10 +7,16 @@
              xmlns:vm="using:ECommerce.AvaloniaClient.TerrenceLGee.ViewModels"
              xmlns:local="using:ECommerce.AvaloniaClient.TerrenceLGee"
              x:DataType="vm:ViewProductsForAdminViewModel">
-  <StackPanel>
+    <ScrollViewer>
+		<StackPanel>
 	  <local:ProductsAdminBaseView DataContext="{Binding}"/>
-      <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="10">
-		  <Button Content="Back To Product Page" Command="{Binding GoBackCommand}"/>
+      <StackPanel Orientation="Horizontal" 
+                  HorizontalAlignment="Center" 
+                  Spacing="10">
+		  <Button Content="Back To Product Page" 
+                  Classes="Secondary"
+                  Command="{Binding GoBackCommand}"/>
       </StackPanel>
   </StackPanel>
+    </ScrollViewer>
 </UserControl>

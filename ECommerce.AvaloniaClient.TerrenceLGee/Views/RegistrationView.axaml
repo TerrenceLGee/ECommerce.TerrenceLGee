@@ -6,29 +6,19 @@
              x:Class="ECommerce.AvaloniaClient.TerrenceLGee.RegistrationView"
              xmlns:vm="using:ECommerce.AvaloniaClient.TerrenceLGee.ViewModels"
              x:DataType="vm:RegistrationViewModel">
-  <UserControl.Styles>
-	  <Style Selector="TextBlock.Error">
-		  <Setter Property="Foreground" Value="Red"/>
-          <Setter Property="FontSize" Value="12"/>
-          <Setter Property="Margin" Value="0,0,0,5"/>
-      </Style>
-  </UserControl.Styles>
     <ScrollViewer>
 		<Grid RowDefinitions="Auto, Auto, Auto, Auto, Auto" 
               Margin="10">
             <StackPanel Grid.Row="0" 
                         HorizontalAlignment="Center">
                 <TextBlock Text="Register New Account" 
-                           FontWeight="ExtraBold" 
-                           FontSize="24" 
-                           TextDecorations="Underline" 
-                           Foreground="GoldenRod"/>
+                           Classes="Header"/>
             </StackPanel>
             <StackPanel Grid.Row="1" 
                         Spacing="5" 
                         Margin="10">
 				<TextBlock Text="First Name" 
-                           FontWeight="ExtraBold" 
+                           Classes="Label"
                            HorizontalAlignment="Center"/>
                 <TextBox Text="{Binding FirstName}" 
                          HorizontalAlignment="Center" 
@@ -37,7 +27,7 @@
                            Text="{Binding FirstNameErrors}"/>
 
                 <TextBlock Text="Last Name" 
-                           FontWeight="ExtraBold" 
+                           Classes="Label"
                            HorizontalAlignment="Center"/>
                 <TextBox Text="{Binding LastName}" 
                          HorizontalAlignment="Center" 
@@ -46,7 +36,7 @@
                            Text="{Binding LastNameErrors}"/>
 
                 <TextBlock Text="Email Address" 
-                           FontWeight="ExtraBold" 
+                           Classes="Label"
                            HorizontalAlignment="Center"/>
                 <TextBox Text="{Binding Email}" 
                          HorizontalAlignment="Center" 
@@ -55,7 +45,7 @@
                            Text="{Binding EmailErrors}"/>
 
                 <TextBlock Text="Date Of Birth" 
-                           FontWeight="ExtraBold" 
+                           Classes="Label"
                            HorizontalAlignment="Center"/>
                 <DatePicker SelectedDate="{Binding SelectedBirthDate}" 
                             HorizontalAlignment="Center"/>
@@ -63,7 +53,7 @@
                            Text="{Binding SelectedBirthDateErrors}"/>
 
                 <TextBlock Text="Password" 
-                           FontWeight="ExtraBold" 
+                           Classes="Label" 
                            HorizontalAlignment="Center"/>
                 <TextBox Text="{Binding Password}" 
                          HorizontalAlignment="Center" 
@@ -73,7 +63,7 @@
                            Text="{Binding PasswordErrors}"/>
 
                 <TextBlock Text="Confirm Password" 
-                           FontWeight="ExtraBold" 
+                           Classes="Label" 
                            HorizontalAlignment="Center"/>
                 <TextBox Text="{Binding ConfirmPassword}" 
                          HorizontalAlignment="Center" 
@@ -83,7 +73,7 @@
                            Text="{Binding ConfirmPasswordErrors}"/>
 
                 <TextBlock Text="Address Line 1" 
-                           FontWeight="ExtraBold" 
+                           Classes="Label" 
                            HorizontalAlignment="Center"/>
                 <TextBox Text="{Binding AddressLine1}" 
                          HorizontalAlignment="Center" 
@@ -92,7 +82,7 @@
                            Text="{Binding AddressLine1Errors}"/>
 
                 <TextBlock Text="Address Line 2" 
-                           FontWeight="ExtraBold" 
+                           Classes="Label"
                            HorizontalAlignment="Center"/>
                 <TextBox Text="{Binding AddressLine2}" 
                          HorizontalAlignment="Center" 
@@ -101,7 +91,7 @@
                            Text="{Binding AddressLine2Errors}"/>
 
                 <TextBlock Text="City" 
-                           FontWeight="ExtraBold" 
+                           Classes="Label" 
                            HorizontalAlignment="Center"/>
                 <TextBox Text="{Binding City}" 
                          HorizontalAlignment="Center" 
@@ -110,7 +100,7 @@
                            Text="{Binding CityErrors}"/>
 
                 <TextBlock Text="State" 
-                           FontWeight="ExtraBold" 
+                           Classes="Label" 
                            HorizontalAlignment="Center"/>
                 <TextBox Text="{Binding State}" 
                          HorizontalAlignment="Center" 
@@ -119,7 +109,7 @@
                            Text="{Binding StateErrors}"/>
 
                 <TextBlock Text="Postal Code" 
-                           FontWeight="ExtraBold" 
+                           Classes="Label" 
                            HorizontalAlignment="Center"/>
                 <TextBox Text="{Binding PostalCode}" 
                          HorizontalAlignment="Center" 
@@ -128,7 +118,7 @@
                            Text="{Binding PostalCodeErrors}"/>
 
                 <TextBlock Text="Country" 
-                           FontWeight="ExtraBold" 
+                           Classes="Label" 
                            HorizontalAlignment="Center"/>
                 <TextBox Text="{Binding Country}" 
                          HorizontalAlignment="Center" 
@@ -152,13 +142,14 @@
                         HorizontalAlignment="Center" 
                         Margin="0,10,0,0"/>
                 <Button Content="Back" 
+                        Classes="Secondary"
                         Command="{Binding GoBackCommand}" 
                         HorizontalAlignment="Center"/>
             </StackPanel>
             <StackPanel Grid.Row="4" 
                         HorizontalAlignment="Center">
 				<TextBlock Text="{Binding SuccessMessage}" 
-                           Foreground="Gold" 
+                           Classes="Success" 
                            IsVisible="{Binding !!SuccessMessage}"
                            HorizontalAlignment="Center"/>
                 <TextBlock Classes="Error" 

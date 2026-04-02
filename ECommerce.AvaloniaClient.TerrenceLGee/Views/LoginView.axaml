@@ -6,35 +6,25 @@
              x:Class="ECommerce.AvaloniaClient.TerrenceLGee.LoginView"
              xmlns:vm="using:ECommerce.AvaloniaClient.TerrenceLGee.ViewModels"
              x:DataType="vm:LoginViewModel">
-    <UserControl.Styles>
-		<Style Selector="TextBlock.Error">
-			<Setter Property="Foreground" Value="Red"/>
-            <Setter Property="FontSize" Value="12"/>
-            <Setter Property="Margin" Value="0,0,0,5"/>
-        </Style>
-    </UserControl.Styles>
-
   <ScrollViewer>
 	  <Grid RowDefinitions="Auto, Auto, Auto, Auto" 
             Margin="10">
 		  <StackPanel Grid.Row="0" 
                       HorizontalAlignment="Center">
 			  <TextBlock Text="Login To Your Account" 
-                         FontWeight="ExtraBold" 
-                         FontSize="24" 
-                         TextDecorations="Underline" 
-                         Foreground="Goldenrod"/>
+                         Classes="Header"/>
               <StackPanel Spacing="10" 
                           Margin="10">
 				  <TextBlock Text="Email" 
-                             FontWeight="ExtraBold" 
+                             Classes="Label" 
                              HorizontalAlignment="Center"/>
                   <TextBox Text="{Binding Email}" 
                            Width="260"/>
                   <TextBlock Classes="Error" 
                              Text="{Binding EmailErrors}"/>
+
                   <TextBlock Text="Password" 
-                             FontWeight="ExtraBold" 
+                             Classes="Label" 
                              HorizontalAlignment="Center"/>
                   <TextBox Text="{Binding Password}" 
                            PasswordChar="*"
@@ -50,6 +40,7 @@
 			  <Button Content="Login" 
                       Command="{Binding LoginCommand}"/>
               <Button Content="Back" 
+                      Classes="Secondary"
                       Command="{Binding GoBackCommand}"/>
           </StackPanel>
           <StackPanel Grid.Row="2">
@@ -57,7 +48,7 @@
           </StackPanel>
           <StackPanel Grid.Row="3">
 			  <TextBlock Text="{Binding SuccessMessage}" 
-                         Foreground="Gold" 
+                         Classes="Success" 
                          IsVisible="{Binding !!SuccessMessage}"
                          HorizontalAlignment="Center"/>
               <TextBlock Classes="Error" 

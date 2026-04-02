@@ -10,11 +10,7 @@
 	<ScrollViewer>
 		<StackPanel>
 			<TextBlock Text="{Binding Product.Name}"
-					   Foreground="Goldenrod"
-					   TextDecorations="Underline"
-					   FontSize="24"
-					   FontWeight="ExtraBold"
-					   Margin="0,0,0,15"/>
+					   Classes="Header"/>
 			<Border Padding="15"
 					CornerRadius="5">
 				<StackPanel Spacing="10">
@@ -25,80 +21,51 @@
 					</StackPanel>
 					<WrapPanel>
 						<TextBlock Text="In Category: "
-								   Foreground="LightCyan"
-								   FontStyle="Italic"
-								   FontSize="15"/>
+								   Classes="SubHeader"/>
 						<TextBlock Text="{Binding Product.CategoryName}"
-								   Foreground="LightGoldenrodYellow"
-								   FontWeight="ExtraBold"
-								   FontSize="15"
-								   TextWrapping="Wrap"/>
+								   Classes="SubHeader"/>
 					</WrapPanel>
 
 					<WrapPanel>
 						<TextBlock Text="Product Description: "
-								   Foreground="LightCyan"
-								   FontStyle="Italic"
-								   FontSize="15"/>
+								   Classes="SubHeader"/>
 						<TextBlock Text="{Binding Product.Description}"
-								   Foreground="LightGoldenrodYellow"
-								   FontWeight="ExtraBold"
-								   FontSize="15"
-								   TextWrapping="Wrap"/>
+								   Classes="SubHeader"/>
 					</WrapPanel>
 
 					<WrapPanel>
 						<TextBlock Text="Stoack Quantity: "
-								   Foreground="LightCyan"
-								   FontStyle="Italic"
-								   FontSize="15"/>
+								   Classes="SubHeader"/>
 						<TextBlock Text="{Binding Product.StockQuantity}"
-								   Foreground="LightGoldenrodYellow"
-								   FontWeight="ExtraBold"
-								   FontSize="15"
-								   TextWrapping="Wrap"/>
+								   Classes="SubHeader"/>
 					</WrapPanel>
 
 					<WrapPanel>
 						<TextBlock Text="Unit Price: "
-								   Foreground="LightCyan"
-								   FontStyle="Italic"
-								   FontSize="15"/>
+								   Classes="SubHeader"/>
 						<TextBlock Text="{Binding Product.UnitPrice, StringFormat={}{0:C}}"
-								   Foreground="LightGoldenrodYellow"
-								   FontWeight="ExtraBold"
-								   FontSize="15"
-								   TextWrapping="Wrap"/>
+								   Classes="SubHeader"/>
 					</WrapPanel>
 
 					<WrapPanel>
 						<TextBlock Text="Discount Percentage: "
-								   Foreground="LightCyan"
-								   FontStyle="Italic"
-								   FontSize="15"/>
+								   Classes="SubHeader"/>
 						<TextBlock Text="{Binding Product.DiscountPercentage}"
-								   Foreground="LightGoldenrodYellow"
-								   FontWeight="ExtraBold"
-								   FontSize="15"
-								   TextWrapping="Wrap"/>
+								   Classes="SubHeader"/>
 					</WrapPanel>
 
 					<WrapPanel>
 						<TextBlock Text="In Stock?: "
-								   Foreground="LightCyan"
-								   FontStyle="Italic"
-								   FontSize="15"/>
+								   Classes="SubHeader"/>
 						<TextBlock Text="{Binding Product.IsInStock}"
-								   Foreground="LightGoldenrodYellow"
-								   FontWeight="ExtraBold"
-								   FontSize="15"
-								   TextWrapping="Wrap"/>
+								   Classes="SubHeader"/>
 					</WrapPanel>
 				</StackPanel>
 			</Border>
 			<StackPanel>
 				<Button Content="Back"
 						Command="{Binding GoBackCommand}"
+						Classes="Secondary"
 						HorizontalAlignment="Center"
 						Margin="0,0,0,15"/>
 			</StackPanel>

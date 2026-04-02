@@ -6,56 +6,83 @@
              x:Class="ECommerce.AvaloniaClient.TerrenceLGee.CheckoutView"
              xmlns:vm="using:ECommerce.AvaloniaClient.TerrenceLGee.ViewModels"
              x:DataType="vm:CheckoutViewModel">
-    <UserControl.Styles>
-		<Style Selector="TextBlock.Error">
-			<Setter Property="Foreground" Value="Red"/>
-            <Setter Property="FontSize" Value="12"/>
-            <Setter Property="Margin" Value="0,0,0,5"/>
-        </Style>
-    </UserControl.Styles>
-
   <ScrollViewer>
-	  <Grid RowDefinitions="Auto, Auto, Auto" Margin="10">
+	  <Grid RowDefinitions="Auto, Auto, Auto" 
+            Margin="10">
           <StackPanel Grid.Row="0">
 			  <TextBlock Text="Items in your order"
-                         FontWeight="ExtraBold"/>
-              <TextBlock Text="You can edit the quantity of item ordered by clicking on the quantity and entering a new quantity"/>
-              <TextBlock Text="You can remove an item by selecting it and pressing the remove item button"/>
+                         Classes="SubHeader"/>
+              <TextBlock Text="You can edit the quantity of item ordered by clicking on the quantity and entering a new quantity"
+                         Classes="Label"/>
+              <TextBlock Text="You can remove an item by selecting it and pressing the remove item button"
+                         Classes="Label"/>
               <StackPanel>
 				  <DataGrid ItemsSource="{Binding ShoppingCartForDisplay}"
                             SelectedItem="{Binding SelectedItem}"
-                            IsReadOnly="False"
-                            GridLinesVisibility="All"
-                            BorderThickness="1"
-                            BorderBrush="Gray">
+                            IsReadOnly="False">
                       <DataGrid.Columns>
-						  <DataGridTextColumn Header="Product" Binding="{Binding ProductName}" Width="Auto"/>
-                          <DataGridTextColumn Header="Quantity" Binding="{Binding Quantity}" Width="Auto"/>
-                          <DataGridTextColumn Header="Total Price" Binding="{Binding TotalAmount, StringFormat={}{0:C}}" Width="Auto"/>
+						  <DataGridTextColumn Header="Product"  
+                                              Binding="{Binding ProductName}" 
+                                              Width="Auto"/>
+                          <DataGridTextColumn Header="Quantity"  
+                                              Binding="{Binding Quantity}" 
+                                              Width="Auto"/>
+                          <DataGridTextColumn Header="Price"  
+                                              Binding="{Binding TotalAmount, StringFormat={}{0:C}}" 
+                                              Width="Auto"/>
                       </DataGrid.Columns>
                   </DataGrid>
-                  <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="10" Margin="0,0,0,10">
-                      <Button Content="Previous" Command="{Binding PreviousPageCommand}" IsEnabled="{Binding HasPreviousPage}"/>
+                  <WrapPanel>
+					  <TextBlock Text="Subtotal: " 
+                                 FontWeight="ExtraBold"/>
+                      <TextBlock Text="{Binding SubTotal, StringFormat={}{0:C}}"/>
+                  </WrapPanel>
+                  <StackPanel Orientation="Horizontal" 
+                              HorizontalAlignment="Center" 
+                              Spacing="10" 
+                              Margin="0,0,0,10">
+                      <Button Content="Previous" 
+                              Command="{Binding PreviousPageCommand}" 
+                              IsEnabled="{Binding HasPreviousPage}"/>
                       <TextBlock>
 						  <Run Text="{Binding Page}"/>
                           <Run Text=" of "/>
                           <Run Text="{Binding TotalPages}"/>
                       </TextBlock>
-                      <Button Content="Next" Command="{Binding NextPageCommand}" IsEnabled="{Binding HasNextPage}"/>
+                      <Button Content="Next" 
+                              Command="{Binding NextPageCommand}" 
+                              IsEnabled="{Binding HasNextPage}"/>
                   </StackPanel>
               </StackPanel>
           </StackPanel>
-          <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" Spacing="30">
-			  <Button Content="Complete Order" Command="{Binding CheckoutCommand}"/>
-              <Button Content="Cancel Order" Command="{Binding CancelOrderCommand}"/>
-              <Button Content="Empty Cart" Command="{Binding ClearCartCommand}"/>
-              <Button Content="Remove Item" Command="{Binding RemoveItemCommand}"/>
-              <Button Content="Back" Command="{Binding GoBackCommand}"/>
+          <StackPanel Grid.Row="1" 
+                      Orientation="Horizontal" 
+                      HorizontalAlignment="Center" 
+                      Spacing="30">
+			  <Button Content="Complete Order" 
+                      Command="{Binding CheckoutCommand}" 
+                      Classes="Success"/>
+              <Button Content="Cancel Order" 
+                      Command="{Binding CancelOrderCommand}" 
+                      Classes="Danger"/>
+              <Button Content="Empty Cart" 
+                      Command="{Binding ClearCartCommand}" 
+                      Classes="Success"/>
+              <Button Content="Remove Item" 
+                      Command="{Binding RemoveItemCommand}" 
+                      Classes="Success"/>
+              <Button Content="Back" 
+                      Command="{Binding GoBackCommand}" 
+                      Classes="Secondary"/>
           </StackPanel>
           <StackPanel Grid.Row="2">
-			  <TextBlock Text="{Binding SuccessMessage}" Foreground="Gold" IsVisible="{Binding !!SuccessMessage}"
+			  <TextBlock Text="{Binding SuccessMessage}" 
+                         Classes="Success"
+                         IsVisible="{Binding !!SuccessMessage}"
                          HorizontalAlignment="Center"/>
-              <TextBlock Text="{Binding ErrorMessage}" Classes="Error" IsVisible="{Binding !!ErrorMessage}"
+              <TextBlock Text="{Binding ErrorMessage}" 
+                         Classes="Error" 
+                         IsVisible="{Binding !!ErrorMessage}"
                          HorizontalAlignment="Center"/>
           </StackPanel>
       </Grid>
